@@ -22,6 +22,7 @@ const CheckInStatus = {
  */
 const locations = [
   {
+    key: "denver-goodwill",
     name: "Goodwill Outlet (example) — Denver",
     chain: Chain.GOODWILL_OUTLET,
     address: "Address TBD — verify before launch",
@@ -32,6 +33,7 @@ const locations = [
     scheduleNote: "New bins reported ~10am Tue/Thu/Sat (unverified)",
   },
   {
+    key: "denver-savers",
     name: "Savers Outlet (example) — Denver",
     chain: Chain.SAVERS_OUTLET,
     address: "Address TBD — verify before launch",
@@ -42,6 +44,21 @@ const locations = [
     scheduleNote: null,
   },
   {
+    key: "aurora-savers",
+    // Farther from central Denver than the other two, but consistently
+    // rated higher — a real illustration of why "best bet" isn't just
+    // "nearest": this one can out-rank closer options on the merits.
+    name: "Savers Outlet (example) — Aurora",
+    chain: Chain.SAVERS_OUTLET,
+    address: "Address TBD — verify before launch",
+    city: "Aurora",
+    state: "CO",
+    lat: 39.7294,
+    lng: -104.8319,
+    scheduleNote: "New bins reported ~9am daily (unverified)",
+  },
+  {
+    key: "phoenix-goodwill",
     name: "Goodwill Outlet (example) — Phoenix",
     chain: Chain.GOODWILL_OUTLET,
     address: "Address TBD — verify before launch",
@@ -52,6 +69,7 @@ const locations = [
     scheduleNote: "New bins reported daily ~9am (unverified)",
   },
   {
+    key: "phoenix-bin-co",
     name: "Independent Bin Store (example) — Phoenix",
     chain: Chain.INDEPENDENT_BIN_STORE,
     address: "Address TBD — verify before launch",
@@ -62,6 +80,7 @@ const locations = [
     scheduleNote: null,
   },
   {
+    key: "seattle-goodwill",
     name: "Goodwill Outlet (example) — Seattle",
     chain: Chain.GOODWILL_OUTLET,
     address: "Address TBD — verify before launch",
@@ -73,35 +92,44 @@ const locations = [
   },
 ];
 
+// Seed check-ins per location, keyed by the location's `key` above.
+// Ratings are the 1-5 haul-quality star rating; status drives freshness.
+const checkInsByLocation: Record<
+  string,
+  { status: CheckInStatus; rating: number | null; note: string; reporterName: string; hoursAgo: number }[]
+> = {
+  "denver-goodwill": [
+    { status: CheckInStatus.FRESH, rating: 4, note: "Just rotated, tons of new stuff", reporterName: "seed-data", hoursAgo: 0.75 },
+    { status: CheckInStatus.FRESH, rating: 3, note: "Decent but a lot of home goods", reporterName: "seed-data", hoursAgo: 20 },
+  ],
+  "denver-savers": [
+    { status: CheckInStatus.FRESH, rating: 3, note: "Fresh but pretty average haul", reporterName: "seed-data", hoursAgo: 3 },
+  ],
+  "aurora-savers": [
+    { status: CheckInStatus.FRESH, rating: 5, note: "Incredible find, worth the drive", reporterName: "seed-data", hoursAgo: 0.5 },
+    { status: CheckInStatus.FRESH, rating: 5, note: "Consistently the best bins in the area", reporterName: "seed-data", hoursAgo: 30 },
+  ],
+  "phoenix-bin-co": [
+    { status: CheckInStatus.PICKED_OVER, rating: 2, note: "Pretty picked through by early afternoon", reporterName: "seed-data", hoursAgo: 5 },
+  ],
+};
+
 async function main() {
   await prisma.checkIn.deleteMany();
   await prisma.location.deleteMany();
 
-  for (const location of locations) {
+  for (const { key, ...location } of locations) {
     const created = await prisma.location.create({ data: location });
 
-    // Give a couple of locations seed check-ins so the freshness UI has
-    // something real to render (fresh, picked-over, and stale examples).
-    if (location.city === "Denver" && location.chain === Chain.GOODWILL_OUTLET) {
+    for (const checkIn of checkInsByLocation[key] ?? []) {
       await prisma.checkIn.create({
         data: {
           locationId: created.id,
-          status: CheckInStatus.FRESH,
-          note: "Just rotated, tons of new stuff",
-          reporterName: "seed-data",
-          createdAt: new Date(Date.now() - 45 * 60 * 1000),
-        },
-      });
-    }
-
-    if (location.chain === Chain.INDEPENDENT_BIN_STORE) {
-      await prisma.checkIn.create({
-        data: {
-          locationId: created.id,
-          status: CheckInStatus.PICKED_OVER,
-          note: "Pretty picked through by early afternoon",
-          reporterName: "seed-data",
-          createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000),
+          status: checkIn.status,
+          rating: checkIn.rating,
+          note: checkIn.note,
+          reporterName: checkIn.reporterName,
+          createdAt: new Date(Date.now() - checkIn.hoursAgo * 60 * 60 * 1000),
         },
       });
     }

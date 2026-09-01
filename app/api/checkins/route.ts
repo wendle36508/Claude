@@ -11,6 +11,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid check-in payload" }, { status: 400 });
   }
 
+  const rating = body.rating;
+  if (rating != null && (!Number.isInteger(rating) || rating < 1 || rating > 5)) {
+    return NextResponse.json({ error: "Rating must be an integer from 1 to 5" }, { status: 400 });
+  }
+
   const location = await prisma.location.findUnique({ where: { id: body.locationId } });
   if (!location) {
     return NextResponse.json({ error: "Location not found" }, { status: 404 });
@@ -20,6 +25,7 @@ export async function POST(request: Request) {
     data: {
       locationId: body.locationId,
       status: body.status,
+      rating: rating ?? null,
       note: typeof body.note === "string" && body.note.trim() ? body.note.trim().slice(0, 500) : null,
       reporterName:
         typeof body.reporterName === "string" && body.reporterName.trim()

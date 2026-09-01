@@ -33,6 +33,9 @@ model CheckIn {
   location     Location      @relation(fields: [locationId], references: [id], onDelete: Cascade)
   locationId   String
   status       String
+  // Haul quality, 1-5 stars. Optional — a status-only report ("just
+  // fresh/picked over") is still useful without a rating attached.
+  rating       Int?
   note         String?
   // Free-text reporter name, no accounts in the MVP.
   reporterName String?

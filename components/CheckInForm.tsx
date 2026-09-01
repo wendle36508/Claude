@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { CheckInStatus } from "@/lib/types";
+import { StarRatingInput } from "@/components/StarRating";
 
 const OPTIONS: { value: CheckInStatus; label: string }[] = [
   { value: "FRESH", label: "Fresh bins" },
@@ -13,6 +14,7 @@ const OPTIONS: { value: CheckInStatus; label: string }[] = [
 export function CheckInForm({ locationId }: { locationId: string }) {
   const router = useRouter();
   const [status, setStatus] = useState<CheckInStatus>("FRESH");
+  const [rating, setRating] = useState(0);
   const [note, setNote] = useState("");
   const [reporterName, setReporterName] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -26,7 +28,7 @@ export function CheckInForm({ locationId }: { locationId: string }) {
     const res = await fetch("/api/checkins", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ locationId, status, note, reporterName }),
+      body: JSON.stringify({ locationId, status, rating: rating || null, note, reporterName }),
     });
 
     setSubmitting(false);
@@ -36,6 +38,7 @@ export function CheckInForm({ locationId }: { locationId: string }) {
       return;
     }
 
+    setRating(0);
     setNote("");
     router.refresh();
   }
@@ -57,6 +60,11 @@ export function CheckInForm({ locationId }: { locationId: string }) {
             {opt.label}
           </button>
         ))}
+      </div>
+
+      <div>
+        <p className="mb-1 text-xs text-gray-500">Haul quality (optional)</p>
+        <StarRatingInput value={rating} onChange={setRating} />
       </div>
 
       <input

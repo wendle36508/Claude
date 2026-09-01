@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { computeFreshness } from "@/lib/freshness";
-import { LocationCard } from "@/components/LocationCard";
+import { computeQuality } from "@/lib/quality";
+import { BestBetList, type BestBetLocation } from "@/components/BestBetList";
 import { MapLoader } from "@/components/MapLoader";
 import type { MapLocation } from "@/components/LocationMap";
 
@@ -8,30 +9,43 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const locations = await prisma.location.findMany({
-    include: { checkIns: { orderBy: { createdAt: "desc" }, take: 1 } },
+    include: { checkIns: { orderBy: { createdAt: "desc" } } },
     orderBy: { city: "asc" },
   });
 
-  const withFreshness = locations.map((location) => ({
-    location,
-    freshness: computeFreshness(location.checkIns),
-  }));
+  const bestBetLocations: BestBetLocation[] = locations.map((location) => {
+    const freshness = computeFreshness(location.checkIns);
+    return {
+      id: location.id,
+      name: location.name,
+      city: location.city,
+      state: location.state,
+      lat: location.lat,
+      lng: location.lng,
+      freshness: {
+        level: freshness.level,
+        label: freshness.label,
+        lastReportAt: freshness.lastReport?.createdAt ?? null,
+      },
+      quality: computeQuality(location.checkIns),
+    };
+  });
 
-  const mapLocations: MapLocation[] = withFreshness.map(({ location, freshness }) => ({
-    id: location.id,
-    name: location.name,
-    lat: location.lat,
-    lng: location.lng,
-    freshnessLevel: freshness.level,
-    freshnessLabel: freshness.label,
+  const mapLocations: MapLocation[] = bestBetLocations.map((loc) => ({
+    id: loc.id,
+    name: loc.name,
+    lat: loc.lat,
+    lng: loc.lng,
+    freshnessLevel: loc.freshness.level,
+    freshnessLabel: loc.freshness.label,
   }));
 
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold">Bin locations</h1>
+        <h1 className="text-2xl font-semibold">Best bets near you</h1>
         <p className="text-sm text-gray-500">
-          Crowdsourced freshness reports for outlet bin stores. Green = reported fresh recently.
+          Ranked by freshness, haul quality, and distance — not just a flat list.
         </p>
       </div>
 
@@ -43,18 +57,7 @@ export default async function HomePage() {
           load example data.
         </p>
       ) : (
-        <div className="flex flex-col gap-3">
-          {withFreshness.map(({ location, freshness }) => (
-            <LocationCard
-              key={location.id}
-              id={location.id}
-              name={location.name}
-              city={location.city}
-              state={location.state}
-              freshness={freshness}
-            />
-          ))}
-        </div>
+        <BestBetList locations={bestBetLocations} />
       )}
     </div>
   );
