@@ -5,3 +5,4 @@ dev.db-journal
 .env.local
 *.tsbuildinfo
 next-env.d.ts
+public/uploads/

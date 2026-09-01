@@ -1,5 +1,5 @@
 {
-  "name": "thrift-bins",
+  "name": "binbuddy",
   "version": "0.1.0",
   "private": true,
   "scripts": {

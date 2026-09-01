@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { computeFreshness, timeAgo } from "@/lib/freshness";
 import { FreshnessBadge } from "@/components/FreshnessBadge";
 import { CheckInForm } from "@/components/CheckInForm";
+import { HaulCard } from "@/components/HaulCard";
 import type { CheckInStatus } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +18,10 @@ const STATUS_LABEL: Record<CheckInStatus, string> = {
 export default async function LocationDetailPage({ params }: { params: { id: string } }) {
   const location = await prisma.location.findUnique({
     where: { id: params.id },
-    include: { checkIns: { orderBy: { createdAt: "desc" } } },
+    include: {
+      checkIns: { orderBy: { createdAt: "desc" } },
+      hauls: { orderBy: { createdAt: "desc" }, take: 6 },
+    },
   });
 
   if (!location) notFound();
@@ -64,6 +69,39 @@ export default async function LocationDetailPage({ params }: { params: { id: str
               </li>
             ))}
           </ul>
+        )}
+      </div>
+
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="font-medium">Recent hauls</h2>
+          <Link
+            href={`/hauls?location=${location.id}`}
+            className="text-sm text-gray-500 hover:underline"
+          >
+            Post a haul →
+          </Link>
+        </div>
+        {location.hauls.length === 0 ? (
+          <p className="text-sm text-gray-500">No hauls posted from here yet.</p>
+        ) : (
+          <div className="grid grid-cols-3 gap-2">
+            {location.hauls.map((haul) => (
+              <HaulCard
+                key={haul.id}
+                showLocation={false}
+                haul={{
+                  ...haul,
+                  location: {
+                    id: location.id,
+                    name: location.name,
+                    city: location.city,
+                    state: location.state,
+                  },
+                }}
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>

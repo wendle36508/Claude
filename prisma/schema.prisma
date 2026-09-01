@@ -24,6 +24,7 @@ model Location {
   // there are no recent crowdsourced check-ins yet (cold-start).
   scheduleNote String?
   checkIns     CheckIn[]
+  hauls        Haul[]
   createdAt    DateTime  @default(now())
 }
 
@@ -38,4 +39,21 @@ model CheckIn {
   createdAt    DateTime      @default(now())
 
   @@index([locationId, createdAt])
+}
+
+// A haul post: what someone found, tagged to the location they got it
+// from. Separate from CheckIn (which reports bin freshness) — a haul is
+// about the find itself, not the state of the bins.
+model Haul {
+  id         String   @id @default(cuid())
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  locationId String
+  // Relative path under /public, e.g. "/uploads/hauls/<id>.jpg".
+  imagePath  String
+  caption    String?
+  posterName String?
+  createdAt  DateTime @default(now())
+
+  @@index([locationId, createdAt])
+  @@index([createdAt])
 }

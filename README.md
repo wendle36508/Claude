@@ -1,10 +1,17 @@
-# Thrift Bins
+# BinBuddy
 
 Find fresh bin drops at outlet thrift stores (Goodwill Outlet, Savers Outlet,
 independent "bin stores") near you. Bin stores rotate their inventory on a
 schedule and get picked clean within hours, so a static map of locations
 isn't useful on its own — the core signal this app provides is *freshness*:
 is a given location's bins currently worth a drive.
+
+Two directory sites (thebinfinder.com, thriftbins.com) already list bin
+locations with static, manager-verified schedules. BinBuddy's bet is the
+thing a content site structurally can't do: live, crowdsourced "is it fresh
+right now" reporting, a "which of my nearby bins is worth the drive"
+ranking, and a haul feed where people post finds tagged to the location —
+none of which exist in the current directories.
 
 ## Stack
 
@@ -36,6 +43,10 @@ Then open http://localhost:3000.
   `PICKED_OVER` / `EMPTY`, an optional note, an optional reporter name.
   The most recent check-in (within a rolling window) drives the badge
   shown on the map and location list.
+- **Haul** — a photo post of what someone found, tagged to the location
+  they got it from. Separate from `CheckIn`: a haul is about the find, a
+  check-in is about the state of the bins. Images upload to
+  `public/uploads/hauls/` (see note below on production storage).
 
 ⚠️ **The seed data in `prisma/seed.ts` is placeholder** — approximate city
 coordinates and `"Address TBD"` placeholders, not a verified directory. See
@@ -77,4 +88,8 @@ data. Sequencing to get out of that hole:
 - Push notifications for followed locations
 - User accounts (to build reporter trust/reputation over time)
 - Verified location directory replacing the placeholder seed data
-- Photo attachments on check-ins
+- "Best bet" ranking (freshness + haul quality + distance) on the home
+  list — see the design mockup from the earlier product pass
+- Move haul image storage off the local filesystem before deploying
+  anywhere serverless (Vercel's filesystem is ephemeral per-request) —
+  swap `app/api/hauls/route.ts` for S3/R2/Supabase Storage
