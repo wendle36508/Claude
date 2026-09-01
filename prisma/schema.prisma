@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite has no native enum support, so Chain/CheckInStatus are plain
+// strings constrained by the TS union types in lib/types.ts instead.
+
+model Location {
+  id           String    @id @default(cuid())
+  name         String
+  chain        String
+  address      String
+  city         String
+  state        String
+  lat          Float
+  lng          Float
+  // Human-readable rotation schedule as reported by the store itself,
+  // e.g. "New bins ~10am Mon/Wed/Fri". Used as a fallback signal when
+  // there are no recent crowdsourced check-ins yet (cold-start).
+  scheduleNote String?
+  checkIns     CheckIn[]
+  createdAt    DateTime  @default(now())
+}
+
+model CheckIn {
+  id           String        @id @default(cuid())
+  location     Location      @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  locationId   String
+  status       String
+  note         String?
+  // Free-text reporter name, no accounts in the MVP.
+  reporterName String?
+  createdAt    DateTime      @default(now())
+
+  @@index([locationId, createdAt])
+}

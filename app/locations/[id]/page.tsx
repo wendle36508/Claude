@@ -1,0 +1,71 @@
+import { notFound } from "next/navigation";
+import { prisma } from "@/lib/db";
+import { computeFreshness, timeAgo } from "@/lib/freshness";
+import { FreshnessBadge } from "@/components/FreshnessBadge";
+import { CheckInForm } from "@/components/CheckInForm";
+import type { CheckInStatus } from "@/lib/types";
+
+export const dynamic = "force-dynamic";
+
+const STATUS_LABEL: Record<CheckInStatus, string> = {
+  FRESH: "Fresh bins",
+  PICKED_OVER: "Picked over",
+  EMPTY: "Empty",
+};
+
+export default async function LocationDetailPage({ params }: { params: { id: string } }) {
+  const location = await prisma.location.findUnique({
+    where: { id: params.id },
+    include: { checkIns: { orderBy: { createdAt: "desc" } } },
+  });
+
+  if (!location) notFound();
+
+  const freshness = computeFreshness(location.checkIns);
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div>
+        <h1 className="text-2xl font-semibold">{location.name}</h1>
+        <p className="text-sm text-gray-500">
+          {location.address}, {location.city}, {location.state}
+        </p>
+        <div className="mt-2 flex items-center gap-2">
+          <FreshnessBadge level={freshness.level} label={freshness.label} />
+          {freshness.lastReport && (
+            <span className="text-xs text-gray-400">{timeAgo(freshness.lastReport.createdAt)}</span>
+          )}
+        </div>
+        {location.scheduleNote && (
+          <p className="mt-2 text-sm text-gray-500">📅 {location.scheduleNote}</p>
+        )}
+      </div>
+
+      <CheckInForm locationId={location.id} />
+
+      <div>
+        <h2 className="mb-2 font-medium">Recent reports</h2>
+        {location.checkIns.length === 0 ? (
+          <p className="text-sm text-gray-500">No reports yet — be the first.</p>
+        ) : (
+          <ul className="flex flex-col gap-2">
+            {location.checkIns.map((checkIn) => (
+              <li key={checkIn.id} className="rounded-lg border bg-white p-3 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">
+                    {STATUS_LABEL[checkIn.status as CheckInStatus]}
+                  </span>
+                  <span className="text-xs text-gray-400">{timeAgo(checkIn.createdAt)}</span>
+                </div>
+                {checkIn.note && <p className="mt-1 text-gray-600">{checkIn.note}</p>}
+                {checkIn.reporterName && (
+                  <p className="mt-1 text-xs text-gray-400">— {checkIn.reporterName}</p>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
