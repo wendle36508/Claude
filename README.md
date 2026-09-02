@@ -100,14 +100,16 @@ data. Sequencing to get out of that hole:
 
 1. Push this repo to GitHub (already done if you're reading this from
    the repo) and go to vercel.com → **Add New Project** → import it.
-2. In the project's **Storage** tab: **Create Database → Postgres**
-   (Vercel's native Neon-backed Postgres — no separate signup, and it
-   auto-injects `DATABASE_URL` into the project's env vars).
-3. Same **Storage** tab: **Create → Blob** — auto-injects
-   `BLOB_READ_WRITE_TOKEN`. Once that's set, haul photo uploads
-   automatically switch from local disk to Blob storage (see
-   `app/api/hauls/route.ts` — same code path, no config needed beyond
-   the env var existing).
+2. Open the project, go to its **Storage** tab (top nav alongside
+   Deployments/Settings), and click **Connect Database**. Vercel's own
+   Postgres was retired in favor of Marketplace integrations — pick
+   **Neon** (or Supabase) under Marketplace → Continue. No separate
+   signup; it auto-injects `DATABASE_URL` into the project's env vars.
+3. Same **Storage** tab: **Create Database → Blob** (this one's still
+   first-party Vercel) — auto-injects `BLOB_READ_WRITE_TOKEN`. Once
+   that's set, haul photo uploads automatically switch from local disk
+   to Blob storage (see `app/api/hauls/route.ts` — same code path, no
+   config needed beyond the env var existing).
 4. Deploy. The build script (`npm run build`) runs
    `prisma migrate deploy` before `next build`, so the schema applies
    itself on every deploy — no manual migration step.
