@@ -16,18 +16,25 @@ none of which exist in the current directories.
 ## Stack
 
 - Next.js 14 (App Router) + TypeScript
-- Prisma + SQLite for local dev (swap the `DATABASE_URL` in `.env` for
-  Postgres in production — schema is provider-agnostic)
+- Prisma + Postgres (local dev points at a local Postgres — see below;
+  production points at whatever `DATABASE_URL` a host injects)
 - Tailwind CSS
 - Leaflet / react-leaflet for the map (OpenStreetMap tiles, no API key)
-- No auth in the MVP — check-ins take an optional free-text name
+- Haul photos: local disk in dev, Vercel Blob in production (automatic —
+  see `app/api/hauls/route.ts`)
+- No auth in the MVP — check-ins, hauls, and even seller storefronts
+  (below) are all trust-based, no login. A claimed seller handle is the
+  closest thing to an account this app has.
 
 ## Getting started
 
+Needs a local Postgres. Copy `.env.example` to `.env` and point
+`DATABASE_URL` at it.
+
 ```bash
 npm install
-npm run db:migrate   # creates dev.db and applies the schema
-npm run db:seed      # loads example locations (see note below)
+npm run db:migrate   # applies the schema
+npm run db:seed      # loads example locations, check-ins, and a demo storefront
 npm run dev
 ```
 
@@ -45,8 +52,14 @@ Then open http://localhost:3000.
   shown on the map and location list.
 - **Haul** — a photo post of what someone found, tagged to the location
   they got it from. Separate from `CheckIn`: a haul is about the find, a
-  check-in is about the state of the bins. Images upload to
-  `public/uploads/hauls/` (see note below on production storage).
+  check-in is about the state of the bins. A haul can optionally be
+  listed for resale (`forSale` + `price`, tied to a `Seller`) — the same
+  post shows up both in the location's haul feed and on the seller's
+  storefront, rather than being a second, duplicate listing.
+- **Seller** — a reseller's public storefront at `/market/<handle>`. The
+  handle is claimed once, no password — see "No auth" above for why
+  that's an acceptable amount of trust for now and where it stops being
+  one.
 
 ⚠️ **The seed data in `prisma/seed.ts` is placeholder** — approximate city
 coordinates and `"Address TBD"` placeholders, not a verified directory. See
@@ -83,13 +96,34 @@ data. Sequencing to get out of that hole:
    flowing — it's next on the roadmap once the directory work above is
    real.
 
+## Deploying (Vercel)
+
+1. Push this repo to GitHub (already done if you're reading this from
+   the repo) and go to vercel.com → **Add New Project** → import it.
+2. In the project's **Storage** tab: **Create Database → Postgres**
+   (Vercel's native Neon-backed Postgres — no separate signup, and it
+   auto-injects `DATABASE_URL` into the project's env vars).
+3. Same **Storage** tab: **Create → Blob** — auto-injects
+   `BLOB_READ_WRITE_TOKEN`. Once that's set, haul photo uploads
+   automatically switch from local disk to Blob storage (see
+   `app/api/hauls/route.ts` — same code path, no config needed beyond
+   the env var existing).
+4. Deploy. The build script (`npm run build`) runs
+   `prisma migrate deploy` before `next build`, so the schema applies
+   itself on every deploy — no manual migration step.
+5. Optional: run `npm run db:seed` once against the production
+   `DATABASE_URL` (e.g. `vercel env pull` then run it locally) if you
+   want the example data live — skip this for a real launch and seed a
+   verified directory instead (see cold-start plan below).
+
 ## Roadmap (not yet built)
 
 - Push notifications for followed locations
-- User accounts (to build reporter trust/reputation over time)
+- Real accounts (check-ins/hauls are still fully anonymous; seller
+  handles are the only claimed identity, and even those have no
+  password — someone else could currently claim a name-collision handle
+  first. Fine for a prototype, not fine once real transactions happen
+  through a storefront)
 - Verified location directory replacing the placeholder seed data
-- "Best bet" ranking (freshness + haul quality + distance) on the home
-  list — see the design mockup from the earlier product pass
-- Move haul image storage off the local filesystem before deploying
-  anywhere serverless (Vercel's filesystem is ephemeral per-request) —
-  swap `app/api/hauls/route.ts` for S3/R2/Supabase Storage
+- Nearest / Highest-rated toggle on the best-bet list (currently shows
+  only the blended ranking) — see the earlier design mockup

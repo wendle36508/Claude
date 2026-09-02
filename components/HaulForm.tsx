@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export interface LocationOption {
@@ -23,6 +24,9 @@ export function HaulForm({
   const [posterName, setPosterName] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [forSale, setForSale] = useState(false);
+  const [sellerHandle, setSellerHandle] = useState("");
+  const [price, setPrice] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,6 +42,10 @@ export function HaulForm({
       setError("Add a photo and pick where you found it.");
       return;
     }
+    if (forSale && (!sellerHandle.trim() || !price.trim())) {
+      setError("Enter your seller handle and a price to list this for sale.");
+      return;
+    }
 
     setSubmitting(true);
     setError(null);
@@ -47,18 +55,27 @@ export function HaulForm({
     formData.set("locationId", locationId);
     formData.set("caption", caption);
     formData.set("posterName", posterName);
+    formData.set("forSale", String(forSale));
+    if (forSale) {
+      formData.set("sellerHandle", sellerHandle.trim());
+      formData.set("price", price);
+    }
 
     const res = await fetch("/api/hauls", { method: "POST", body: formData });
     setSubmitting(false);
 
     if (!res.ok) {
-      setError("Couldn't post your haul. Try again.");
+      const body = await res.json().catch(() => null);
+      setError(body?.error ?? "Couldn't post your haul. Try again.");
       return;
     }
 
     setFile(null);
     setPreview(null);
     setCaption("");
+    setForSale(false);
+    setSellerHandle("");
+    setPrice("");
     router.refresh();
   }
 
@@ -105,6 +122,39 @@ export function HaulForm({
         maxLength={80}
         className="rounded border px-3 py-2 text-sm"
       />
+
+      <label className="flex items-center gap-2 text-sm text-gray-700">
+        <input type="checkbox" checked={forSale} onChange={(e) => setForSale(e.target.checked)} />
+        List this for sale
+      </label>
+
+      {forSale && (
+        <div className="flex flex-col gap-2 rounded border border-dashed border-gray-300 p-3">
+          <input
+            type="text"
+            placeholder="Your seller handle"
+            value={sellerHandle}
+            onChange={(e) => setSellerHandle(e.target.value)}
+            className="rounded border px-3 py-2 text-sm"
+          />
+          <input
+            type="number"
+            min="0.01"
+            step="0.01"
+            placeholder="Price ($)"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="rounded border px-3 py-2 text-sm"
+          />
+          <p className="text-xs text-gray-500">
+            No handle yet?{" "}
+            <Link href="/market/new" className="underline">
+              Claim one
+            </Link>
+            .
+          </p>
+        </div>
+      )}
 
       {error && <p className="text-sm text-empty">{error}</p>}
 

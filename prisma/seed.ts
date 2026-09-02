@@ -115,11 +115,16 @@ const checkInsByLocation: Record<
 };
 
 async function main() {
+  await prisma.haul.deleteMany();
   await prisma.checkIn.deleteMany();
+  await prisma.seller.deleteMany();
   await prisma.location.deleteMany();
+
+  const locationByKey: Record<string, string> = {};
 
   for (const { key, ...location } of locations) {
     const created = await prisma.location.create({ data: location });
+    locationByKey[key] = created.id;
 
     for (const checkIn of checkInsByLocation[key] ?? []) {
       await prisma.checkIn.create({
@@ -134,6 +139,32 @@ async function main() {
       });
     }
   }
+
+  // One demo storefront so /market has something to show without
+  // needing to click through the claim flow first.
+  const seller = await prisma.seller.create({
+    data: {
+      handle: "seed-reseller",
+      displayName: "Seed Reseller (example)",
+      bio: "Demo storefront created by the seed script — flip finds from the bins.",
+      contactLink: "@seed-reseller on Poshmark (example)",
+    },
+  });
+
+  await prisma.haul.create({
+    data: {
+      locationId: locationByKey["denver-goodwill"],
+      // Inline placeholder pixel — kept self-contained rather than an
+      // external URL so the seed doesn't depend on outbound network.
+      imagePath:
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
+      caption: "Leather jacket, barely worn — grabbed for $3 at the bins",
+      posterName: "seed-data",
+      forSale: true,
+      price: 28,
+      sellerId: seller.id,
+    },
+  });
 }
 
 main()

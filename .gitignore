@@ -2,6 +2,7 @@ node_modules/
 .next/
 dev.db
 dev.db-journal
+.env
 .env.local
 *.tsbuildinfo
 next-env.d.ts

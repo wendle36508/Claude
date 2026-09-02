@@ -23,6 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/hauls" className="hover:text-gray-900">
                 Hauls
               </a>
+              <a href="/market" className="hover:text-gray-900">
+                Market
+              </a>
             </nav>
           </div>
         </header>

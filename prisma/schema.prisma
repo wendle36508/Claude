@@ -3,12 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// SQLite has no native enum support, so Chain/CheckInStatus are plain
-// strings constrained by the TS union types in lib/types.ts instead.
+// Chain/CheckInStatus are plain strings constrained by the TS union
+// types in lib/types.ts instead of native enums, so the schema doesn't
+// need a migration every time the allowed set changes.
 
 model Location {
   id           String    @id @default(cuid())
@@ -46,17 +47,43 @@ model CheckIn {
 
 // A haul post: what someone found, tagged to the location they got it
 // from. Separate from CheckIn (which reports bin freshness) — a haul is
-// about the find itself, not the state of the bins.
+// about the find itself, not the state of the bins. A haul can
+// optionally be listed for resale by a Seller — the same find that
+// showed up in the location's feed can also show up on someone's
+// storefront, without duplicating the post.
 model Haul {
   id         String   @id @default(cuid())
   location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
   locationId String
-  // Relative path under /public, e.g. "/uploads/hauls/<id>.jpg".
+  // Relative path under /public, or a Vercel Blob URL in production —
+  // see app/api/hauls/route.ts.
   imagePath  String
   caption    String?
   posterName String?
+  seller     Seller?  @relation(fields: [sellerId], references: [id], onDelete: SetNull)
+  sellerId   String?
+  forSale    Boolean  @default(false)
+  price      Float?
   createdAt  DateTime @default(now())
 
   @@index([locationId, createdAt])
   @@index([createdAt])
+  @@index([sellerId, createdAt])
+}
+
+// A reseller's public storefront. No login/password — a handle is
+// claimed once (must be unique) and that claim is the only "auth" a
+// no-accounts MVP can offer. Good enough while claiming is honor-system
+// and nothing valuable (payments, private data) lives behind it; real
+// auth becomes necessary before that stops being true.
+model Seller {
+  id          String   @id @default(cuid())
+  handle      String   @unique
+  displayName String
+  bio         String?
+  // Where a buyer actually transacts — Venmo/Poshmark/Instagram/etc.
+  // This app displays listings, it doesn't process payments.
+  contactLink String?
+  hauls       Haul[]
+  createdAt   DateTime @default(now())
 }
