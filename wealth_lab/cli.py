@@ -435,100 +435,110 @@ def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="wealth_lab")
     sub = p.add_subparsers(dest="command", required=True)
 
-    add = sub.add_parser("add", help="log a new thesis")
-    add.add_argument("symbol")
-    add.add_argument("asset_type", choices=["stock", "ipo", "etf", "cash"])
-    add.add_argument("thesis")
-    add.add_argument("--conviction", type=int, required=True, choices=range(1, 6))
-    add.add_argument("--name")
+    def subparser(name: str, help_text: str) -> argparse.ArgumentParser:
+        # every subcommand's own --help repeats its one-line summary as a
+        # description, so `wealth_lab <cmd> --help` is self-explanatory
+        # without having to recall it from the parent command list
+        return sub.add_parser(name, help=help_text, description=help_text)
+
+    add = subparser("add", "log a new thesis")
+    add.add_argument("symbol", help="ticker, e.g. AAPL (case-insensitive)")
+    add.add_argument("asset_type", choices=["stock", "ipo", "etf", "cash"], help="what kind of position this is")
+    add.add_argument("thesis", help="the bull/bear case in a sentence or two")
+    add.add_argument("--conviction", type=int, required=True, choices=range(1, 6), help="gut-call rating, 1-5")
+    add.add_argument("--name", help="full company/fund name")
     add.add_argument("--sector", help="e.g. 'AI Cloud Infrastructure' - the market/category this competes in")
-    add.add_argument("--entry-price", type=float)
-    add.add_argument("--entry-date")
-    add.add_argument("--target-price", type=float)
-    add.add_argument("--horizon-days", type=int)
+    add.add_argument("--entry-price", type=float, help="price at the time this thesis was logged")
+    add.add_argument("--entry-date", help="YYYY-MM-DD; pairs with --entry-price")
+    add.add_argument("--target-price", type=float, help="optional price target")
+    add.add_argument("--horizon-days", type=int, help="optional expected time horizon for the thesis to play out")
     add.set_defaults(func=cmd_add)
 
-    sig = sub.add_parser("signal", help="attach a signal to a thesis")
-    sig.add_argument("thesis_id", type=int)
-    sig.add_argument("name")
-    sig.add_argument("direction", choices=["bullish", "bearish", "neutral"])
+    sig = subparser("signal", "attach a signal to a thesis")
+    sig.add_argument("thesis_id", type=int, help="thesis to attach this signal to (see `list` for ids)")
+    sig.add_argument("name", help="short signal name, e.g. revenue_growth, insider_buying")
+    sig.add_argument("direction", choices=["bullish", "bearish", "neutral"], help="which way this signal points")
     sig.add_argument("--category", choices=db.SIGNAL_CATEGORIES, default="other",
-                      help="growth / valuation / risk / catalyst / macro / other")
-    sig.add_argument("--rationale")
-    sig.add_argument("--weight", type=float, default=1.0)
-    sig.add_argument("--source")
+                      help="growth / valuation / risk / catalyst / macro / other (default: other)")
+    sig.add_argument("--rationale", help="one or two sentences of why this signal matters")
+    sig.add_argument("--weight", type=float, default=1.0, help="how much this signal should count (default: 1.0)")
+    sig.add_argument("--source", help="URL or citation backing this signal")
     sig.set_defaults(func=cmd_signal)
 
-    snap = sub.add_parser("snapshot", help="record a price check-in")
-    snap.add_argument("thesis_id", type=int)
-    snap.add_argument("price", type=float)
-    snap.add_argument("--note")
+    snap = subparser("snapshot", "record a price check-in")
+    snap.add_argument("thesis_id", type=int, help="thesis to record a price for")
+    snap.add_argument("price", type=float, help="current price")
+    snap.add_argument("--note", help="optional context, e.g. 'post-earnings pop'")
     snap.set_defaults(func=cmd_snapshot)
 
-    close = sub.add_parser("close", help="close out a thesis")
-    close.add_argument("thesis_id", type=int)
-    close.add_argument("status", choices=["closed_win", "closed_loss", "closed_flat"])
+    close = subparser("close", "close out a thesis")
+    close.add_argument("thesis_id", type=int, help="thesis to close")
+    close.add_argument("status", choices=["closed_win", "closed_loss", "closed_flat"], help="how it turned out")
     close.set_defaults(func=cmd_close)
 
-    show = sub.add_parser("show", help="show one thesis in full")
-    show.add_argument("thesis_id", type=int)
+    show = subparser("show", "show one thesis in full")
+    show.add_argument("thesis_id", type=int, help="thesis to show")
     show.set_defaults(func=cmd_show)
 
-    ls = sub.add_parser("list", help="list theses")
-    ls.add_argument("--status", choices=["open", "closed_win", "closed_loss", "closed_flat"])
+    ls = subparser("list", "list theses")
+    ls.add_argument("--status", choices=["open", "closed_win", "closed_loss", "closed_flat"],
+                     help="only show theses in this status (default: all)")
     ls.set_defaults(func=cmd_list)
 
-    rep = sub.add_parser("report", help="calibration report: conviction/signals vs realized return")
+    rep = subparser("report", "calibration report: conviction/signals vs realized return")
     rep.set_defaults(func=cmd_report)
 
-    pf = sub.add_parser("portfolio", help="show current portfolio allocation and risk metrics")
-    pf.add_argument("--starting-capital", type=float, default=100_000.0)
+    pf = subparser("portfolio", "show current portfolio allocation and risk metrics")
+    pf.add_argument("--starting-capital", type=float, default=100_000.0,
+                     help="starting capital to measure return against (default: 100000)")
     pf.set_defaults(func=cmd_portfolio)
 
-    sc = sub.add_parser("score", help="computed composite score from a thesis's signals, vs. its manual conviction")
-    sc.add_argument("thesis_id", type=int)
+    sc = subparser("score", "computed composite score from a thesis's signals, vs. its manual conviction")
+    sc.add_argument("thesis_id", type=int, help="thesis to score")
     sc.add_argument("--learned", action="store_true", help="use historically-learned per-signal weights instead of manual weights")
     sc.add_argument("--no-decay", action="store_true", help="don't discount older signals - score every signal at full weight regardless of age")
     sc.set_defaults(func=cmd_score)
 
-    lu = sub.add_parser("lookup", help="everything known about a ticker: thesis, scores, signals, portfolio position")
-    lu.add_argument("symbol")
+    lu = subparser("lookup", "everything known about a ticker: thesis, scores, signals, portfolio position")
+    lu.add_argument("symbol", help="ticker to look up (case-insensitive)")
     lu.set_defaults(func=cmd_lookup)
 
-    rk = sub.add_parser("risk", help="volatility, Sharpe, max drawdown, beta vs SPY - from real snapshot history")
-    rk.add_argument("thesis_id", type=int)
+    rk = subparser("risk", "volatility, Sharpe, max drawdown, beta vs SPY - from real snapshot history")
+    rk.add_argument("thesis_id", type=int, help="thesis to compute risk metrics for")
     rk.set_defaults(func=cmd_risk)
 
-    cmp = sub.add_parser("compare", help="every thesis side by side - one row each, every metric its own column")
-    cmp.add_argument("--status", choices=["open", "closed_win", "closed_loss", "closed_flat"])
-    cmp.add_argument("--sort", choices=compare.SORTABLE_COLUMNS, default="score")
+    cmp = subparser("compare", "every thesis side by side - one row each, every metric its own column")
+    cmp.add_argument("--status", choices=["open", "closed_win", "closed_loss", "closed_flat"],
+                      help="only include theses in this status (default: all)")
+    cmp.add_argument("--sort", choices=compare.SORTABLE_COLUMNS, default="score",
+                      help="column to sort by (default: score)")
     cmp.add_argument("--ascending", action="store_true", help="sort ascending instead of descending")
     cmp.set_defaults(func=cmd_compare)
 
-    ipo_set = sub.add_parser("ipo-set", help="set/update a pre-IPO thesis's list date, lockup, and disclosed valuation")
-    ipo_set.add_argument("thesis_id", type=int)
+    ipo_set = subparser("ipo-set", "set/update a pre-IPO thesis's list date, lockup, and disclosed valuation")
+    ipo_set.add_argument("thesis_id", type=int, help="the IPO thesis to update")
     ipo_set.add_argument("--expected-list-date", help="YYYY-MM-DD, forecast")
     ipo_set.add_argument("--actual-list-date", help="YYYY-MM-DD, once it actually lists")
-    ipo_set.add_argument("--lockup-days", type=int, default=180)
+    ipo_set.add_argument("--lockup-days", type=int, default=180, help="lockup length in days (default: 180)")
     ipo_set.add_argument("--valuation", type=float, help="disclosed/rumored valuation in dollars")
     ipo_set.add_argument("--revenue", type=float, help="disclosed revenue in dollars, same period basis as valuation")
-    ipo_set.add_argument("--notes")
+    ipo_set.add_argument("--notes", help="freeform context, caveats, sourcing")
     ipo_set.set_defaults(func=cmd_ipo_set)
 
-    ipo_comp = sub.add_parser("ipo-comp", help="log a public comparable-company multiple for an IPO thesis")
-    ipo_comp.add_argument("thesis_id", type=int)
-    ipo_comp.add_argument("peer_symbol")
-    ipo_comp.add_argument("multiple", type=float)
-    ipo_comp.add_argument("--peer-name")
-    ipo_comp.add_argument("--metric", default="ev_revenue")
-    ipo_comp.add_argument("--source")
+    ipo_comp = subparser("ipo-comp", "log a public comparable-company multiple for an IPO thesis")
+    ipo_comp.add_argument("thesis_id", type=int, help="the IPO thesis this comparable applies to")
+    ipo_comp.add_argument("peer_symbol", help="the public peer's ticker")
+    ipo_comp.add_argument("multiple", type=float, help="the peer's multiple on this metric, e.g. 10.4 for 10.4x")
+    ipo_comp.add_argument("--peer-name", help="the public peer's full name")
+    ipo_comp.add_argument("--metric", default="ev_revenue", help="what this multiple measures (default: ev_revenue)")
+    ipo_comp.add_argument("--source", help="URL or citation for this multiple")
     ipo_comp.set_defaults(func=cmd_ipo_comp)
 
-    ipo_show = sub.add_parser("ipo-show", help="lockup countdown and valuation-vs-comps for an IPO thesis")
-    ipo_show.add_argument("thesis_id", type=int)
+    ipo_show = subparser("ipo-show", "lockup countdown and valuation-vs-comps for an IPO thesis")
+    ipo_show.add_argument("thesis_id", type=int, help="the IPO thesis to show")
     ipo_show.set_defaults(func=cmd_ipo_show)
 
-    sz = sub.add_parser("sizing", help="confidence-driven satellite weight suggestions vs. current weights (comparison only)")
+    sz = subparser("sizing", "confidence-driven satellite weight suggestions vs. current weights (comparison only)")
     sz.set_defaults(func=cmd_sizing)
 
     return p
@@ -538,7 +548,14 @@ def main(argv: list[str] | None = None) -> None:
     parser = build_parser()
     args = parser.parse_args(argv)
     with db.connect() as conn:
-        args.func(conn, args)
+        try:
+            args.func(conn, args)
+        except ValueError as e:
+            # db.py raises ValueError for data the DB's own CHECK constraints
+            # would also reject (negative prices, bad categories, etc.) - catch
+            # it here once so every command gets a clean message instead of a
+            # traceback, rather than wrapping each cmd_* function individually.
+            sys.exit(f"error: {e}")
 
 
 if __name__ == "__main__":

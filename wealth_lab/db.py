@@ -155,6 +155,10 @@ def add_thesis(
     target_price: Optional[float] = None,
     horizon_days: Optional[int] = None,
 ) -> int:
+    if entry_price is not None and entry_price <= 0:
+        raise ValueError(f"entry_price must be positive, got {entry_price}")
+    if target_price is not None and target_price <= 0:
+        raise ValueError(f"target_price must be positive, got {target_price}")
     cur = conn.execute(
         """INSERT INTO theses
            (symbol, asset_type, name, sector, thesis, conviction, status,
@@ -189,6 +193,10 @@ def add_signal(
 ) -> int:
     if category not in SIGNAL_CATEGORIES:
         raise ValueError(f"category must be one of {SIGNAL_CATEGORIES}, got {category!r}")
+    if direction not in ("bullish", "bearish", "neutral"):
+        raise ValueError(f"direction must be one of ('bullish', 'bearish', 'neutral'), got {direction!r}")
+    if weight <= 0:
+        raise ValueError(f"weight must be positive, got {weight}")
     cur = conn.execute(
         """INSERT INTO signals (thesis_id, name, category, direction, weight, rationale, source, recorded_at)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
@@ -200,6 +208,8 @@ def add_signal(
 def add_snapshot(
     conn: sqlite3.Connection, thesis_id: int, price: float, note: Optional[str] = None
 ) -> int:
+    if price <= 0:
+        raise ValueError(f"price must be positive, got {price}")
     cur = conn.execute(
         "INSERT INTO snapshots (thesis_id, price, note, recorded_at) VALUES (?, ?, ?, ?)",
         (thesis_id, price, note, _now()),
@@ -289,6 +299,12 @@ def set_ipo_details(
     """Upsert - set_ipo_details is meant to be called again as new facts
     come in (a filing gets an actual date, a valuation gets revised), not
     just once at creation."""
+    if disclosed_valuation is not None and disclosed_valuation <= 0:
+        raise ValueError(f"disclosed_valuation must be positive, got {disclosed_valuation}")
+    if disclosed_revenue is not None and disclosed_revenue <= 0:
+        raise ValueError(f"disclosed_revenue must be positive, got {disclosed_revenue}")
+    if lockup_days <= 0:
+        raise ValueError(f"lockup_days must be positive, got {lockup_days}")
     conn.execute(
         """INSERT INTO ipo_details
                (thesis_id, expected_list_date, actual_list_date, lockup_days,

@@ -1,3 +1,5 @@
+import pytest
+
 from wealth_lab import db
 
 
@@ -37,3 +39,54 @@ def test_get_position_for_thesis_returns_none_when_unfunded(conn):
     tid = db.add_thesis(conn, symbol="AAA", asset_type="stock", thesis="t", conviction=3)
 
     assert db.get_position_for_thesis(conn, tid) is None
+
+
+# ---- input validation ----
+
+def test_add_thesis_rejects_non_positive_entry_price(conn):
+    with pytest.raises(ValueError):
+        db.add_thesis(conn, symbol="AAA", asset_type="stock", thesis="t", conviction=3, entry_price=-10.0)
+    with pytest.raises(ValueError):
+        db.add_thesis(conn, symbol="AAA", asset_type="stock", thesis="t", conviction=3, entry_price=0.0)
+
+
+def test_add_thesis_rejects_non_positive_target_price(conn):
+    with pytest.raises(ValueError):
+        db.add_thesis(conn, symbol="AAA", asset_type="stock", thesis="t", conviction=3, target_price=-1.0)
+
+
+def test_add_thesis_allows_none_prices(conn):
+    tid = db.add_thesis(conn, symbol="AAA", asset_type="cash", thesis="t", conviction=5)
+    assert tid is not None
+
+
+def test_add_signal_rejects_non_positive_weight(conn):
+    tid = db.add_thesis(conn, symbol="AAA", asset_type="stock", thesis="t", conviction=3)
+    with pytest.raises(ValueError):
+        db.add_signal(conn, tid, "growth", "bullish", weight=-1.0)
+    with pytest.raises(ValueError):
+        db.add_signal(conn, tid, "growth", "bullish", weight=0.0)
+
+
+def test_add_signal_rejects_invalid_direction(conn):
+    tid = db.add_thesis(conn, symbol="AAA", asset_type="stock", thesis="t", conviction=3)
+    with pytest.raises(ValueError):
+        db.add_signal(conn, tid, "growth", "upward")
+
+
+def test_add_snapshot_rejects_non_positive_price(conn):
+    tid = db.add_thesis(conn, symbol="AAA", asset_type="stock", thesis="t", conviction=3)
+    with pytest.raises(ValueError):
+        db.add_snapshot(conn, tid, price=-50.0)
+    with pytest.raises(ValueError):
+        db.add_snapshot(conn, tid, price=0.0)
+
+
+def test_set_ipo_details_rejects_non_positive_figures(conn):
+    tid = db.add_thesis(conn, symbol="AAA", asset_type="ipo", thesis="t", conviction=3)
+    with pytest.raises(ValueError):
+        db.set_ipo_details(conn, tid, disclosed_valuation=-1.0)
+    with pytest.raises(ValueError):
+        db.set_ipo_details(conn, tid, disclosed_revenue=-1.0)
+    with pytest.raises(ValueError):
+        db.set_ipo_details(conn, tid, lockup_days=0)
