@@ -1,12 +1,20 @@
 """Digest for a scheduled run: what needs attention, and how calibration looks.
 
-Meant to be invoked periodically (daily/weekly) by a scheduler, not by hand.
-It does not fetch prices itself - this session's network is locked to package
-registries, so there is no live market-data source to call. Instead it
-flags theses that have gone stale (no price check-in recently) so a human,
-or a future live PriceProvider plugged in where fetch_price() is defined,
-can fill the gap. Swapping in a live provider means implementing
-fetch_price() below; nothing else in the tracker needs to change.
+Meant to be invoked periodically (daily/weekly) by a scheduler, not by hand,
+and specifically at the START of that pass - it's the "what actually needs
+a fresh price snapshot today" filter, not a general status report. It does
+not fetch prices itself: this session's network is locked to package
+registries, so there is no live market-data source to call from plain
+Python. Instead it flags theses that have gone stale (no price check-in
+recently) so whoever runs the scan - a human, or the agent driving the
+daily research Routine - knows which symbols specifically need a fresh
+price looked up, rather than re-checking every name's price every day
+regardless of whether it's actually gone stale. A future live PriceProvider
+plugs in at fetch_price() below; nothing else here needs to change.
+
+This is deliberately the *only* place "is this thesis stale" gets decided -
+the daily Routine calls `python -m wealth_lab.scan` for that list instead of
+re-deriving its own notion of staleness from `list`/`portfolio` output.
 """
 
 from __future__ import annotations
@@ -23,8 +31,9 @@ def fetch_price(symbol: str) -> float | None:
     """Extension point for a live data provider (Yahoo/Stooq/broker API/etc).
 
     Returns None when no live source is wired up, which is the current state
-    of this environment. A real implementation should return the latest
-    price for `symbol` or raise, not return a placeholder value.
+    of this environment - callers must not assume this ever succeeds here.
+    A real implementation should return the latest price for `symbol` or
+    raise, not return a placeholder value.
     """
     return None
 
@@ -48,16 +57,12 @@ def run_scan(conn: sqlite3.Connection) -> str:
 
     stale = stale_theses(conn)
     if stale:
-        lines.append(f"stale (no check-in in {STALE_AFTER_DAYS}+ days): {len(stale)}")
+        lines.append(f"stale (no price check-in in {STALE_AFTER_DAYS}+ days) - fetch a fresh price and "
+                      f"`snapshot` these {len(stale)} today:")
         for t in stale:
-            price = fetch_price(t["symbol"])
-            if price is not None:
-                db.add_snapshot(conn, t["id"], price, note="auto-scan")
-                lines.append(f"  #{t['id']} {t['symbol']}: auto-updated @ {price}")
-            else:
-                lines.append(f"  #{t['id']} {t['symbol']}: needs a manual snapshot")
+            lines.append(f"  #{t['id']} {t['symbol']}")
     else:
-        lines.append("no stale theses")
+        lines.append("no stale theses - every open position has a recent price check-in")
 
     returns = report.thesis_returns(conn)
     if returns:
