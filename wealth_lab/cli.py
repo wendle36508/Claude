@@ -16,7 +16,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from wealth_lab import compare, db, ipo, portfolio, report, risk, scoring
+from wealth_lab import compare, db, ipo, portfolio, report, risk, scoring, sizing
 
 BENCHMARK_SYMBOL = "SPY"
 
@@ -407,6 +407,30 @@ def cmd_ipo_show(conn, args) -> None:
                 print(f"    {c['peer_symbol']:<6} {c['peer_multiple']:.1f}x" + (f"  [{c['source']}]" if c["source"] else ""))
 
 
+def cmd_sizing(conn, args) -> None:
+    suggestions = sizing.satellite_sizing(conn)
+    if not suggestions:
+        print("no funded satellite positions yet")
+        return
+
+    print("== confidence-driven sizing vs. current satellite weights ==")
+    print("(comparison only - not applied. see wealth_lab/sizing.py for why.)\n")
+    header = f"{'SYMBOL':<8} {'CONVICTION':>11} {'CURRENT':>9} {'SUGGESTED':>10} {'DELTA':>8}"
+    print(header)
+    print("-" * len(header))
+    for s in sorted(suggestions, key=lambda s: s.suggested_weight, reverse=True):
+        print(
+            f"{s.symbol:<8} {s.conviction_magnitude:>11.3f} {s.current_weight * 100:>8.1f}% "
+            f"{s.suggested_weight * 100:>9.1f}% {s.delta * 100:>+7.1f}%"
+        )
+
+    zero_mag = [s.symbol for s in suggestions if s.conviction_magnitude == 0]
+    if zero_mag:
+        print(f"\n{', '.join(zero_mag)} scored 0 conviction magnitude (net-zero score, or bull/bear signals "
+              "canceling) - the formula would zero these out in favor of whatever currently has the clearest "
+              "evidence, which is a real reflection of thin day-one signal history, not something to act on yet.")
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="wealth_lab")
     sub = p.add_subparsers(dest="command", required=True)
@@ -503,6 +527,9 @@ def build_parser() -> argparse.ArgumentParser:
     ipo_show = sub.add_parser("ipo-show", help="lockup countdown and valuation-vs-comps for an IPO thesis")
     ipo_show.add_argument("thesis_id", type=int)
     ipo_show.set_defaults(func=cmd_ipo_show)
+
+    sz = sub.add_parser("sizing", help="confidence-driven satellite weight suggestions vs. current weights (comparison only)")
+    sz.set_defaults(func=cmd_sizing)
 
     return p
 

@@ -18,7 +18,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from wealth_lab import db, ipo, portfolio, risk, scoring
+from wealth_lab import db, ipo, portfolio, risk, scoring, sizing
 
 DEFAULT_OUT = Path(__file__).resolve().parent.parent / "report" / "data.json"
 BENCHMARK_SYMBOL = "SPY"
@@ -135,6 +135,14 @@ def build_snapshot(conn) -> dict:
         total = portfolio.total_value(values)
         rm = portfolio.portfolio_risk_metrics(conn, benchmark_thesis_id=benchmark_id)
         naive = portfolio.naive_volatility_upper_bound(conn)
+        sizing_suggestions = [
+            {
+                "symbol": s.symbol, "conviction_magnitude": s.conviction_magnitude,
+                "current_weight": s.current_weight, "suggested_weight": s.suggested_weight,
+                "delta": s.delta,
+            }
+            for s in sizing.satellite_sizing(conn)
+        ]
         portfolio_block = {
             "starting_capital": starting_capital,
             "total_value": total,
@@ -154,6 +162,7 @@ def build_snapshot(conn) -> dict:
                 }
                 if naive else None
             ),
+            "sizing_suggestions": sizing_suggestions,
         }
 
     theses = [thesis_snapshot(conn, t) for t in db.list_theses(conn)]

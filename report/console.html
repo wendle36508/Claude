@@ -309,6 +309,30 @@
         ' (ignores correlation, coverage ' + (p.naive_volatility.covered_weight * 100).toFixed(0) + '% of portfolio)</div>';
     }
 
+    var sizingHtml = '';
+    if (p.sizing_suggestions && p.sizing_suggestions.length) {
+      var rows = p.sizing_suggestions.slice().sort(function (a, b) { return b.suggested_weight - a.suggested_weight; })
+        .map(function (s) {
+          return '<tr><td class="sym-cell">' + s.symbol + '</td>' +
+            '<td class="num">' + s.conviction_magnitude.toFixed(3) + '</td>' +
+            '<td class="num">' + (s.current_weight * 100).toFixed(1) + '%</td>' +
+            '<td class="num">' + (s.suggested_weight * 100).toFixed(1) + '%</td>' +
+            '<td class="num">' + (s.delta >= 0 ? '+' : '') + (s.delta * 100).toFixed(1) + '%</td></tr>';
+        }).join('');
+      sizingHtml =
+        '<div>' +
+          '<h4 style="font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:4px 0 8px;">Confidence-driven sizing (comparison only, not applied)</h4>' +
+          '<table style="width:100%;font-size:12.5px;"><thead><tr>' +
+            '<th style="text-align:left;color:var(--muted);font-weight:600;font-size:10.5px;text-transform:uppercase;">Symbol</th>' +
+            '<th class="num" style="color:var(--muted);font-weight:600;font-size:10.5px;text-transform:uppercase;">Conviction</th>' +
+            '<th class="num" style="color:var(--muted);font-weight:600;font-size:10.5px;text-transform:uppercase;">Current</th>' +
+            '<th class="num" style="color:var(--muted);font-weight:600;font-size:10.5px;text-transform:uppercase;">Suggested</th>' +
+            '<th class="num" style="color:var(--muted);font-weight:600;font-size:10.5px;text-transform:uppercase;">Delta</th>' +
+          '</tr></thead><tbody>' + rows + '</tbody></table>' +
+          '<p class="risk-note" style="margin-top:6px;">Weight = |score| &times; confidence, re-split across the satellite sleeve\'s existing total. A position whose bull/bear signals cancel to a 0.00 score gets zeroed out here - a real reflection of thin day-one signal history, not something acted on yet.</p>' +
+        '</div>';
+    }
+
     el.innerHTML =
       '<div class="bar-card">' +
         '<div class="stackbar">' + segs + '</div>' +
@@ -319,6 +343,7 @@
             : '<span class="risk-note">Not enough snapshot history yet for real portfolio volatility/Sharpe/drawdown (' + p.risk.n_snapshots + ' date(s) so far).</span>') +
         '</div>' +
         naiveLine +
+        sizingHtml +
       '</div>';
   }
 

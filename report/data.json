@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T17:27:06+00:00",
+  "generated_at": "2026-09-19T17:44:37+00:00",
   "portfolio": {
     "starting_capital": 100000.0,
     "total_value": 100000.0,
@@ -23,7 +23,37 @@
       "weighted_volatility": 0.0,
       "covered_weight": 0.05,
       "n_positions_included": 1
-    }
+    },
+    "sizing_suggestions": [
+      {
+        "symbol": "CRWV",
+        "conviction_magnitude": 0.0,
+        "current_weight": 0.15,
+        "suggested_weight": 0.0,
+        "delta": -0.15
+      },
+      {
+        "symbol": "NBIS",
+        "conviction_magnitude": 0.666420807557595,
+        "current_weight": 0.15,
+        "suggested_weight": 0.5,
+        "delta": 0.35
+      },
+      {
+        "symbol": "VRT",
+        "conviction_magnitude": 0.0,
+        "current_weight": 0.12,
+        "suggested_weight": 0.0,
+        "delta": -0.12
+      },
+      {
+        "symbol": "SNDK",
+        "conviction_magnitude": 0.0,
+        "current_weight": 0.08,
+        "suggested_weight": 0.0,
+        "delta": -0.08
+      }
+    ]
   },
   "theses": [
     {
@@ -153,9 +183,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665906095520745,
+        "coverage": 0.6665437703214503,
         "agreement": 0.0,
-        "recency": 0.9998859143281118
+        "recency": 0.9998156554821754
       },
       "range": {
         "floor": -0.4,
@@ -262,9 +292,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665906095209685,
+        "coverage": 0.6665437702952927,
         "agreement": 0.0,
-        "recency": 0.9998859142814527
+        "recency": 0.999815655442939
       },
       "range": {
         "floor": -0.4,
@@ -369,16 +399,16 @@
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.3332572470872502,
+        "value": 0.3332104148559297,
         "band": "medium",
-        "coverage": 0.6665905872193907,
+        "coverage": 0.6665437479958167,
         "agreement": 0.4999999832863816,
-        "recency": 0.9998858808290871
+        "recency": 0.9998156219937263
       },
       "range": {
-        "floor": -0.14169710534350458,
+        "floor": -0.1417158382360327,
         "base": 0.1249999958215954,
-        "ceiling": 0.3916970969866954,
+        "ceiling": 0.3917158298792235,
         "floor_price": null,
         "base_price": null,
         "ceiling_price": null,
@@ -471,9 +501,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665905649181249,
+        "coverage": 0.6665437256967863,
         "agreement": 0.0,
-        "recency": 0.9998858473771872
+        "recency": 0.9998155885451795
       },
       "range": {
         "floor": -0.4,
@@ -552,9 +582,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665905649027055,
+        "coverage": 0.6665437256815463,
         "agreement": 0.0,
-        "recency": 0.9998858473540583
+        "recency": 0.9998155885223194
       },
       "range": {
         "floor": -0.4,
@@ -631,19 +661,19 @@
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.6665144717970874,
+        "value": 0.6664208073386604,
         "band": "high",
-        "coverage": 0.6665905648882665,
+        "coverage": 0.6665437256667964,
         "agreement": 1.0,
-        "recency": 0.9998858473323998
+        "recency": 0.9998155885001947
       },
       "range": {
-        "floor": 0.11660578871883498,
+        "floor": 0.11656832293546415,
         "base": 0.25,
-        "ceiling": 0.383394211281165,
-        "floor_price": 243.40889588281885,
+        "ceiling": 0.38343167706453585,
+        "floor_price": 243.40072871670185,
         "base_price": 272.4875,
-        "ceiling_price": 301.56610411718117,
+        "ceiling_price": 301.5742712832982,
         "source": "default"
       },
       "category_scores": {
@@ -710,9 +740,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665905648720897,
+        "coverage": 0.6665437256506652,
         "agreement": 0.0,
-        "recency": 0.9998858473081345
+        "recency": 0.9998155884759978
       },
       "range": {
         "floor": -0.4,

@@ -197,6 +197,26 @@ wealth_lab portfolio` shows current vs. target weights and risk metrics.
 `wealth_lab/seed_portfolio.py` is a reviewable record of how the current
 portfolio was actually built and sized.
 
+## Confidence-driven position sizing (comparison only)
+
+```
+python -m wealth_lab sizing
+```
+
+What score x confidence would suggest for satellite weights, shown next to
+the actual current weights - **not applied**. Weight within the satellite
+sleeve is re-split proportional to `|score| x confidence` per position
+(the core sleeve stays structural, untouched by this - see
+`seed_portfolio.py`). On this tracker's real, current data it produces a
+sharp result worth seeing exactly as computed: three of the four satellite
+positions currently have a net score of 0.00 (their own bull and bear
+signals cancel), giving them a conviction magnitude of exactly zero - the
+formula would put the entire satellite sleeve into whichever name has the
+clearest evidence and zero out the rest. That's the formula working
+correctly on one day of signal history, not a bug, and exactly why it's a
+comparison (`wealth_lab/sizing.py`, also in the console dashboard's
+portfolio card) rather than something that actually moves capital yet.
+
 ## HTTP API (provider-ready, not live)
 
 ```
