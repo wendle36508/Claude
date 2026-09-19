@@ -91,6 +91,27 @@ from the assumed `DEFAULT_MAX_SWING` constant. Until there's enough history
 it correctly returns nothing and the default constant is used - the report
 says which one is in effect.
 
+## Look up a ticker
+
+```
+python -m wealth_lab lookup NVDA
+```
+
+One view of everything already known about a symbol: thesis, sector, price
+and return since entry, portfolio position (or "watchlist only"), the
+composite score/confidence/range, a **per-category breakdown** (growth,
+valuation, risk, catalyst, macro - `category_score()` in scoring.py runs
+the same scoring math restricted to one signal category, so "growth
+potential" and "risk" are separate numbers, not folded into one), and every
+signal with its source.
+
+This only reads what's already in the tracker - it can't fetch live news or
+prices itself (there's no general internet access from plain Python in this
+environment, only the agent's own search tool calls can reach the live
+web). For a ticker that hasn't been researched yet, `lookup` says so and
+points at asking the agent to research it first; once it's logged, `lookup`
+is instant from then on.
+
 ## Portfolio construction
 
 `wealth_lab/portfolio.py` sizes funded positions into sleeves

@@ -148,22 +148,16 @@ def learned_signal_weights(conn: sqlite3.Connection, min_n: int = MIN_OBSERVATIO
     return weights
 
 
-def composite_score(
-    conn: sqlite3.Connection,
+def _score_signals(
     thesis_id: int,
-    signal_weights: Optional[dict[str, float]] = None,
-    half_life_days: Optional[float] = DECAY_HALF_LIFE_DAYS,
-    as_of: Optional[datetime] = None,
+    signals: list,
+    signal_weights: Optional[dict[str, float]],
+    half_life_days: Optional[float],
+    as_of: datetime,
 ) -> Optional[ScoreResult]:
-    """half_life_days=None disables decay (every signal counts at full
-    weight regardless of age) - useful for inspecting the raw, undecayed
-    score. as_of defaults to now; tests and the calibration model pass it
-    explicitly so results don't drift with wall-clock time."""
-    signals = db.list_signals(conn, thesis_id)
     if not signals:
         return None
 
-    as_of = as_of or datetime.now(timezone.utc)
     breakdown = []
     weighted_sum = 0.0
     weight_total = 0.0
@@ -192,6 +186,38 @@ def composite_score(
         breakdown=breakdown,
         weights_used="learned" if signal_weights else "manual",
     )
+
+
+def composite_score(
+    conn: sqlite3.Connection,
+    thesis_id: int,
+    signal_weights: Optional[dict[str, float]] = None,
+    half_life_days: Optional[float] = DECAY_HALF_LIFE_DAYS,
+    as_of: Optional[datetime] = None,
+) -> Optional[ScoreResult]:
+    """half_life_days=None disables decay (every signal counts at full
+    weight regardless of age) - useful for inspecting the raw, undecayed
+    score. as_of defaults to now; tests and the calibration model pass it
+    explicitly so results don't drift with wall-clock time."""
+    signals = db.list_signals(conn, thesis_id)
+    return _score_signals(thesis_id, signals, signal_weights, half_life_days, as_of or datetime.now(timezone.utc))
+
+
+def category_score(
+    conn: sqlite3.Connection,
+    thesis_id: int,
+    category: str,
+    signal_weights: Optional[dict[str, float]] = None,
+    half_life_days: Optional[float] = DECAY_HALF_LIFE_DAYS,
+    as_of: Optional[datetime] = None,
+) -> Optional[ScoreResult]:
+    """Same math as composite_score, restricted to one signal category
+    (growth / valuation / risk / catalyst / macro / other) - the "growth
+    potential" or "risk" sub-score for a thesis, not just one overall
+    number. Returns None if no signals in that category have been logged,
+    same as composite_score does for zero signals overall."""
+    signals = [s for s in db.list_signals(conn, thesis_id) if s["category"] == category]
+    return _score_signals(thesis_id, signals, signal_weights, half_life_days, as_of or datetime.now(timezone.utc))
 
 
 def confidence(result: ScoreResult) -> ConfidenceResult:

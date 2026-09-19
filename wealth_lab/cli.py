@@ -1,12 +1,14 @@
 """Command-line interface for the research tracker.
 
-    python -m wealth_lab add AAPL stock "thesis text" --conviction 4 --entry-price 230
-    python -m wealth_lab signal 1 insider_buying bullish --rationale "CEO bought $2M"
+    python -m wealth_lab add AAPL stock "thesis text" --conviction 4 --entry-price 230 --sector "Consumer Hardware"
+    python -m wealth_lab signal 1 insider_buying bullish --category growth --rationale "CEO bought $2M"
     python -m wealth_lab snapshot 1 245.10 --note "post-earnings pop"
     python -m wealth_lab close 1 closed_win
     python -m wealth_lab show 1
     python -m wealth_lab list --status open
     python -m wealth_lab report
+    python -m wealth_lab score 1
+    python -m wealth_lab lookup AAPL     # everything known about a ticker in one view
 """
 
 from __future__ import annotations
@@ -25,6 +27,7 @@ def cmd_add(conn, args) -> None:
         thesis=args.thesis,
         conviction=args.conviction,
         name=args.name,
+        sector=args.sector,
         entry_price=args.entry_price,
         entry_date=args.entry_date,
         target_price=args.target_price,
@@ -41,11 +44,12 @@ def cmd_signal(conn, args) -> None:
         thesis_id=args.thesis_id,
         name=args.name,
         direction=args.direction,
+        category=args.category,
         rationale=args.rationale,
         weight=args.weight,
         source=args.source,
     )
-    print(f"added signal #{sig_id} ({args.name}: {args.direction}) to thesis #{args.thesis_id}")
+    print(f"added signal #{sig_id} ({args.name}: {args.direction}, {args.category}) to thesis #{args.thesis_id}")
 
 
 def cmd_snapshot(conn, args) -> None:
@@ -68,7 +72,7 @@ def cmd_show(conn, args) -> None:
         sys.exit(f"no thesis #{args.thesis_id}")
     print(f"#{t['id']} {t['symbol']} ({t['asset_type']}) - {t['status']} - conviction {t['conviction']}/5")
     if t["name"]:
-        print(f"  {t['name']}")
+        print(f"  {t['name']}" + (f" · {t['sector']}" if t["sector"] else ""))
     print(f"  thesis: {t['thesis']}")
     if t["entry_price"] is not None:
         print(f"  entry: {t['entry_price']} on {t['entry_date'] or '?'}"
@@ -77,7 +81,7 @@ def cmd_show(conn, args) -> None:
     if signals:
         print("  signals:")
         for s in signals:
-            print(f"    - {s['name']}: {s['direction']} (w={s['weight']}) {s['rationale'] or ''}")
+            print(f"    - [{s['category']}] {s['name']}: {s['direction']} (w={s['weight']}) {s['rationale'] or ''}")
     snaps = db.list_snapshots(conn, args.thesis_id)
     if snaps:
         print("  snapshots:")
@@ -200,16 +204,78 @@ def cmd_score(conn, args) -> None:
               "- these are effectively manual weights until then")
 
 
+def cmd_lookup(conn, args) -> None:
+    """The 'search a ticker, see everything' view: thesis, sector, price/return,
+    portfolio position, category sub-scores, and every signal with its source -
+    all pulled from what's already in the tracker, nothing fetched live."""
+    t = db.get_thesis_by_symbol(conn, args.symbol)
+    if t is None:
+        print(f"{args.symbol.upper()} hasn't been researched yet - nothing in the tracker for it.")
+        print("This command only reads what's already logged; it can't fetch live news or prices itself.")
+        print(f"Ask the agent to research {args.symbol.upper()} first (it'll WebSearch, log sourced")
+        print("signals, and then this lookup will work instantly from then on.)")
+        return
+
+    print(f"=== {t['symbol']} lookup ===")
+    header = f"{t['name'] or t['symbol']}"
+    if t["sector"]:
+        header += f"  ·  {t['sector']}"
+    header += f"  ·  {t['asset_type']}  ·  {t['status']}"
+    print(header)
+    print(f"\n{t['thesis']}")
+
+    snap = db.latest_snapshot(conn, t["id"])
+    if t["entry_price"] is not None:
+        price_line = f"\nEntry ${t['entry_price']:,.2f} on {t['entry_date'] or '?'}"
+        if snap:
+            ret = (snap["price"] - t["entry_price"]) / t["entry_price"]
+            price_line += f"  ->  latest ${snap['price']:,.2f} ({snap['recorded_at'][:10]})  return {ret * 100:+.1f}%"
+        print(price_line)
+
+    pos = db.get_position_for_thesis(conn, t["id"])
+    if pos:
+        print(f"Portfolio: {pos['sleeve']} sleeve, target {pos['target_weight'] * 100:.1f}%, "
+              f"{pos['shares']:.4f} shares @ cost ${pos['cost_basis']:,.2f}")
+    else:
+        print("Portfolio: not funded - watchlist only")
+
+    result = scoring.composite_score(conn, t["id"])
+    if result is None:
+        print("\nNo signals logged yet - nothing to score.")
+        return
+
+    conf = scoring.confidence(result)
+    rng = scoring.expected_return_range(conn, result, conf, entry_price=t["entry_price"])
+    print(f"\nComposite score: {result.score:+.2f}   Confidence: {conf.confidence:.2f} ({conf.band})   "
+          f"Conviction: {t['conviction']}/5")
+    print(f"Expected range ({rng.source}): floor {rng.floor_return * 100:+.1f}%  "
+          f"base {rng.base_return * 100:+.1f}%  ceiling {rng.ceiling_return * 100:+.1f}%"
+          + (f"  ->  ${rng.floor_price:,.2f} / ${rng.base_price:,.2f} / ${rng.ceiling_price:,.2f}" if rng.floor_price else ""))
+
+    print("\nBy category:")
+    for category in db.SIGNAL_CATEGORIES:
+        cat_result = scoring.category_score(conn, t["id"], category)
+        if cat_result is None:
+            continue
+        print(f"  {category:<10} {cat_result.score:+.2f}  (n={cat_result.n_signals})")
+
+    print("\nSignals:")
+    for s in db.list_signals(conn, t["id"]):
+        source = f"  [{s['source']}]" if s["source"] else ""
+        print(f"  [{s['category']:<9}] {s['direction']:<8} {s['name']:<28} {s['rationale'] or ''}{source}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="wealth_lab")
     sub = p.add_subparsers(dest="command", required=True)
 
     add = sub.add_parser("add", help="log a new thesis")
     add.add_argument("symbol")
-    add.add_argument("asset_type", choices=["stock", "ipo"])
+    add.add_argument("asset_type", choices=["stock", "ipo", "etf", "cash"])
     add.add_argument("thesis")
     add.add_argument("--conviction", type=int, required=True, choices=range(1, 6))
     add.add_argument("--name")
+    add.add_argument("--sector", help="e.g. 'AI Cloud Infrastructure' - the market/category this competes in")
     add.add_argument("--entry-price", type=float)
     add.add_argument("--entry-date")
     add.add_argument("--target-price", type=float)
@@ -220,6 +286,8 @@ def build_parser() -> argparse.ArgumentParser:
     sig.add_argument("thesis_id", type=int)
     sig.add_argument("name")
     sig.add_argument("direction", choices=["bullish", "bearish", "neutral"])
+    sig.add_argument("--category", choices=db.SIGNAL_CATEGORIES, default="other",
+                      help="growth / valuation / risk / catalyst / macro / other")
     sig.add_argument("--rationale")
     sig.add_argument("--weight", type=float, default=1.0)
     sig.add_argument("--source")
@@ -256,6 +324,10 @@ def build_parser() -> argparse.ArgumentParser:
     sc.add_argument("--learned", action="store_true", help="use historically-learned per-signal weights instead of manual weights")
     sc.add_argument("--no-decay", action="store_true", help="don't discount older signals - score every signal at full weight regardless of age")
     sc.set_defaults(func=cmd_score)
+
+    lu = sub.add_parser("lookup", help="everything known about a ticker: thesis, scores, signals, portfolio position")
+    lu.add_argument("symbol")
+    lu.set_defaults(func=cmd_lookup)
 
     return p
 

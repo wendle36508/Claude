@@ -17,6 +17,37 @@ def backdate_signal(conn, thesis_id, days_ago):
     conn.execute("UPDATE signals SET recorded_at=? WHERE thesis_id=?", (ts, thesis_id))
 
 
+# ---- category score ----
+
+def test_category_score_isolates_one_category(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "hiring_growth", "bullish", category="growth", weight=1.0)
+    db.add_signal(conn, tid, "expensive_multiple", "bearish", category="valuation", weight=1.0)
+
+    growth = scoring.category_score(conn, tid, "growth")
+    valuation = scoring.category_score(conn, tid, "valuation")
+
+    assert growth.score == 1.0
+    assert growth.n_signals == 1
+    assert valuation.score == -1.0
+    assert valuation.n_signals == 1
+
+
+def test_category_score_none_when_category_has_no_signals(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "hiring_growth", "bullish", category="growth", weight=1.0)
+
+    assert scoring.category_score(conn, tid, "macro") is None
+
+
+def test_category_defaults_to_other(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "uncategorized_thing", "bullish", weight=1.0)  # no category passed
+
+    assert scoring.category_score(conn, tid, "other").score == 1.0
+    assert scoring.category_score(conn, tid, "growth") is None
+
+
 # ---- composite score ----
 
 def test_composite_score_all_bullish_is_max(conn):

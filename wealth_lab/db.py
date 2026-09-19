@@ -20,12 +20,15 @@ from typing import Iterator, Optional
 
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "tracker.db"
 
+SIGNAL_CATEGORIES = ("growth", "valuation", "risk", "catalyst", "macro", "other")
+
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS theses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     symbol TEXT NOT NULL,
     asset_type TEXT NOT NULL CHECK (asset_type IN ('stock', 'ipo', 'etf', 'cash')),
     name TEXT,
+    sector TEXT,
     thesis TEXT NOT NULL,
     conviction INTEGER NOT NULL CHECK (conviction BETWEEN 1 AND 5),
     status TEXT NOT NULL DEFAULT 'open'
@@ -41,6 +44,8 @@ CREATE TABLE IF NOT EXISTS signals (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     thesis_id INTEGER NOT NULL REFERENCES theses(id) ON DELETE CASCADE,
     name TEXT NOT NULL,
+    category TEXT NOT NULL DEFAULT 'other'
+        CHECK (category IN ('growth', 'valuation', 'risk', 'catalyst', 'macro', 'other')),
     direction TEXT NOT NULL CHECK (direction IN ('bullish', 'bearish', 'neutral')),
     weight REAL NOT NULL DEFAULT 1.0,
     rationale TEXT,
@@ -97,6 +102,7 @@ class Thesis:
     symbol: str
     asset_type: str
     name: Optional[str]
+    sector: Optional[str]
     thesis: str
     conviction: int
     status: str
@@ -114,6 +120,7 @@ def add_thesis(
     thesis: str,
     conviction: int,
     name: Optional[str] = None,
+    sector: Optional[str] = None,
     entry_price: Optional[float] = None,
     entry_date: Optional[str] = None,
     target_price: Optional[float] = None,
@@ -121,13 +128,14 @@ def add_thesis(
 ) -> int:
     cur = conn.execute(
         """INSERT INTO theses
-           (symbol, asset_type, name, thesis, conviction, status,
+           (symbol, asset_type, name, sector, thesis, conviction, status,
             entry_price, entry_date, target_price, horizon_days, created_at)
-           VALUES (?, ?, ?, ?, ?, 'open', ?, ?, ?, ?, ?)""",
+           VALUES (?, ?, ?, ?, ?, ?, 'open', ?, ?, ?, ?, ?)""",
         (
             symbol.upper(),
             asset_type,
             name,
+            sector,
             thesis,
             conviction,
             entry_price,
@@ -145,14 +153,17 @@ def add_signal(
     thesis_id: int,
     name: str,
     direction: str,
+    category: str = "other",
     rationale: Optional[str] = None,
     weight: float = 1.0,
     source: Optional[str] = None,
 ) -> int:
+    if category not in SIGNAL_CATEGORIES:
+        raise ValueError(f"category must be one of {SIGNAL_CATEGORIES}, got {category!r}")
     cur = conn.execute(
-        """INSERT INTO signals (thesis_id, name, direction, weight, rationale, source, recorded_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?)""",
-        (thesis_id, name, direction, weight, rationale, source, _now()),
+        """INSERT INTO signals (thesis_id, name, category, direction, weight, rationale, source, recorded_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (thesis_id, name, category, direction, weight, rationale, source, _now()),
     )
     return cur.lastrowid
 
@@ -175,12 +186,18 @@ def get_thesis(conn: sqlite3.Connection, thesis_id: int) -> Optional[sqlite3.Row
     return conn.execute("SELECT * FROM theses WHERE id = ?", (thesis_id,)).fetchone()
 
 
+def get_thesis_by_symbol(conn: sqlite3.Connection, symbol: str) -> Optional[sqlite3.Row]:
+    return conn.execute(
+        "SELECT * FROM theses WHERE symbol = ? ORDER BY created_at DESC, id DESC LIMIT 1", (symbol.upper(),)
+    ).fetchone()
+
+
 def list_theses(conn: sqlite3.Connection, status: Optional[str] = None) -> list[sqlite3.Row]:
     if status:
         return conn.execute(
-            "SELECT * FROM theses WHERE status = ? ORDER BY created_at DESC", (status,)
+            "SELECT * FROM theses WHERE status = ? ORDER BY created_at DESC, id DESC", (status,)
         ).fetchall()
-    return conn.execute("SELECT * FROM theses ORDER BY created_at DESC").fetchall()
+    return conn.execute("SELECT * FROM theses ORDER BY created_at DESC, id DESC").fetchall()
 
 
 def list_signals(conn: sqlite3.Connection, thesis_id: int) -> list[sqlite3.Row]:
@@ -224,3 +241,7 @@ def list_positions(conn: sqlite3.Connection) -> list[sqlite3.Row]:
            FROM positions JOIN theses ON theses.id = positions.thesis_id
            ORDER BY positions.sleeve, positions.target_weight DESC"""
     ).fetchall()
+
+
+def get_position_for_thesis(conn: sqlite3.Connection, thesis_id: int) -> Optional[sqlite3.Row]:
+    return conn.execute("SELECT * FROM positions WHERE thesis_id = ?", (thesis_id,)).fetchone()
