@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T17:47:49+00:00",
+  "generated_at": "2026-09-19T19:01:14+00:00",
   "portfolio": {
     "starting_capital": 100000.0,
     "total_value": 100393.05975402708,
@@ -34,10 +34,10 @@
       },
       {
         "symbol": "NBIS",
-        "conviction_magnitude": 0.6664036826165599,
+        "conviction_magnitude": 0.6660112904664022,
         "current_weight": 0.15,
-        "suggested_weight": 0.36358758372439437,
-        "delta": 0.21358758372439438
+        "suggested_weight": 0.363558368931047,
+        "delta": 0.213558368931047
       },
       {
         "symbol": "VRT",
@@ -48,14 +48,503 @@
       },
       {
         "symbol": "SNDK",
-        "conviction_magnitude": 0.2500243149930963,
+        "conviction_magnitude": 0.24995069443390813,
         "current_weight": 0.08,
-        "suggested_weight": 0.13641241627560563,
-        "delta": 0.05641241627560563
+        "suggested_weight": 0.13644163106895302,
+        "delta": 0.056441631068953016
       }
     ]
   },
   "theses": [
+    {
+      "id": 15,
+      "symbol": "AFL",
+      "name": "Aflac Incorporated",
+      "sector": "Financials",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Dominant US/Japan supplemental insurer with a 43-year dividend growth streak and improving Japan margins, weighed down by unresolved class-action litigation from a 2025 breach that exposed ~22.7M people's data",
+      "entry_price": 117.55,
+      "entry_date": "2026-09-19",
+      "latest_price": 117.55,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.0,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.0,
+        "recency": 0.9999936898492567
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 70.53,
+        "base_price": 117.55,
+        "ceiling_price": 164.57,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 0.0,
+          "n_signals": 2
+        },
+        "valuation": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "japan_margin_improvement",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Aflac Japan pretax margin improved 230bps YoY to 34.3% with a 20.2% expense ratio despite inflation; H1 2026 Japan sales +7% YoY on Tsumitas/Anshin Palette products, company expects full-year sales to exceed 2025",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/aflac-inc-afl-q2-2026-190157785.html",
+          "recorded_at": "2026-09-19T18:59:40+00:00"
+        },
+        {
+          "name": "us_growth_guidance_cut",
+          "category": "growth",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Aflac US Q2 sales +2.6%, net earned premium +2.3%, but company lowered full-year 2026 US premium-growth outlook to slightly below the prior 3-6% range",
+          "source": "https://www.fool.com/earnings/call-transcripts/2026/08/13/aflac-afl-q2-2026-earnings-call-transcript/",
+          "recorded_at": "2026-09-19T18:59:40+00:00"
+        },
+        {
+          "name": "2025_data_breach_litigation",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "June 2025 breach exposed personal/health/SSN data of ~22.7M people; ~24 proposed class actions consolidated in Georgia federal court, and Aflac's motion to dismiss was denied in 2026 - ongoing negligence/breach-of-implied-contract claims proceeding, financial exposure not yet resolved",
+          "source": "https://news.bloomberglaw.com/litigation/aflac-loses-bid-to-dismiss-lawsuit-over-massive-2025-data-breach",
+          "recorded_at": "2026-09-19T18:59:41+00:00"
+        },
+        {
+          "name": "capital_return",
+          "category": "valuation",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Returned $1.3B to shareholders in Q2 2026 via dividends and buybacks; 43-year consecutive annual dividend increase streak; P/E ~12x - priced modestly for a franchise with this cash-return track record",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/aflac-inc-afl-q2-2026-190157785.html",
+          "recorded_at": "2026-09-19T18:59:41+00:00"
+        }
+      ],
+      "ipo": null
+    },
+    {
+      "id": 14,
+      "symbol": "APA",
+      "name": "APA Corporation",
+      "sector": "Energy",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "US/Egypt/North Sea E&P with real exploration optionality in Suriname, Alaska, and Uruguay and an improving balance sheet, but free cash flow remains directly exposed to oil price swings with no hedges disclosed",
+      "entry_price": 44.98,
+      "entry_date": "2026-09-19",
+      "latest_price": 44.98,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.5,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.4999962599342353,
+        "band": "medium",
+        "coverage": 1.0,
+        "agreement": 0.5,
+        "recency": 0.9999925198684706
+      },
+      "range": {
+        "floor": -0.07500149602630587,
+        "base": 0.125,
+        "ceiling": 0.3250014960263059,
+        "floor_price": 41.606432708736754,
+        "base_price": 50.6025,
+        "ceiling_price": 59.59856729126324,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "valuation": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "q2_beat_and_cost_cuts",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026: reported production 410,000 BOE/d (above guidance), net income $747M ($2.11/diluted share), adjusted EBITDAX $1.8B; rig count cut to 4 while raising oil target to 123,000 bpd, targeting $500M cost-savings run rate",
+          "source": "https://finance.biggo.com/news/US_APA_2026-08-06",
+          "recorded_at": "2026-09-19T18:59:23+00:00"
+        },
+        {
+          "name": "exploration_optionality",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Suriname Block 58 Grand Morgue development on budget/schedule for First Oil mid-2028; $70M Savant Alaska deal secures pipeline/processing infrastructure; exploration spend set to rise in 2027 across Alaska, Suriname, and Uruguay",
+          "source": "https://www.fool.com/earnings/call-transcripts/2026/08/12/apa-apa-q2-2026-earnings-call-transcript/",
+          "recorded_at": "2026-09-19T18:59:23+00:00"
+        },
+        {
+          "name": "oil_price_exposure",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "2026 free cash flow (~$2.2B projected off April strip pricing) moves ~$200M for every $5/bbl change in WTI/Brent from May-December - earnings power is a direct, largely unhedged bet on the oil price, not a diversified cash flow stream",
+          "source": "https://investor.apacorp.com/news-releases/news-release-details/apa-corporation-announces-second-quarter-2026-financial-and",
+          "recorded_at": "2026-09-19T18:59:23+00:00"
+        },
+        {
+          "name": "debt_paydown",
+          "category": "valuation",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Total debt down $2.3B since year-end 2024 (net debt $3.3B at Q2'26 close); repaid $752M of near-term bonds in H1 2026, cutting annualized interest expense by 155M+ - improving balance sheet cushions the commodity-price exposure above",
+          "source": "https://www.sec.gov/Archives/edgar/data/0001841666/000184166626000053/apa-20260630.htm",
+          "recorded_at": "2026-09-19T18:59:23+00:00"
+        }
+      ],
+      "ipo": null
+    },
+    {
+      "id": 13,
+      "symbol": "MO",
+      "name": "Altria Group",
+      "sector": "Consumer Staples",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Legacy cigarette volumes still declining but moderating, funding a ~6.3% dividend yield; earnings depend on price/mix offsetting volume, with the NJOY e-vapor reentry stuck in regulatory limbo",
+      "entry_price": 69.51,
+      "entry_date": "2026-09-19",
+      "latest_price": 69.51,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.0,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.0,
+        "recency": 0.9999914501747831
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 41.706,
+        "base_price": 69.51,
+        "ceiling_price": 97.31400000000001,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "valuation": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1
+        },
+        "catalyst": {
+          "value": -1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "smokeable_volume_decline",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 domestic cigarette volumes declined 3.2% reported (~4.5% adjusted for trade inventory); H1 2026 smokeable segment volume down 4.0% - decline is moderating vs prior year's 5.0% but still structurally shrinking",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/altria-q2-earnings-miss-estimates-160200846.html",
+          "recorded_at": "2026-09-19T18:59:07+00:00"
+        },
+        {
+          "name": "njoy_regulatory_limbo",
+          "category": "catalyst",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "NJOY ACE e-vapor reentry blocked pending resolution of a patent dispute; supplemental PMTA submitted for a modified, non-infringing product, but 2026 guidance assumes NJOY ACE does NOT return to market this year - a real growth catalyst stuck on the shelf",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/altrias-q2-results-guidance-shape-165800376.html",
+          "recorded_at": "2026-09-19T18:59:07+00:00"
+        },
+        {
+          "name": "dividend_yield",
+          "category": "valuation",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Quarterly dividend raised 4.7% to $1.11/share (annualized $4.44); yield ~6.3% at current price, P/E ~14.7x - priced for a slow-decline cash-cow, not for growth",
+          "source": "https://investor.altria.com/press-releases/news-details/2026/Altria-Increases-Quarterly-Dividend-to-1-11-Per-Share/default.aspx",
+          "recorded_at": "2026-09-19T18:59:07+00:00"
+        },
+        {
+          "name": "narrowed_eps_guidance",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "2026 adjusted EPS guidance narrowed to $5.61-$5.72 (from a wider $5.56-$5.72 range) - price/mix and cost discipline still support modest earnings growth despite volume declines",
+          "source": "https://investor.altria.com/press-releases/news-details/2026/Altria-Reports-2026-Second-Quarter-and-First-Half-Results-Narrows-2026-Full-Year-Earnings-Guidance/default.aspx",
+          "recorded_at": "2026-09-19T18:59:07+00:00"
+        }
+      ],
+      "ipo": null
+    },
+    {
+      "id": 12,
+      "symbol": "ABNB",
+      "name": "Airbnb, Inc.",
+      "sector": "Consumer Discretionary",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Global travel marketplace with double-digit booking growth and raised full-year guidance, but facing an escalating patchwork of local/EU short-term-rental regulation that structurally caps listing supply in key markets",
+      "entry_price": 166.22,
+      "entry_date": "2026-09-19",
+      "latest_price": 166.22,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": -1.6713618056421994e-08,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 1.6713458117489938e-08,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 1.6713618056421994e-08,
+        "recency": 0.999990430621813
+      },
+      "range": {
+        "floor": -0.3999999974930213,
+        "base": -4.178404514105498e-09,
+        "ceiling": 0.39999998913621226,
+        "floor_price": 99.73200041671001,
+        "base_price": 166.2199993054656,
+        "ceiling_price": 232.7079981942212,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 2
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "gbv_and_eps_growth",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026: Gross Booking Value +16% YoY to $27.2B, revenue +16.5% YoY to $3.61B, EPS $1.37 (+33% YoY, beat consensus by 14%); nights/seats booked +10% YoY",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/airbnb-q2-earnings-beat-estimates-181100204.html",
+          "recorded_at": "2026-09-19T18:58:51+00:00"
+        },
+        {
+          "name": "raised_guidance",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Full-year 2026 revenue growth outlook raised to at least mid-teens; adjusted EBITDA margin outlook raised to at least 35.5% from prior 35%",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/airbnb-q2-2026-earnings-beat-112025132.html",
+          "recorded_at": "2026-09-19T18:58:52+00:00"
+        },
+        {
+          "name": "eu_str_regulation",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "EU Short-Term Rental Data Regulation took effect May 20 2026 - mandatory national registration, EU-wide data sharing, reduced tax allowances in France, tens of thousands of listings already delisted in Spain; structurally shrinks supply in Airbnb's most important tourism markets",
+          "source": "https://finance.yahoo.com/real-estate/articles/europe-housing-crunch-tests-airbnb-144104983.html",
+          "recorded_at": "2026-09-19T18:58:52+00:00"
+        },
+        {
+          "name": "us_city_ordinances",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Multiple US cities (Madison WI, Bakersfield CA, Decatur AL, others) advanced new short-term-rental ordinances in 2026 with real enforcement teeth (e.g. Decatur: $500/day fines once enforcement begins) - incremental US supply headwind layering on top of EU rules",
+          "source": "https://www.airroi.com/blog/second-tier-city-str-ordinance-wave-2026",
+          "recorded_at": "2026-09-19T18:58:52+00:00"
+        }
+      ],
+      "ipo": null
+    },
+    {
+      "id": 11,
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc.",
+      "sector": "Communication Services",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 4,
+      "thesis": "Google Cloud accelerating on AI infra demand (82% YoY growth) inside a still-dominant ad/search franchise, but carrying real antitrust overhang on the core Search business",
+      "entry_price": 349.54,
+      "entry_date": "2026-09-19",
+      "latest_price": 349.54,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.0,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.0,
+        "recency": 0.999989243937218
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 209.72400000000002,
+        "base_price": 349.54,
+        "ceiling_price": 489.356,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2
+        },
+        "valuation": {
+          "value": -1.0,
+          "n_signals": 1
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "cloud_and_ai_growth",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 revenue $119.8B (+24% YoY, beat consensus $117.0B); Google Cloud revenue +82% YoY to $24.8B with cloud operating income up to $8.8B from $2.8B a year earlier",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/alphabet-q2-2026-earnings-revenue-203058727.html",
+          "recorded_at": "2026-09-19T18:58:34+00:00"
+        },
+        {
+          "name": "gemini_adoption",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Nearly 90% of Fortune 100 using Gemini Enterprise; Gemini App at 950M monthly active users; models processing 22B API tokens/minute",
+          "source": "https://futurumgroup.com/insights/alphabet-q2-fy-2026-google-cloud-leads-growth-amid-rising-ai-investment/",
+          "recorded_at": "2026-09-19T18:58:34+00:00"
+        },
+        {
+          "name": "antitrust_apple_deal_risk",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Sept 2025 Search antitrust remedies prohibited Google's ~$18-20B/yr default-placement payments from Apple; DOJ and states cross-appealed in Feb 2026 seeking more severe remedies including possible Chrome divestiture",
+          "source": "https://www.pymnts.com/google/2026/justice-department-to-appeal-ruling-in-google-search-antitrust-case/",
+          "recorded_at": "2026-09-19T18:58:34+00:00"
+        },
+        {
+          "name": "capex_spike",
+          "category": "valuation",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "2026 capex guidance raised to as high as $205B (from $180-190B); CFO says still 'supply-constrained' - aggressive AI infra spend pressures near-term free cash flow even as it funds the cloud growth thesis",
+          "source": "https://www.cnbc.com/2026/07/22/google-earnings-q2-goog-live-updates.html",
+          "recorded_at": "2026-09-19T18:58:34+00:00"
+        }
+      ],
+      "ipo": null
+    },
     {
       "id": 10,
       "symbol": "CASH",
@@ -183,9 +672,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665352062132718,
+        "coverage": 0.6663389424166469,
         "agreement": 0.0,
-        "recency": 0.9998028093199076
+        "recency": 0.9995084136249703
       },
       "range": {
         "floor": -0.4,
@@ -292,9 +781,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.666535206185243,
+        "coverage": 0.6663389423914774,
         "agreement": 0.0,
-        "recency": 0.9998028092778645
+        "recency": 0.9995084135872161
       },
       "range": {
         "floor": -0.4,
@@ -394,21 +883,21 @@
       "return_pct": null,
       "position": null,
       "score": {
-        "value": 0.4999999832863817,
+        "value": 0.4999999832863816,
         "n_signals": 2,
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.33320185237715283,
+        "value": 0.3330056561892285,
         "band": "medium",
-        "coverage": 0.6665351838827114,
-        "agreement": 0.4999999832863817,
-        "recency": 0.9998027758240684
+        "coverage": 0.6663389200906572,
+        "agreement": 0.4999999832863816,
+        "recency": 0.9995083801359869
       },
       "range": {
-        "floor": -0.14171926322754347,
-        "base": 0.12499999582159542,
-        "ceiling": 0.39171925487073433,
+        "floor": -0.14179774170271323,
+        "base": 0.1249999958215954,
+        "ceiling": 0.39179773334590406,
         "floor_price": null,
         "base_price": null,
         "ceiling_price": null,
@@ -499,19 +988,19 @@
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.499999542071741,
+        "value": 0.49985231532433505,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5000490878969609,
-        "recency": 0.9999009180770067
+        "recency": 0.9996064934875626
       },
       "range": {
-        "floor": -0.07498791119706338,
+        "floor": -0.07504680189602578,
         "base": 0.12501227197424022,
-        "ceiling": 0.32501245514554383,
-        "floor_price": 1657.4551609588777,
+        "ceiling": 0.32507134584450625,
+        "floor_price": 1657.349639426663,
         "base_price": 2015.819489168883,
-        "ceiling_price": 2374.1838173788883,
+        "ceiling_price": 2374.289338911103,
         "source": "default"
       },
       "category_scores": {
@@ -606,7 +1095,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999009180472594
+        "recency": 0.9996064934554183
       },
       "range": {
         "floor": -0.4,
@@ -705,19 +1194,19 @@
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.6664036823635042,
+        "value": 0.666011289990599,
         "band": "high",
-        "coverage": 0.6665351615448877,
+        "coverage": 0.6663388977542879,
         "agreement": 1.0,
-        "recency": 0.9998027423173315
+        "recency": 0.9995083466314318
       },
       "range": {
-        "floor": 0.11656147294540167,
+        "floor": 0.1164045159962396,
         "base": 0.25,
-        "ceiling": 0.38343852705459835,
-        "floor_price": 243.39923548736812,
+        "ceiling": 0.3835954840037604,
+        "floor_price": 243.3650204420203,
         "base_price": 272.4875,
-        "ceiling_price": 301.5757645126319,
+        "ceiling_price": 301.6099795579797,
         "source": "default"
       },
       "category_scores": {
@@ -786,7 +1275,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.999900917993848
+        "recency": 0.9996064933980798
       },
       "range": {
         "floor": -0.4,
