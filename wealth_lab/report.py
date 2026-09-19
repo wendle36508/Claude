@@ -80,6 +80,27 @@ def signal_calibration(conn: sqlite3.Connection, returns: list[ThesisReturn]) ->
     }
 
 
+def signal_calibration_by_name(conn: sqlite3.Connection, returns: list[ThesisReturn]) -> dict[str, dict[str, dict]]:
+    """Same data as signal_calibration, grouped by signal name first and
+    direction second - e.g. {"hiring_growth": {"bullish": {...}, "bearish": {...}}}.
+    This is what scoring.py needs to ask "when this signal type has fired
+    bullish vs bearish, which side was actually right?" per name."""
+    return_by_thesis = {r.thesis_id: r.pct_return for r in returns}
+    buckets: dict[str, dict[str, list[float]]] = {}
+    for r in returns:
+        for sig in db.list_signals(conn, r.thesis_id):
+            buckets.setdefault(sig["name"], {}).setdefault(sig["direction"], []).append(
+                return_by_thesis[r.thesis_id]
+            )
+    return {
+        name: {
+            direction: {"n": len(vals), "avg_return": mean(vals)}
+            for direction, vals in directions.items()
+        }
+        for name, directions in buckets.items()
+    }
+
+
 def hit_rate(conn: sqlite3.Connection) -> Optional[dict]:
     closed = [t for t in db.list_theses(conn) if t["status"] in ("closed_win", "closed_loss", "closed_flat")]
     if not closed:

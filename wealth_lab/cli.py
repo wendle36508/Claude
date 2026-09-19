@@ -14,7 +14,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from wealth_lab import db, portfolio, report
+from wealth_lab import db, portfolio, report, scoring
 
 
 def cmd_add(conn, args) -> None:
@@ -113,6 +113,12 @@ def cmd_report(conn, args) -> None:
     for key, stats in report.signal_calibration(conn, returns).items():
         print(f"  {key:<35} n={stats['n']:<3} avg return={stats['avg_return'] * 100:+.1f}%")
 
+    print("\n== return by composite signal score (manual weights) ==")
+    for bucket, stats in scoring.score_calibration(conn).items():
+        print(f"  {bucket:<15} n={stats['n']:<3} avg return={stats['avg_return'] * 100:+.1f}%")
+    print("  (this is the check that matters: does the mechanical score beat gut conviction "
+          "at predicting return? not enough data yet to say - keep tracking)")
+
     hr = report.hit_rate(conn)
     print("\n== hit rate (closed theses) ==")
     if hr:
@@ -147,6 +153,35 @@ def cmd_portfolio(conn, args) -> None:
 
     ret = portfolio.portfolio_return(values, args.starting_capital)
     print(f"portfolio return since inception: {ret * 100:+.2f}%  (vs starting capital ${args.starting_capital:,.0f})")
+
+
+def cmd_score(conn, args) -> None:
+    thesis = db.get_thesis(conn, args.thesis_id)
+    if thesis is None:
+        sys.exit(f"no thesis #{args.thesis_id}")
+
+    signal_weights = scoring.learned_signal_weights(conn) if args.learned else None
+    result = scoring.composite_score(conn, args.thesis_id, signal_weights=signal_weights)
+    if result is None:
+        print(f"#{args.thesis_id} {thesis['symbol']}: no signals logged yet - nothing to score")
+        return
+
+    print(f"#{args.thesis_id} {thesis['symbol']} - composite score ({result.weights_used} weights)")
+    for c in result.breakdown:
+        print(f"  {c.name:<30} {c.direction:<9} weight={c.weight:.2f}  contribution={c.contribution:+.2f}")
+    print(f"\n  composite score: {result.score:+.2f}  (range -1 bearish .. +1 bullish, n={result.n_signals})")
+
+    cmp = scoring.compare_to_conviction(conn, args.thesis_id, result)
+    print(f"  manual conviction: {cmp['conviction']}/5  (normalized {cmp['conviction_normalized']:+.2f})")
+    if cmp["agrees"]:
+        print("  -> signal score and conviction broadly agree")
+    else:
+        print(f"  -> DIVERGES from conviction by {cmp['delta']:+.2f} - worth a second look")
+
+    if args.learned and not signal_weights:
+        print("\n  note: no signal name has enough return history yet to learn a weight "
+              f"(needs >= {scoring.MIN_OBSERVATIONS_TO_LEARN} observations with both bullish and bearish outcomes) "
+              "- these are effectively manual weights until then")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -199,6 +234,11 @@ def build_parser() -> argparse.ArgumentParser:
     pf = sub.add_parser("portfolio", help="show current portfolio allocation and risk metrics")
     pf.add_argument("--starting-capital", type=float, default=100_000.0)
     pf.set_defaults(func=cmd_portfolio)
+
+    sc = sub.add_parser("score", help="computed composite score from a thesis's signals, vs. its manual conviction")
+    sc.add_argument("thesis_id", type=int)
+    sc.add_argument("--learned", action="store_true", help="use historically-learned per-signal weights instead of manual weights")
+    sc.set_defaults(func=cmd_score)
 
     return p
 
