@@ -65,6 +65,19 @@ DEFAULT_MAX_SWING = 0.25
 DEFAULT_UNCERTAINTY_MULTIPLIER = 0.40
 MIN_THESES_TO_CALIBRATE_RANGE = 8
 
+# Public-facing 0-100 score bands, in descending order (checked top to
+# bottom). Deliberately not "Buy"/"Sell" - this tool says elsewhere it isn't
+# investment advice, and a 0-100 number with a buy/sell label on it reads
+# like advice regardless of the disclaimer. These describe what the
+# evidence leans toward, not what to do about it.
+PUBLIC_SCORE_BANDS = (
+    (80, "Strongly Bullish"),
+    (65, "Bullish"),
+    (45, "Neutral / Mixed"),
+    (30, "Bearish"),
+    (0, "Strongly Bearish"),
+)
+
 
 def _direction_sign(direction: str) -> float:
     return {"bullish": 1.0, "bearish": -1.0, "neutral": 0.0}[direction]
@@ -118,6 +131,15 @@ class RangeResult:
     base_price: Optional[float]
     ceiling_price: Optional[float]
     source: str  # "default" or "calibrated"
+
+
+@dataclass
+class PublicScoreResult:
+    score_100: int  # 0-100, 50 = neutral/no clear read
+    label: str  # plain-language band, e.g. "Bullish"
+    n_signals: int  # how many signals the score is based on, shown alongside
+                     # the number since a shrunk score alone can't distinguish
+                     # "genuinely mixed evidence" from "barely any evidence"
 
 
 def learned_signal_weights(conn: sqlite3.Connection, min_n: int = MIN_OBSERVATIONS_TO_LEARN) -> dict[str, float]:
@@ -232,6 +254,29 @@ def confidence(result: ScoreResult) -> ConfidenceResult:
     conf = coverage * agreement * recency
     band = "low" if conf < 0.33 else "medium" if conf < 0.66 else "high"
     return ConfidenceResult(coverage=coverage, agreement=agreement, recency=recency, confidence=conf, band=band)
+
+
+def public_score(result: ScoreResult, conf: ConfidenceResult) -> PublicScoreResult:
+    """The -1..+1 composite score, confidence-shrunk and rescaled to 0-100
+    for readers who aren't going to cross-reference a separate confidence
+    field. score_100 = 50 + (raw_score * confidence * 50): a maximally
+    bullish score with full confidence hits 100, but a single thin,
+    just-logged signal - which scores +1.00 raw exactly like six agreeing
+    signals over three months does - only nudges the 0-100 number a little
+    past 50, because its confidence is still low. Zero signals or exactly
+    canceling ones both land on precisely 50, which is why n_signals rides
+    along: 50 from no evidence and 50 from genuinely mixed evidence are
+    different claims, and the label alone can't tell a reader which.
+
+    This does not replace composite_score()'s -1..+1 output - that's still
+    what calibration, backtesting, and compare_to_conviction() use. This is
+    a presentation-layer number derived from it, for the parts of the app
+    (the public dashboard) where a lay reader needs one easy number rather
+    than a score/confidence pair to reason about themselves."""
+    score_100 = round(50 + (result.score * conf.confidence * 50))
+    score_100 = max(0, min(100, score_100))
+    label = next(text for threshold, text in PUBLIC_SCORE_BANDS if score_100 >= threshold)
+    return PublicScoreResult(score_100=score_100, label=label, n_signals=result.n_signals)
 
 
 def calibrate_range_model(conn: sqlite3.Connection, min_n: int = MIN_THESES_TO_CALIBRATE_RANGE) -> Optional[dict]:

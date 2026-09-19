@@ -44,12 +44,14 @@ def thesis_snapshot(conn, t) -> dict:
         }
 
     result = scoring.composite_score(conn, t["id"])
-    score = confidence = rng = None
+    score = public_score = confidence = rng = None
     category_scores = {}
     if result is not None:
         conf = scoring.confidence(result)
+        pub = scoring.public_score(result, conf)
         range_result = scoring.expected_return_range(conn, result, conf, entry_price=t["entry_price"])
         score = {"value": result.score, "n_signals": result.n_signals, "weights_used": result.weights_used}
+        public_score = {"value": pub.score_100, "label": pub.label, "n_signals": pub.n_signals}
         confidence = {
             "value": conf.confidence, "band": conf.band,
             "coverage": conf.coverage, "agreement": conf.agreement, "recency": conf.recency,
@@ -117,10 +119,17 @@ def thesis_snapshot(conn, t) -> dict:
         "entry_price": t["entry_price"], "entry_date": t["entry_date"],
         "latest_price": latest_price, "return_pct": return_pct,
         "position": position,
-        "score": score, "confidence": confidence, "range": rng, "category_scores": category_scores,
+        "score": score, "public_score": public_score,
+        "confidence": confidence, "range": rng, "category_scores": category_scores,
         "risk": risk_metrics,
         "signals": signals,
         "ipo": ipo_block,
+        # Real-time headlines need a live provider (see providers/README.md) -
+        # `live: false` here is the honest state until WEALTH_LAB_PROVIDER=finnhub
+        # is actually deployed; the console dashboard shows this as "not
+        # connected yet" rather than leaving the section looking broken or
+        # silently reusing signal rationale as if it were a news feed.
+        "news": {"live": False, "items": []},
     }
 
 

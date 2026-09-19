@@ -21,10 +21,18 @@ The actual tool, split into two tabs since they're different jobs:
 
 - **Lookup** (default tab) - the stock research tool. A type-ahead search
   box (matches on symbol or company name) jumps straight to a ticker's full
-  card: thesis, signals with sources, category sub-scores, composite
-  score/confidence/expected range, risk metrics, IPO details if applicable.
-  The "every thesis side by side" comparison table sits below it for
-  browsing/sorting the whole researched universe.
+  card, led by a big 0-100 score badge (see README.md's "public score"
+  section - color-coded, plain-language label, shrunk toward 50 by
+  confidence so thin evidence can't look as extreme as well-supported
+  evidence), then thesis, signals with sources, a Recent News section
+  (currently always "not connected yet" - it needs the live Finnhub
+  provider from `providers/README.md`, and is left honestly empty rather
+  than repurposing signal rationale as a news substitute), category
+  sub-scores, the underlying composite score/confidence/expected range for
+  anyone who wants the technical detail, risk metrics, and IPO details if
+  applicable. The "every thesis side by side" comparison table sits below
+  it, sorted by the 0-100 score by default, for browsing/sorting the whole
+  researched universe.
 - **Portfolio** - the account view: allocation bar, sleeve weights, real +
   naive risk, confidence-driven sizing suggestions. This is one application
   of the lookup tool's research, not the tool itself - kept separate on

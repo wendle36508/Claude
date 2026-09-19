@@ -91,6 +91,41 @@ from the assumed `DEFAULT_MAX_SWING` constant. Until there's enough history
 it correctly returns nothing and the default constant is used - the report
 says which one is in effect.
 
+## The public score: 0-100, for readers who aren't pricing options for a living
+
+The -1..+1 composite score above is an analyst's number. `scoring.public_score()`
+turns it into a **0-100 score** (50 = neutral, 100 = maximally bullish, 0 =
+maximally bearish) meant to be read at a glance, with a plain-language label
+(Strongly Bullish / Bullish / Neutral / Mixed / Bearish / Strongly Bearish -
+deliberately not "Buy"/"Sell," since a number with a buy/sell label on it
+reads like advice regardless of the disclaimer next to it).
+
+It isn't just the composite score rescaled. It's **shrunk toward 50 by
+confidence** first: `score_100 = 50 + (raw_score * confidence * 50)`. A single
+signal logged yesterday scores +1.00 raw - identical to six signals that have
+agreed for three months - so rescaling the raw number alone would show both
+as "100." Shrinking by confidence means the thin one lands closer to 55-65
+instead, so the headline number itself carries the "how sure is this" signal
+that would otherwise require checking a separate confidence field a casual
+reader won't know to look for. Zero signals and signals that exactly cancel
+both land on precisely 50 - which is why the score is always shown with how
+many signals it's based on, since "50 from no evidence" and "50 from
+genuinely mixed evidence" are different claims the number alone can't tell
+apart.
+
+This is a presentation-layer transform, not a replacement: `composite_score()`'s
+-1..+1 output is still what calibration, backtesting, and `compare_to_conviction()`
+use internally. `public_score()` is what the console dashboard, the comparison
+table, and (once live) the public site lead with - the CLI's `score`/`lookup`/
+`compare` commands show both, SCORE (0-100) first and the technical RAW/confidence
+breakdown underneath for anyone who wants it.
+
+Worth knowing if a lot of the tracked names read as "Neutral / Mixed" (50):
+that happens whenever a thesis has an equal weight of bullish and bearish
+signals, which is common in this tracker's research pattern (mix bull and
+bear, don't cherry-pick one side) - it's the model correctly reporting
+genuinely balanced evidence, not a scoring bug.
+
 ## Compare theses side by side
 
 ```
@@ -115,8 +150,9 @@ python -m wealth_lab lookup NVDA
 ```
 
 One view of everything already known about a symbol: thesis, sector, price
-and return since entry, portfolio position (or "watchlist only"), the
-composite score/confidence/range, a **per-category breakdown** (growth,
+and return since entry, portfolio position (or "watchlist only"), the 0-100
+public score (see below) alongside the composite score/confidence/range it's
+derived from, a **per-category breakdown** (growth,
 valuation, risk, catalyst, macro - `category_score()` in scoring.py runs
 the same scoring math restricted to one signal category, so "growth
 potential" and "risk" are separate numbers, not folded into one), and every

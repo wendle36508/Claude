@@ -23,10 +23,13 @@ def test_build_snapshot_includes_thesis_with_signals_and_position(conn):
     assert t["symbol"] == "AAA"
     assert t["sector"] == "Test Sector"
     assert t["score"]["value"] == 1.0
+    assert t["public_score"]["value"] == 67  # one fresh signal -> confidence-shrunk, not maxed to 100
+    assert t["public_score"]["label"] == "Bullish"
     assert t["category_scores"]["growth"]["value"] == 1.0
     assert t["position"]["market_value"] == 1000.0
     assert len(t["signals"]) == 1
     assert t["signals"][0]["source"] == "http://example.com"
+    assert t["news"] == {"live": False, "items": []}
 
 
 def test_build_snapshot_handles_thesis_with_no_signals(conn):
@@ -36,6 +39,7 @@ def test_build_snapshot_handles_thesis_with_no_signals(conn):
 
     t = snapshot["theses"][0]
     assert t["score"] is None
+    assert t["public_score"] is None
     assert t["category_scores"] == {}
 
 

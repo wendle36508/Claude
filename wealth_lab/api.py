@@ -93,7 +93,7 @@ def get_thesis(symbol: str):
 @app.get("/compare", tags=["research"], summary="Every thesis side by side")
 def compare_theses(
     status: ThesisStatus | None = Query(default=None, description="Only include theses in this status"),
-    sort: str = Query(default="score", description=f"Column to sort by, one of {compare.SORTABLE_COLUMNS}"),
+    sort: str = Query(default="public_score", description=f"Column to sort by, one of {compare.SORTABLE_COLUMNS}"),
     ascending: bool = Query(default=False, description="Sort ascending instead of descending"),
 ):
     """One row per thesis with score, confidence, expected range, and

@@ -182,6 +182,83 @@ def test_confidence_is_low_with_thin_coverage_even_if_unanimous(conn):
     assert conf.band == "low"
 
 
+# ---- public 0-100 score ----
+
+def test_public_score_max_bullish_full_confidence_is_100(conn):
+    tid = make_thesis(conn)
+    for name in ("growth", "moat", "hiring"):
+        db.add_signal(conn, tid, name, "bullish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+    pub = scoring.public_score(result, conf)
+
+    assert pub.score_100 == 100
+    assert pub.label == "Strongly Bullish"
+    assert pub.n_signals == 3
+
+
+def test_public_score_max_bearish_full_confidence_is_0(conn):
+    tid = make_thesis(conn)
+    for name in ("growth", "moat", "hiring"):
+        db.add_signal(conn, tid, name, "bearish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+    pub = scoring.public_score(result, conf)
+
+    assert pub.score_100 == 0
+    assert pub.label == "Strongly Bearish"
+
+
+def test_public_score_thin_evidence_stays_near_50_despite_max_raw_score(conn):
+    # this is the whole point of confidence-shrinking: one fresh, thin
+    # signal scores +1.00 raw (same as three agreeing signals), but should
+    # NOT read as "100" to someone who only looks at the headline number
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "growth", "bullish", weight=0.3)
+
+    result = scoring.composite_score(conn, tid)
+    assert result.score == 1.0  # raw score is already maxed out
+    conf = scoring.confidence(result)
+    pub = scoring.public_score(result, conf)
+
+    assert 50 < pub.score_100 < 65
+    assert pub.n_signals == 1
+
+
+def test_public_score_no_signals_is_exactly_neutral(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
+    db.add_signal(conn, tid, "valuation", "bearish", weight=1.0)  # cancels out
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+    pub = scoring.public_score(result, conf)
+
+    assert pub.score_100 == 50
+    assert pub.label == "Neutral / Mixed"
+
+
+def test_public_score_clamped_to_0_100_range(conn):
+    tid = make_thesis(conn)
+    for name in ("a", "b", "c"):
+        db.add_signal(conn, tid, name, "bullish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+    pub = scoring.public_score(result, conf)
+
+    assert 0 <= pub.score_100 <= 100
+
+
+def test_public_score_bands_cover_full_range():
+    # every integer 0-100 must resolve to exactly one label, with no gaps
+    for score in range(0, 101):
+        label = next(text for threshold, text in scoring.PUBLIC_SCORE_BANDS if score >= threshold)
+        assert label in {text for _, text in scoring.PUBLIC_SCORE_BANDS}
+
+
 # ---- expected return range ----
 
 def test_range_has_zero_width_at_full_confidence(conn):

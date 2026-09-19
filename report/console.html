@@ -1,5 +1,5 @@
 <title>Wealth Lab Console</title>
-<meta name="description" content="Live working view of the research tracker: every thesis's score, confidence, expected range, and risk metrics, plus the funded portfolio - read straight from the model, not narrated.">
+<meta name="description" content="A plain 0-100 score for every researched stock - how much the sourced evidence leans bullish or bearish, and how much of it there is - plus expected return range and risk metrics. Read straight from the model, not narrated.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -30,6 +30,13 @@
     --slot-cash:        #eda100;
 
     --row-hover: rgba(11,14,20,0.035);
+
+    /* 0-100 public score bands, strongest to weakest */
+    --score-strong-bull: #0ca30c;
+    --score-bull:        #4f9e52;
+    --score-neutral:     #6b6f76;
+    --score-bear:        #c1762c;
+    --score-strong-bear: #d03b3b;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -58,6 +65,12 @@
       --slot-cash:        #c98500;
 
       --row-hover: rgba(255,255,255,0.045);
+
+      --score-strong-bull: #2fbf3a;
+      --score-bull:        #6bb26e;
+      --score-neutral:     #a9adb5;
+      --score-bear:        #d99a4e;
+      --score-strong-bear: #e66767;
     }
   }
   :root[data-theme="dark"] {
@@ -86,6 +99,12 @@
     --slot-cash:        #c98500;
 
     --row-hover: rgba(255,255,255,0.045);
+
+    --score-strong-bull: #2fbf3a;
+    --score-bull:        #6bb26e;
+    --score-neutral:     #a9adb5;
+    --score-bear:        #d99a4e;
+    --score-strong-bear: #e66767;
   }
 
   * { box-sizing: border-box; }
@@ -157,6 +176,31 @@
   .status-pill.good { background: var(--good-bg); color: var(--good); }
   .status-pill.critical { background: var(--critical-bg); color: var(--critical); }
   .status-pill.neutral { background: var(--neutral-bg); color: var(--neutral-ink); }
+
+  /* Score badge: the 0-100 public score, the one number this whole page is
+     built around. Color is the fast read; the number and label are the
+     precise one. band-* classes set --band-color, everything else derives
+     from it so the small (table) and large (hero) sizes stay one system. */
+  .score-badge { display: inline-flex; align-items: center; gap: 8px; }
+  .score-badge.band-strong-bull { --band-color: var(--score-strong-bull); }
+  .score-badge.band-bull        { --band-color: var(--score-bull); }
+  .score-badge.band-neutral     { --band-color: var(--score-neutral); }
+  .score-badge.band-bear        { --band-color: var(--score-bear); }
+  .score-badge.band-strong-bear { --band-color: var(--score-strong-bear); }
+  .score-badge .score-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-variant-numeric: tabular-nums;
+    color: var(--band-color); background: color-mix(in srgb, var(--band-color) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--band-color) 35%, transparent);
+    border-radius: 999px; line-height: 1;
+  }
+  .score-badge.size-sm .score-chip { font-size: 13px; padding: 5px 9px; min-width: 34px; }
+  .score-badge.size-lg .score-chip { font-size: 30px; padding: 10px 18px; min-width: 78px; }
+  .score-badge .score-text { display: flex; flex-direction: column; gap: 1px; }
+  .score-badge .score-label { font-weight: 700; color: var(--band-color); }
+  .score-badge.size-sm .score-label { font-size: 11.5px; }
+  .score-badge.size-lg .score-label { font-size: 16px; }
+  .score-badge .score-sub { font-size: 11.5px; color: var(--muted); }
 
   .detail-row td { padding: 0; }
   .detail { padding: 16px 20px 22px; background: var(--surface-2); border-bottom: 1px solid var(--grid); white-space: normal; text-align: left; }
@@ -257,7 +301,7 @@
 
       <section>
         <h2>Every thesis, side by side</h2>
-        <p class="risk-note" style="margin:0;">Click a column to sort &middot; click a row to expand its full research note. Nothing here is blended into one ranking number - score, confidence, range, and volatility each answer a different question.</p>
+        <p class="risk-note" style="margin:0;">Click a column to sort &middot; click a row to expand its full research note. <b>Score</b> is 0-100 (50 = neutral) - it already accounts for how much evidence backs it, so a thin, one-signal score can't look as extreme as a well-supported one. Expected range and volatility are kept as their own columns on purpose, not folded into the score - they answer "how far could this move," not "which way does the evidence lean."</p>
         <div class="table-card">
           <div class="table-scroll">
             <table id="thesis-table">
@@ -265,9 +309,7 @@
                 <tr>
                   <th data-key="symbol" style="text-align:left">Symbol</th>
                   <th data-key="sector" style="text-align:left">Sector</th>
-                  <th data-key="conviction">Conv</th>
-                  <th data-key="score">Score</th>
-                  <th data-key="confidence">Conf</th>
+                  <th data-key="public_score">Score</th>
                   <th data-key="floor">Floor</th>
                   <th data-key="base">Base</th>
                   <th data-key="ceiling">Ceil</th>
@@ -292,13 +334,38 @@
   </div>
 
   <footer>
-    Built with a Python/SQLite research tracker (wealth_lab) - composite scoring with decay/confidence, floor/ceiling ranges, category sub-scores, and volatility/Sharpe/drawdown/beta, all computed from sourced signals. This page renders a JSON snapshot exported from that tracker.
+    Built with a Python/SQLite research tracker (wealth_lab). Every stock's 0-100 score comes from sourced, dated signals (each bullish or bearish, with a link) averaged and decayed by age, then shrunk toward 50 by how much evidence backs it - a thin, one-signal read can't score as extreme as a well-supported one. Expected return range and risk metrics (volatility/Sharpe/drawdown/beta) are computed separately, not folded into the score. This page renders a JSON snapshot exported from that tracker, not a live feed - see the Score Detail and Recent News sections on any ticker for exactly how current its evidence is.
   </footer>
 </div>
 
 <script>
 (function () {
-  var state = { data: null, sortKey: 'score', sortDesc: true, openRow: null };
+  var state = { data: null, sortKey: 'public_score', sortDesc: true, openRow: null };
+
+  var SCORE_BAND_CLASS = {
+    'Strongly Bullish': 'band-strong-bull',
+    'Bullish':          'band-bull',
+    'Neutral / Mixed':  'band-neutral',
+    'Bearish':          'band-bear',
+    'Strongly Bearish': 'band-strong-bear'
+  };
+
+  // pub is the {value, label, n_signals} object from data.json's public_score
+  // field, or null/undefined if nothing's been scored yet. size is 'sm' (table
+  // cell) or 'lg' (hero display on the lookup card / expanded detail).
+  function scoreBadgeHtml(pub, size) {
+    if (!pub) {
+      return '<span class="dim">Not scored yet</span>';
+    }
+    var cls = SCORE_BAND_CLASS[pub.label] || 'band-neutral';
+    var chip = '<span class="score-chip">' + pub.value + '</span>';
+    if (size === 'lg') {
+      return '<span class="score-badge size-lg ' + cls + '">' + chip +
+        '<span class="score-text"><span class="score-label">' + escapeHtml(pub.label) + '</span>' +
+        '<span class="score-sub">based on ' + pub.n_signals + ' signal' + (pub.n_signals === 1 ? '' : 's') + '</span></span></span>';
+    }
+    return '<span class="score-badge size-sm ' + cls + '" title="' + escapeHtml(pub.label) + '">' + chip + '</span>';
+  }
 
   function fmtPct(v, digits) {
     if (v === null || v === undefined) return '&mdash;';
@@ -466,6 +533,22 @@
     return parts.join('<br>');
   }
 
+  function newsHtml(news) {
+    if (!news || !news.live) {
+      return '<span class="risk-note">Real-time news feed isn&#39;t connected yet - this needs a live data provider deployed (see the project&#39;s DEPLOYMENT.md). Coming once that&#39;s set up.</span>';
+    }
+    if (!news.items || !news.items.length) {
+      return '<span class="risk-note">No recent news found for this ticker.</span>';
+    }
+    return '<div class="sig-list">' + news.items.map(function (item) {
+      var src = item.source ? ' &middot; <a href="' + escapeHtml(item.url) + '" target="_blank" rel="noopener">' + escapeHtml(item.source) + '</a>' : '';
+      return '<div class="sig"><div class="sig-body">' +
+        '<div class="txt">' + escapeHtml(item.headline) + '</div>' +
+        '<div class="meta">' + (item.published_at || '').slice(0, 10) + src + '</div>' +
+      '</div></div>';
+    }).join('') + '</div>';
+  }
+
   function detailHtml(t) {
     var riskHtml;
     if (t.risk.sufficient) {
@@ -481,7 +564,9 @@
 
     var confHtml = t.confidence
       ? 'Confidence ' + t.confidence.value.toFixed(2) + ' (' + t.confidence.band + ') - coverage ' + t.confidence.coverage.toFixed(2) +
-        ', agreement ' + t.confidence.agreement.toFixed(2) + ', recency ' + t.confidence.recency.toFixed(2)
+        ', agreement ' + t.confidence.agreement.toFixed(2) + ', recency ' + t.confidence.recency.toFixed(2) +
+        '<br>Raw composite score ' + (t.score ? fmtNum(t.score.value, 2) : '&mdash;') + ' (-1 bearish .. +1 bullish) vs. manual conviction ' + t.conviction + '/5' +
+        '<br><span class="risk-note">The 0-100 score above is this raw score shrunk toward 50 by confidence - thin evidence can&#39;t look as extreme as well-supported evidence.</span>'
       : '';
 
     var positionHtml = t.position
@@ -496,14 +581,17 @@
 
     return (
       '<div class="detail">' +
+        '<div style="margin-bottom:14px;">' + scoreBadgeHtml(t.public_score, 'lg') + '</div>' +
         '<p class="thesis-text">' + escapeHtml(t.thesis) + '</p>' +
         '<div class="detail-grid">' +
           '<div>' +
             '<h4>Signals</h4>' + signalList(t.signals) +
+            '<h4 style="margin-top:14px;">Recent news</h4>' +
+            '<div class="risk-box">' + newsHtml(t.news) + '</div>' +
           '</div>' +
           '<div>' +
             '<h4>Category scores</h4>' + categoryBars(t.category_scores) +
-            '<h4>Score</h4>' +
+            '<h4>Score detail</h4>' +
             '<div class="risk-box">' + confHtml + '<br>' + rangeHtml + '</div>' +
             '<h4 style="margin-top:14px;">Risk</h4>' +
             '<div class="risk-box">' + riskHtml + '</div>' +
@@ -520,9 +608,7 @@
     switch (key) {
       case 'symbol': return t.symbol;
       case 'sector': return t.sector || '';
-      case 'conviction': return t.conviction;
-      case 'score': return t.score ? t.score.value : null;
-      case 'confidence': return t.confidence ? t.confidence.value : null;
+      case 'public_score': return t.public_score ? t.public_score.value : null;
       case 'floor': return t.range ? t.range.floor : null;
       case 'base': return t.range ? t.range.base : null;
       case 'ceiling': return t.range ? t.range.ceiling : null;
@@ -552,16 +638,14 @@
         '<tr class="row' + (isOpen ? ' open' : '') + '" data-id="' + t.id + '">' +
           '<td class="sym-cell">' + t.symbol + '</td>' +
           '<td class="dim">' + (t.sector ? escapeHtml(t.sector) : '&mdash;') + '</td>' +
-          '<td class="num">' + t.conviction + '/5</td>' +
-          '<td class="num">' + (t.score ? fmtNum(t.score.value, 2) : '&mdash;') + '</td>' +
-          '<td class="num">' + (t.confidence ? t.confidence.value.toFixed(2) : '&mdash;') + '</td>' +
+          '<td class="num">' + scoreBadgeHtml(t.public_score, 'sm') + '</td>' +
           '<td class="num">' + (t.range ? fmtPct(t.range.floor, 1) : '&mdash;') + '</td>' +
           '<td class="num">' + (t.range ? fmtPct(t.range.base, 1) : '&mdash;') + '</td>' +
           '<td class="num">' + (t.range ? fmtPct(t.range.ceiling, 1) : '&mdash;') + '</td>' +
           '<td class="num">' + (t.risk && t.risk.volatility !== null ? fmtPct(t.risk.volatility, 1) : '&mdash;') + '</td>' +
           '<td class="num">' + (t.return_pct !== null ? fmtPct(t.return_pct, 1) : '&mdash;') + '</td>' +
         '</tr>';
-      var detail = isOpen ? '<tr class="detail-row"><td colspan="10">' + detailHtml(t) + '</td></tr>' : '';
+      var detail = isOpen ? '<tr class="detail-row"><td colspan="8">' + detailHtml(t) + '</td></tr>' : '';
       return main + detail;
     }).join('');
     tbody.innerHTML = html;

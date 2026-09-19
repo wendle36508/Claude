@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T19:19:55+00:00",
+  "generated_at": "2026-09-19T19:40:45+00:00",
   "portfolio": {
     "starting_capital": 100000.0,
     "total_value": 100393.05975402708,
@@ -34,10 +34,10 @@
       },
       {
         "symbol": "NBIS",
-        "conviction_magnitude": 0.6659115123330154,
+        "conviction_magnitude": 0.665800232924714,
         "current_weight": 0.15,
-        "suggested_weight": 0.36355093677613115,
-        "delta": 0.21355093677613116
+        "suggested_weight": 0.36354264631582545,
+        "delta": 0.21354264631582545
       },
       {
         "symbol": "VRT",
@@ -48,10 +48,10 @@
       },
       {
         "symbol": "SNDK",
-        "conviction_magnitude": 0.24993197061621586,
+        "conviction_magnitude": 0.2499110868777833,
         "current_weight": 0.08,
-        "suggested_weight": 0.13644906322386888,
-        "delta": 0.056449063223868876
+        "suggested_weight": 0.13645735368417455,
+        "delta": 0.05645735368417455
       }
     ]
   },
@@ -75,12 +75,17 @@
         "n_signals": 2,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 2
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6666661129866603,
+        "coverage": 0.6666104079045819,
         "agreement": 0.0,
-        "recency": 0.9999991694799906
+        "recency": 0.9999156118568729
       },
       "range": {
         "floor": -0.4,
@@ -129,7 +134,11 @@
           "recorded_at": "2026-09-19T19:19:43+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 39,
@@ -150,20 +159,25 @@
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 56,
+        "label": "Neutral / Mixed",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.3333322002169617,
+        "value": 0.33327649760656064,
         "band": "medium",
-        "coverage": 0.999998300323998,
+        "coverage": 0.9999147427754437,
         "agreement": 0.33333333333333337,
-        "recency": 0.9999983003239982
+        "recency": 0.9999147427754438
       },
       "range": {
-        "floor": -0.183333786579882,
+        "floor": -0.1833560676240424,
         "base": 0.08333333333333334,
-        "ceiling": 0.3500004532465487,
-        "floor_price": 94.39028094709724,
+        "ceiling": 0.35002273429070907,
+        "floor_price": 94.38770570401317,
         "base_price": 125.21166666666666,
-        "ceiling_price": 156.0330523862361,
+        "ceiling_price": 156.03562762932017,
         "source": "default"
       },
       "category_scores": {
@@ -217,7 +231,11 @@
           "recorded_at": "2026-09-19T19:19:30+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 38,
@@ -238,20 +256,25 @@
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 44,
+        "label": "Bearish",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.3333317990603046,
+        "value": 0.33327609651408807,
         "band": "medium",
-        "coverage": 0.9999976985878086,
+        "coverage": 0.9999141410852556,
         "agreement": 0.3333333333333333,
-        "recency": 0.9999976985878086
+        "recency": 0.9999141410852554
       },
       "range": {
-        "floor": -0.3500006137092115,
+        "floor": -0.3500228947276981,
         "base": -0.08333333333333333,
-        "ceiling": 0.18333394704254485,
-        "floor_price": 1855.9497476699512,
+        "ceiling": 0.18335622806103147,
+        "floor_price": 1855.8861284550562,
         "base_price": 2617.3675,
-        "ceiling_price": 3378.7852523300485,
+        "ceiling_price": 3378.848871544944,
         "source": "default"
       },
       "category_scores": {
@@ -305,7 +328,11 @@
           "recorded_at": "2026-09-19T19:19:21+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 37,
@@ -326,20 +353,25 @@
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 56,
+        "label": "Neutral / Mixed",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.33333139790546723,
+        "value": 0.33327569542463836,
         "band": "medium",
-        "coverage": 0.9999970968539867,
+        "coverage": 0.9999135393992399,
         "agreement": 0.3333333333333333,
-        "recency": 0.9999970968539867
+        "recency": 0.9999135393992398
       },
       "range": {
-        "floor": -0.18333410750447976,
+        "floor": -0.18335638849681135,
         "base": 0.08333333333333333,
-        "ceiling": 0.3500007741711464,
-        "floor_price": 21.282313158433258,
+        "ceiling": 0.350023055163478,
+        "floor_price": 21.281732515773093,
         "base_price": 28.231666666666662,
-        "ceiling_price": 35.18102017490007,
+        "ceiling_price": 35.18160081756024,
         "source": "default"
       },
       "category_scores": {
@@ -393,7 +425,11 @@
           "recorded_at": "2026-09-19T19:19:12+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 36,
@@ -410,24 +446,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.3333333333333333,
+        "value": 0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 56,
+        "label": "Neutral / Mixed",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.33333095217990727,
+        "value": 0.3332752497767715,
         "band": "medium",
-        "coverage": 0.9999964282634823,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9999964282634823
+        "coverage": 0.9999128708694144,
+        "agreement": 0.33333333333333337,
+        "recency": 0.9999128708694145
       },
       "range": {
-        "floor": -0.1833342857947038,
-        "base": 0.08333333333333333,
-        "ceiling": 0.3500009524613704,
-        "floor_price": 55.24743556598829,
+        "floor": -0.1833565667559581,
+        "base": 0.08333333333333334,
+        "ceiling": 0.35002323342262476,
+        "floor_price": 55.24592825895944,
         "base_price": 73.2875,
-        "ceiling_price": 91.3275644340117,
+        "ceiling_price": 91.32907174104058,
         "source": "default"
       },
       "category_scores": {
@@ -481,7 +522,11 @@
           "recorded_at": "2026-09-19T19:19:02+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 35,
@@ -502,20 +547,25 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
-        "value": 0.4999973450027769,
+        "value": 0.49995556638110616,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999946900055539
+        "recency": 0.9999111327622123
       },
       "range": {
-        "floor": -0.07500106199888923,
+        "floor": -0.07501777344755756,
         "base": 0.125,
-        "ceiling": 0.32500106199888923,
-        "floor_price": 164.26131141023725,
+        "ceiling": 0.32501777344755756,
+        "floor_price": 164.25834379118274,
         "base_price": 199.7775,
-        "ceiling_price": 235.29368858976275,
+        "ceiling_price": 235.29665620881727,
         "source": "default"
       },
       "category_scores": {
@@ -582,7 +632,11 @@
           "recorded_at": "2026-09-19T19:18:36+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 34,
@@ -603,12 +657,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999940214186642
+        "recency": 0.999910464229517
       },
       "range": {
         "floor": -0.4,
@@ -679,7 +738,11 @@
           "recorded_at": "2026-09-19T19:18:26+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 33,
@@ -700,12 +763,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999932859804009
+        "recency": 0.9999097288490955
       },
       "range": {
         "floor": -0.4,
@@ -776,7 +844,11 @@
           "recorded_at": "2026-09-19T19:18:15+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 32,
@@ -797,20 +869,25 @@
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 44,
+        "label": "Bearish",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.3333284116143785,
+        "value": 0.3332727096341437,
         "band": "medium",
-        "coverage": 0.9999926173943163,
+        "coverage": 0.9999090603162024,
         "agreement": 0.3333333333333333,
-        "recency": 0.9999926173943162
+        "recency": 0.9999090603162025
       },
       "range": {
-        "floor": -0.35000196868758193,
+        "floor": -0.35002424947967586,
         "base": -0.08333333333333333,
-        "ceiling": 0.1833353020209153,
-        "floor_price": 36.86138835572723,
+        "ceiling": 0.18335758281300923,
+        "floor_price": 36.86012481200758,
         "base_price": 51.98416666666667,
-        "ceiling_price": 67.10694497760612,
+        "ceiling_price": 67.10820852132575,
         "source": "default"
       },
       "category_scores": {
@@ -860,7 +937,11 @@
           "recorded_at": "2026-09-19T19:18:05+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 31,
@@ -881,12 +962,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999911465613772
+        "recency": 0.9999075896055611
       },
       "range": {
         "floor": -0.4,
@@ -957,7 +1043,11 @@
           "recorded_at": "2026-09-19T19:17:43+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 30,
@@ -974,24 +1064,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.3333333333333333,
+        "value": 0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 56,
+        "label": "Neutral / Mixed",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.3333270299191145,
+        "value": 0.33327132816781185,
         "band": "medium",
-        "coverage": 0.9999905448339717,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9999905448339717
+        "coverage": 0.9999069879260948,
+        "agreement": 0.33333333333333337,
+        "recency": 0.9999069879260948
       },
       "range": {
-        "floor": -0.18333585469902092,
-        "base": 0.08333333333333333,
-        "ceiling": 0.35000252136568755,
-        "floor_price": 254.60321393903322,
+        "floor": -0.1833581353995419,
+        "base": 0.08333333333333334,
+        "ceiling": 0.35002480206620856,
+        "floor_price": 254.5962677078388,
         "base_price": 337.73999999999995,
-        "ceiling_price": 420.8767860609667,
+        "ceiling_price": 420.88373229216114,
         "source": "default"
       },
       "category_scores": {
@@ -1045,7 +1140,11 @@
           "recorded_at": "2026-09-19T19:17:34+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 29,
@@ -1062,24 +1161,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.4999999749295721,
+        "value": 0.499999974929572,
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
-        "value": 0.4999949548370387,
+        "value": 0.49995317641067255,
         "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.4999999749295721,
-        "recency": 0.9999899598144298
+        "agreement": 0.499999974929572,
+        "recency": 0.9999064029575081
       },
       "range": {
-        "floor": -0.0750020243327915,
-        "base": 0.12499999373239302,
-        "ceiling": 0.32500201179757754,
-        "floor_price": 193.79632588203685,
-        "base_price": 235.69874868687367,
-        "ceiling_price": 277.6011714917105,
+        "floor": -0.07501873570333796,
+        "base": 0.124999993732393,
+        "ceiling": 0.32501872316812397,
+        "floor_price": 193.79282468279365,
+        "base_price": 235.6987486868736,
+        "ceiling_price": 277.6046726909537,
         "source": "default"
       },
       "category_scores": {
@@ -1146,7 +1250,11 @@
           "recorded_at": "2026-09-19T19:17:26+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 28,
@@ -1167,20 +1275,25 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 38,
+        "label": "Bearish",
+        "n_signals": 4
+      },
       "confidence": {
-        "value": 0.4999946706858781,
+        "value": 0.4999528922829209,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999893413717562
+        "recency": 0.9999057845658418
       },
       "range": {
-        "floor": -0.32500213172564874,
+        "floor": -0.3250188430868317,
         "base": -0.125,
-        "ceiling": 0.07500213172564876,
-        "floor_price": 17.88744350927031,
+        "ceiling": 0.07501884308683168,
+        "floor_price": 17.88700065819896,
         "base_price": 23.1875,
-        "ceiling_price": 28.487556490729695,
+        "ceiling_price": 28.48799934180104,
         "source": "default"
       },
       "category_scores": {
@@ -1243,7 +1356,11 @@
           "recorded_at": "2026-09-19T19:17:16+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 27,
@@ -1264,20 +1381,25 @@
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 44,
+        "label": "Bearish",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.3333252470800481,
+        "value": 0.33326954561927574,
         "band": "medium",
-        "coverage": 0.9999878705465104,
+        "coverage": 0.9999043138509941,
         "agreement": 0.3333333333333333,
-        "recency": 0.9999878705465104
+        "recency": 0.9999043138509941
       },
       "range": {
-        "floor": -0.3500032345013141,
+        "floor": -0.350025515085623,
         "base": -0.08333333333333333,
-        "ceiling": 0.18333656783464747,
-        "floor_price": 30.244349498653857,
+        "ceiling": 0.1833588484189564,
+        "floor_price": 30.24331278306596,
         "base_price": 42.652499999999996,
-        "ceiling_price": 55.060650501346146,
+        "ceiling_price": 55.06168721693404,
         "source": "default"
       },
       "category_scores": {
@@ -1331,7 +1453,11 @@
           "recorded_at": "2026-09-19T19:16:54+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 26,
@@ -1348,24 +1474,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.3333333333333333,
+        "value": 0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 56,
+        "label": "Neutral / Mixed",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.33332489050201414,
+        "value": 0.3332691891012301,
         "band": "medium",
-        "coverage": 0.9999873356728287,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9999873356728286
+        "coverage": 0.9999037790226067,
+        "agreement": 0.33333333333333337,
+        "recency": 0.999903779022607
       },
       "range": {
-        "floor": -0.18333671046586109,
-        "base": 0.08333333333333333,
-        "ceiling": 0.3500033771325277,
-        "floor_price": 266.6895638302684,
+        "floor": -0.18335899102617467,
+        "base": 0.08333333333333334,
+        "ceiling": 0.35002565769284133,
+        "floor_price": 266.6822878904924,
         "base_price": 353.7733333333333,
-        "ceiling_price": 440.85710283639827,
+        "ceiling_price": 440.86437877617425,
         "source": "default"
       },
       "category_scores": {
@@ -1419,7 +1550,11 @@
           "recorded_at": "2026-09-19T19:16:46+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 25,
@@ -1436,24 +1571,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -0.3333333333333333,
+        "value": -0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 44,
+        "label": "Bearish",
+        "n_signals": 3
+      },
       "confidence": {
-        "value": 0.33332457849127717,
+        "value": 0.3332688771434794,
         "band": "medium",
-        "coverage": 0.9999868676506866,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9999868676506865
+        "coverage": 0.9999033110408416,
+        "agreement": 0.33333333333333337,
+        "recency": 0.9999033110408416
       },
       "range": {
-        "floor": -0.35000350193682245,
-        "base": -0.08333333333333333,
-        "ceiling": 0.18333683527015582,
-        "floor_price": 9.606948241373765,
+        "floor": -0.3500257824759416,
+        "base": -0.08333333333333334,
+        "ceiling": 0.18335911580927491,
+        "floor_price": 9.606618935005582,
         "base_price": 13.548333333333332,
-        "ceiling_price": 17.489718425292903,
+        "ceiling_price": 17.490047731661083,
         "source": "default"
       },
       "category_scores": {
@@ -1507,7 +1647,11 @@
           "recorded_at": "2026-09-19T19:16:39+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 24,
@@ -1528,12 +1672,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999862659233152
+        "recency": 0.9999027093646852
       },
       "range": {
         "floor": -0.4,
@@ -1608,7 +1757,11 @@
           "recorded_at": "2026-09-19T19:16:30+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 23,
@@ -1629,12 +1782,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.999984594534153
+        "recency": 0.9999010381222663
       },
       "range": {
         "floor": -0.4,
@@ -1709,7 +1867,11 @@
           "recorded_at": "2026-09-19T19:16:05+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 22,
@@ -1730,12 +1892,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999839928026675
+        "recency": 0.9999004364448035
       },
       "range": {
         "floor": -0.4,
@@ -1810,7 +1977,11 @@
           "recorded_at": "2026-09-19T19:15:56+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 21,
@@ -1831,12 +2002,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999833910762239
+        "recency": 0.9998998347652296
       },
       "range": {
         "floor": -0.4,
@@ -1907,7 +2083,11 @@
           "recorded_at": "2026-09-19T19:15:47+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 20,
@@ -1928,12 +2108,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999827893532176
+        "recency": 0.999899233089828
       },
       "range": {
         "floor": -0.4,
@@ -2004,7 +2189,11 @@
           "recorded_at": "2026-09-19T19:15:38+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 19,
@@ -2021,24 +2210,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -1.671361806564805e-08,
+        "value": -1.6713618097310243e-08,
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
-        "value": 1.6713308903515428e-08,
+        "value": 1.6711912409483897e-08,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 1.671361806564805e-08,
-        "recency": 0.9999815023813872
+        "agreement": 1.6713618097310243e-08,
+        "recency": 0.9998979462246645
       },
       "range": {
-        "floor": -0.39999999749308096,
-        "base": -4.178404516412012e-09,
-        "ceiling": 0.39999998913627194,
-        "floor_price": 149.9880006266796,
+        "floor": -0.39999999749363957,
+        "base": -4.178404524327561e-09,
+        "ceiling": 0.39999998913683055,
+        "floor_price": 149.98800062653999,
         "base_price": 249.97999895548244,
-        "ceiling_price": 349.97199728428524,
+        "ceiling_price": 349.97199728442484,
         "source": "default"
       },
       "category_scores": {
@@ -2097,7 +2291,11 @@
           "recorded_at": "2026-09-19T19:15:19+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 18,
@@ -2118,20 +2316,25 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
-        "value": 0.4999903918319776,
+        "value": 0.4999486137835099,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.49999999999999994,
-        "recency": 0.9999807836639553
+        "recency": 0.9998972275670199
       },
       "range": {
-        "floor": -0.075003843267209,
+        "floor": -0.07502055448659607,
         "base": 0.12499999999999999,
-        "ceiling": 0.325003843267209,
-        "floor_price": 56.05476709800713,
+        "ceiling": 0.32502055448659606,
+        "floor_price": 56.05375439811228,
         "base_price": 68.175,
-        "ceiling_price": 80.29523290199288,
+        "ceiling_price": 80.29624560188772,
         "source": "default"
       },
       "category_scores": {
@@ -2194,7 +2397,11 @@
           "recorded_at": "2026-09-19T19:15:08+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 17,
@@ -2215,12 +2422,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999802487921254
+        "recency": 0.9998966927408856
       },
       "range": {
         "floor": -0.4,
@@ -2291,7 +2503,11 @@
           "recorded_at": "2026-09-19T19:15:00+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 16,
@@ -2312,12 +2528,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999796470685364
+        "recency": 0.9998960910679093
       },
       "range": {
         "floor": -0.4,
@@ -2388,7 +2609,11 @@
           "recorded_at": "2026-09-19T19:14:51+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 15,
@@ -2409,12 +2634,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999187791158182
+        "recency": 0.9998352281996397
       },
       "range": {
         "floor": -0.4,
@@ -2485,7 +2715,11 @@
           "recorded_at": "2026-09-19T18:59:41+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 14,
@@ -2506,20 +2740,25 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
-        "value": 0.4999588046067257,
+        "value": 0.4999170291962772,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999176092134514
+        "recency": 0.9998340583925543
       },
       "range": {
-        "floor": -0.07501647815730972,
+        "floor": -0.07503318832148917,
         "base": 0.125,
-        "ceiling": 0.3250164781573097,
-        "floor_price": 41.605758812484204,
+        "ceiling": 0.3250331883214892,
+        "floor_price": 41.605007189299414,
         "base_price": 50.6025,
-        "ceiling_price": 59.59924118751579,
+        "ceiling_price": 59.59999281070058,
         "source": "default"
       },
       "category_scores": {
@@ -2586,7 +2825,11 @@
           "recorded_at": "2026-09-19T18:59:23+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 13,
@@ -2607,12 +2850,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999165395843871
+        "recency": 0.9998329888556732
       },
       "range": {
         "floor": -0.4,
@@ -2687,7 +2935,11 @@
           "recorded_at": "2026-09-19T18:59:07+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 12,
@@ -2704,24 +2956,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -1.671361808396656e-08,
+        "value": -1.6713618078890247e-08,
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
-        "value": 1.6712206118985068e-08,
+        "value": 1.6710809680464688e-08,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 1.671361808396656e-08,
-        "recency": 0.9999155200882061
+        "agreement": 1.6713618078890247e-08,
+        "recency": 0.9998319694507615
       },
       "range": {
-        "floor": -0.39999999749352205,
-        "base": -4.17840452099164e-09,
-        "ceiling": 0.39999998913671303,
-        "floor_price": 99.73200041662678,
+        "floor": -0.39999999749408066,
+        "base": -4.178404519722562e-09,
+        "ceiling": 0.39999998913727164,
+        "floor_price": 99.73200041653391,
         "base_price": 166.2199993054656,
-        "ceiling_price": 232.70799819430442,
+        "ceiling_price": 232.70799819439728,
         "source": "default"
       },
       "category_scores": {
@@ -2780,7 +3037,11 @@
           "recorded_at": "2026-09-19T18:58:52+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 11,
@@ -2801,12 +3062,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999143334781347
+        "recency": 0.9998307829313516
       },
       "range": {
         "floor": -0.4,
@@ -2877,7 +3143,11 @@
           "recorded_at": "2026-09-19T18:58:34+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 10,
@@ -2900,6 +3170,7 @@
         "market_value": 5000.0
       },
       "score": null,
+      "public_score": null,
       "confidence": null,
       "range": null,
       "category_scores": {},
@@ -2912,7 +3183,11 @@
         "max_drawdown": null
       },
       "signals": [],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 9,
@@ -2935,6 +3210,7 @@
         "market_value": 15000.0
       },
       "score": null,
+      "public_score": null,
       "confidence": null,
       "range": null,
       "category_scores": {},
@@ -2947,7 +3223,11 @@
         "max_drawdown": null
       },
       "signals": [],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 8,
@@ -2970,6 +3250,7 @@
         "market_value": 30000.0
       },
       "score": null,
+      "public_score": null,
       "confidence": null,
       "range": null,
       "category_scores": {},
@@ -2982,7 +3263,11 @@
         "max_drawdown": null
       },
       "signals": [],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 7,
@@ -3003,12 +3288,17 @@
         "n_signals": 2,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 2
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6662890261145756,
+        "coverage": 0.66623335252947,
         "agreement": 0.0,
-        "recency": 0.9994335391718634
+        "recency": 0.999350028794205
       },
       "range": {
         "floor": -0.4,
@@ -3091,6 +3381,10 @@
             "source": "https://blog.mexc.com/finance/databricks-ipo-2026-valuation-snowflake-how-to-invest/"
           }
         ]
+      },
+      "news": {
+        "live": false,
+        "items": []
       }
     },
     {
@@ -3112,12 +3406,17 @@
         "n_signals": 2,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 2
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6662890260756883,
+        "coverage": 0.6662333524916104,
         "agreement": 0.0,
-        "recency": 0.9994335391135325
+        "recency": 0.9993500287374156
       },
       "range": {
         "floor": -0.4,
@@ -3200,6 +3499,10 @@
             "source": "https://www.gurufocus.com/term/ps-ratio/NBIS"
           }
         ]
+      },
+      "news": {
+        "live": false,
+        "items": []
       }
     },
     {
@@ -3221,17 +3524,22 @@
         "n_signals": 2,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 58,
+        "label": "Neutral / Mixed",
+        "n_signals": 2
+      },
       "confidence": {
-        "value": 0.3329557662784576,
+        "value": 0.3329001265642045,
         "band": "medium",
-        "coverage": 0.6662890037696343,
+        "coverage": 0.6662333301900927,
         "agreement": 0.4999999832863817,
-        "recency": 0.9994335056544524
+        "recency": 0.9993499952851402
       },
       "range": {
-        "floor": -0.14181769766702157,
+        "floor": -0.14183995355272283,
         "base": 0.12499999582159542,
-        "ceiling": 0.39181768931021244,
+        "ceiling": 0.3918399451959137,
         "floor_price": null,
         "base_price": null,
         "ceiling_price": null,
@@ -3294,6 +3602,10 @@
           "metric": "ev_revenue"
         },
         "comparables": []
+      },
+      "news": {
+        "live": false,
+        "items": []
       }
     },
     {
@@ -3321,20 +3633,25 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
-        "value": 0.49981487072238423,
+        "value": 0.49977310734029107,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5000490878969609,
-        "recency": 0.9995316116352463
+        "recency": 0.9994480930705613
       },
       "range": {
-        "floor": -0.07506177973680611,
+        "floor": -0.07507848508964335,
         "base": 0.12501227197424022,
-        "ceiling": 0.32508632368528656,
-        "floor_price": 1657.322801831996,
+        "ceiling": 0.3251030290381238,
+        "floor_price": 1657.2928688466752,
         "base_price": 2015.819489168883,
-        "ceiling_price": 2374.3161765057703,
+        "ceiling_price": 2374.346109491091,
         "source": "default"
       },
       "category_scores": {
@@ -3397,7 +3714,11 @@
           "recorded_at": "2026-09-19T17:47:36+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 3,
@@ -3424,12 +3745,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.999531611589272
+        "recency": 0.9994480930217845
       },
       "range": {
         "floor": -0.4,
@@ -3500,7 +3826,11 @@
           "recorded_at": "2026-09-19T17:47:36+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 2,
@@ -3527,20 +3857,25 @@
         "n_signals": 2,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 83,
+        "label": "Strongly Bullish",
+        "n_signals": 2
+      },
       "confidence": {
-        "value": 0.6659115101032286,
+        "value": 0.6658002306750026,
         "band": "high",
-        "coverage": 0.6662889814003273,
+        "coverage": 0.6662333078209177,
         "agreement": 1.0,
-        "recency": 0.9994334721004909
+        "recency": 0.9993499617313766
       },
       "range": {
-        "floor": 0.11636460404129143,
+        "floor": 0.11632009227000104,
         "base": 0.25,
-        "ceiling": 0.38363539595870855,
-        "floor_price": 243.3563200349611,
+        "ceiling": 0.38367990772999894,
+        "floor_price": 243.3466169139375,
         "base_price": 272.4875,
-        "ceiling_price": 301.61867996503884,
+        "ceiling_price": 301.6283830860625,
         "source": "default"
       },
       "category_scores": {
@@ -3577,7 +3912,11 @@
           "recorded_at": "2026-09-19T16:58:39+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     },
     {
       "id": 1,
@@ -3604,12 +3943,17 @@
         "n_signals": 4,
         "weights_used": "manual"
       },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
       "confidence": {
         "value": 0.0,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9995316114990606
+        "recency": 0.9994480929305786
       },
       "range": {
         "floor": -0.4,
@@ -3676,7 +4020,11 @@
           "recorded_at": "2026-09-19T17:47:36+00:00"
         }
       ],
-      "ipo": null
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
     }
   ]
 }

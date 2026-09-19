@@ -191,8 +191,12 @@ def cmd_score(conn, args) -> None:
         print(f"#{args.thesis_id} {thesis['symbol']}: no signals logged yet - nothing to score")
         return
 
-    print(f"#{args.thesis_id} {thesis['symbol']} - composite score ({result.weights_used} weights"
-          f"{', no decay' if args.no_decay else ''})")
+    conf = scoring.confidence(result)
+    pub = scoring.public_score(result, conf)
+    print(f"#{args.thesis_id} {thesis['symbol']} - SCORE: {pub.score_100}/100 ({pub.label}, "
+          f"based on {pub.n_signals} signal{'s' if pub.n_signals != 1 else ''})")
+
+    print(f"\n  composite score ({result.weights_used} weights{', no decay' if args.no_decay else ''}):")
     for c in result.breakdown:
         age_note = f"age={c.age_days:.0f}d decay={c.decay:.2f}" if c.decay < 0.99 else "fresh"
         print(f"  {c.name:<30} {c.direction:<9} weight={c.base_weight:.2f}->{c.effective_weight:.2f} "
@@ -206,9 +210,10 @@ def cmd_score(conn, args) -> None:
     else:
         print(f"  -> DIVERGES from conviction by {cmp['delta']:+.2f} - worth a second look")
 
-    conf = scoring.confidence(result)
     print(f"\n  confidence: {conf.confidence:.2f} ({conf.band})  "
           f"[coverage={conf.coverage:.2f} agreement={conf.agreement:.2f} recency={conf.recency:.2f}]")
+    print(f"  -> the 0-100 SCORE above is this composite score shrunk toward 50 by confidence, "
+          f"so thin evidence can't look as extreme as well-supported evidence")
 
     rng = scoring.expected_return_range(conn, result, conf, entry_price=thesis["entry_price"])
     print(f"  expected return range ({rng.source} width): "
@@ -295,8 +300,10 @@ def cmd_lookup(conn, args) -> None:
         return
 
     conf = scoring.confidence(result)
+    pub = scoring.public_score(result, conf)
     rng = scoring.expected_return_range(conn, result, conf, entry_price=t["entry_price"])
-    print(f"\nComposite score: {result.score:+.2f}   Confidence: {conf.confidence:.2f} ({conf.band})   "
+    print(f"\nSCORE: {pub.score_100}/100 ({pub.label})")
+    print(f"Composite score: {result.score:+.2f}   Confidence: {conf.confidence:.2f} ({conf.band})   "
           f"Conviction: {t['conviction']}/5")
     print(f"Expected range ({rng.source}): floor {rng.floor_return * 100:+.1f}%  "
           f"base {rng.base_return * 100:+.1f}%  ceiling {rng.ceiling_return * 100:+.1f}%"
@@ -332,19 +339,21 @@ def cmd_compare(conn, args) -> None:
     def fmt(v, spec):
         return format(v, spec) if v is not None else "  —  "
 
-    header = (f"{'SYMBOL':<10} {'SECTOR':<26} {'STATUS':<11} {'CONV':>4} {'SCORE':>6} "
+    header = (f"{'SYMBOL':<10} {'SECTOR':<26} {'STATUS':<11} {'CONV':>4} {'SCORE':>6} {'RAW':>6} "
               f"{'CONF':>5} {'FLOOR':>7} {'BASE':>7} {'CEIL':>7} {'VOL':>7}")
     print(header)
     print("-" * len(header))
     for r in rows:
+        score_100 = f"{r.public_score}" if r.public_score is not None else "  —  "
         print(
             f"{r.symbol:<10} {(r.sector or '—')[:26]:<26} {r.status:<11} {r.conviction:>4} "
-            f"{fmt(r.score, '+.2f'):>6} {fmt(r.confidence, '.2f'):>5} "
+            f"{score_100:>6} {fmt(r.score, '+.2f'):>6} {fmt(r.confidence, '.2f'):>5} "
             f"{fmt_pct(r.floor_return):>7} {fmt_pct(r.base_return):>7} {fmt_pct(r.ceiling_return):>7} "
             f"{fmt_pct(r.volatility):>7}"
         )
     print(f"\nsorted by {args.sort} ({'descending' if not args.ascending else 'ascending'}); "
-          "'—' means not enough data yet for that column, not zero")
+          "'—' means not enough data yet for that column, not zero. SCORE is 0-100 (50=neutral, "
+          "confidence-shrunk - see `score <id>`); RAW is the underlying -1..+1 composite score.")
 
 
 def cmd_ipo_set(conn, args) -> None:
@@ -528,8 +537,8 @@ def build_parser() -> argparse.ArgumentParser:
     cmp = subparser("compare", "every thesis side by side - one row each, every metric its own column")
     cmp.add_argument("--status", choices=db.THESIS_STATUSES,
                       help="only include theses in this status (default: all)")
-    cmp.add_argument("--sort", choices=compare.SORTABLE_COLUMNS, default="score",
-                      help="column to sort by (default: score)")
+    cmp.add_argument("--sort", choices=compare.SORTABLE_COLUMNS, default="public_score",
+                      help="column to sort by (default: public_score, the 0-100 reader-facing score)")
     cmp.add_argument("--ascending", action="store_true", help="sort ascending instead of descending")
     cmp.set_defaults(func=cmd_compare)
 

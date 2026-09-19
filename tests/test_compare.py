@@ -25,6 +25,8 @@ def test_row_has_none_score_when_no_signals_logged(conn):
     rows = compare.build_comparison(conn)
 
     assert rows[0].score is None
+    assert rows[0].public_score is None
+    assert rows[0].public_score_label is None
     assert rows[0].confidence is None
 
 
@@ -35,7 +37,22 @@ def test_row_has_score_when_signals_exist(conn):
     rows = compare.build_comparison(conn)
 
     assert rows[0].score == 1.0
+    assert rows[0].public_score is not None
+    assert 0 <= rows[0].public_score <= 100
+    assert rows[0].public_score_label is not None
     assert rows[0].confidence is not None
+
+
+def test_sort_by_public_score_descending(conn):
+    tid_a = make_thesis(conn, "A")
+    tid_b = make_thesis(conn, "B")
+    for name in ("growth", "moat", "hiring"):
+        db.add_signal(conn, tid_b, name, "bullish", weight=1.0)  # 3 agreeing signals -> high public_score
+    db.add_signal(conn, tid_a, "growth", "bullish", weight=0.3)  # one thin signal -> public_score near 50
+
+    rows = compare.sort_rows(compare.build_comparison(conn), by="public_score", descending=True)
+
+    assert [r.symbol for r in rows] == ["B", "A"]
 
 
 def test_status_filter_only_returns_matching_theses(conn):

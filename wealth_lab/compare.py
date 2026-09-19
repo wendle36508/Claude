@@ -15,7 +15,9 @@ from typing import Optional
 
 from wealth_lab import db, risk, scoring
 
-SORTABLE_COLUMNS = ("symbol", "conviction", "score", "confidence", "floor", "ceiling", "volatility")
+SORTABLE_COLUMNS = (
+    "symbol", "conviction", "score", "public_score", "confidence", "floor", "ceiling", "volatility",
+)
 
 
 @dataclass
@@ -26,6 +28,8 @@ class ComparisonRow:
     status: str
     conviction: int
     score: Optional[float]
+    public_score: Optional[int]  # 0-100, confidence-shrunk - see scoring.public_score()
+    public_score_label: Optional[str]
     confidence: Optional[float]
     confidence_band: Optional[str]
     floor_return: Optional[float]
@@ -39,6 +43,7 @@ def build_comparison(conn: sqlite3.Connection, status: Optional[str] = None) -> 
     for t in db.list_theses(conn, status=status):
         result = scoring.composite_score(conn, t["id"])
         conf = scoring.confidence(result) if result else None
+        pub = scoring.public_score(result, conf) if result else None
         rng = scoring.expected_return_range(conn, result, conf, entry_price=t["entry_price"]) if result else None
         vol = risk.compute_risk_metrics(conn, t["id"]).volatility
 
@@ -50,6 +55,8 @@ def build_comparison(conn: sqlite3.Connection, status: Optional[str] = None) -> 
                 status=t["status"],
                 conviction=t["conviction"],
                 score=result.score if result else None,
+                public_score=pub.score_100 if pub else None,
+                public_score_label=pub.label if pub else None,
                 confidence=conf.confidence if conf else None,
                 confidence_band=conf.band if conf else None,
                 floor_return=rng.floor_return if rng else None,
@@ -69,6 +76,7 @@ def sort_rows(rows: list[ComparisonRow], by: str, descending: bool = True) -> li
         "symbol": lambda r: r.symbol,
         "conviction": lambda r: r.conviction,
         "score": lambda r: r.score,
+        "public_score": lambda r: r.public_score,
         "confidence": lambda r: r.confidence,
         "floor": lambda r: r.floor_return,
         "ceiling": lambda r: r.ceiling_return,
