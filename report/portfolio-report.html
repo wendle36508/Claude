@@ -1,0 +1,359 @@
+<title>AI Infrastructure Ledger</title>
+<meta name="description" content="A risk-managed core-satellite paper portfolio and its signal-driven research process, built as a live case study in wealth-management-style analysis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --page:       #f9f9f7;
+    --surface:    #ffffff;
+    --surface-2:  #fcfcfb;
+    --ink:        #0b0e14;
+    --ink-2:      #4b5259;
+    --muted:      #898781;
+    --grid:       #e1e0d9;
+    --border:     rgba(11,11,11,0.10);
+    --accent:     #16324f;
+    --accent-ink: #ffffff;
+    --gold:       #8a6a12;
+
+    --good:     #0ca30c;
+    --warning:  #b5790f;
+    --critical: #d03b3b;
+
+    --slot-core-equity: #2a78d6;
+    --slot-satellite:   #eb6834;
+    --slot-core-bond:   #1baf7a;
+    --slot-cash:        #eda100;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page:       #0d0d0d;
+      --surface:    #16171a;
+      --surface-2:  #1a1a19;
+      --ink:        #f5f6f7;
+      --ink-2:      #c3c2b7;
+      --muted:      #8f8d86;
+      --grid:       #2c2c2a;
+      --border:     rgba(255,255,255,0.12);
+      --accent:     #7fabd9;
+      --accent-ink: #0b0e14;
+      --gold:       #d8b34a;
+
+      --good:     #0ca30c;
+      --warning:  #fab219;
+      --critical: #e66767;
+
+      --slot-core-equity: #3987e5;
+      --slot-satellite:   #d95926;
+      --slot-core-bond:   #199e70;
+      --slot-cash:        #c98500;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page:       #0d0d0d;
+    --surface:    #16171a;
+    --surface-2:  #1a1a19;
+    --ink:        #f5f6f7;
+    --ink-2:      #c3c2b7;
+    --muted:      #8f8d86;
+    --grid:       #2c2c2a;
+    --border:     rgba(255,255,255,0.12);
+    --accent:     #7fabd9;
+    --accent-ink: #0b0e14;
+    --gold:       #d8b34a;
+
+    --good:     #0ca30c;
+    --warning:  #fab219;
+    --critical: #e66767;
+
+    --slot-core-equity: #3987e5;
+    --slot-satellite:   #d95926;
+    --slot-core-bond:   #199e70;
+    --slot-cash:        #c98500;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding-inline: 20px;
+    padding-block: 40px 80px;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--gold); margin: 0 0 10px;
+  }
+  a { color: var(--accent); }
+
+  /* ---- Hero ---- */
+  .hero { display: flex; flex-direction: column; gap: 18px; padding-top: 4px; }
+  .hero h1 { font-size: clamp(28px, 4.2vw, 42px); max-width: 18ch; }
+  .hero p.lede { font-size: 17px; color: var(--ink-2); max-width: 62ch; margin: 0; }
+  .hero .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--muted); }
+  .disclaimer {
+    font-size: 12.5px; color: var(--muted); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px; background: var(--surface-2); max-width: 62ch;
+  }
+
+  /* ---- KPI row ---- */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .kpi { background: var(--surface); padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .kpi .label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+  .kpi .value { font-size: 24px; font-weight: 600; }
+  .kpi .sub { font-size: 12.5px; color: var(--ink-2); }
+  @media (max-width: 640px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+
+  section { display: flex; flex-direction: column; gap: 18px; }
+  section > h2 { font-size: 22px; }
+  section > p.intro { color: var(--ink-2); max-width: 68ch; margin: -8px 0 0; }
+
+  /* ---- Process row ---- */
+  .process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .process .step { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .process .step .n { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); }
+  .process .step h3 { font-size: 15px; }
+  .process .step p { margin: 0; font-size: 13px; color: var(--ink-2); }
+  @media (max-width: 720px) { .process { grid-template-columns: 1fr 1fr; } }
+
+  /* ---- Allocation bar ---- */
+  .bar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+  .stackbar { display: flex; height: 40px; border-radius: 6px; overflow: hidden; gap: 2px; background: var(--surface-2); }
+  .seg { display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-shadow: 0 1px 1px rgba(0,0,0,0.25); }
+  .ruler { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; padding-top: 2px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px 22px; font-size: 13px; color: var(--ink-2); }
+  .legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--grid); }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+  td.num, th.num { text-align: right; font-family: 'IBM Plex Mono', monospace; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+  .table-wrap table { min-width: 620px; }
+  .table-wrap { background: var(--surface); }
+  .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .pill.core { background: color-mix(in srgb, var(--slot-core-equity) 16%, transparent); color: var(--slot-core-equity); }
+  .pill.bond { background: color-mix(in srgb, var(--slot-core-bond) 18%, transparent); color: var(--slot-core-bond); }
+  .pill.cash { background: color-mix(in srgb, var(--slot-cash) 20%, transparent); color: var(--slot-cash); }
+  .pill.sat { background: color-mix(in srgb, var(--slot-satellite) 16%, transparent); color: var(--slot-satellite); }
+
+  /* ---- Risk callout ---- */
+  .risk-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
+  .risk-grid p { margin: 0 0 10px; color: var(--ink-2); font-size: 14.5px; }
+  .hhi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .hhi-card .big { font-size: 30px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; }
+  @media (max-width: 720px) { .risk-grid { grid-template-columns: 1fr; } }
+
+  /* ---- Research cards ---- */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .card .head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .card .sym { font-family: 'IBM Plex Mono', monospace; font-size: 17px; font-weight: 700; }
+  .card .name { font-size: 12.5px; color: var(--muted); }
+  .card .thesis { font-size: 13.5px; color: var(--ink-2); margin: 0; }
+  .conv { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+  .sig { display: flex; gap: 8px; font-size: 13px; align-items: flex-start; }
+  .sig .tag { flex: none; font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.03em; margin-top: 1px; }
+  .sig.bull .tag { background: color-mix(in srgb, var(--good) 18%, transparent); color: var(--good); }
+  .sig.bear .tag { background: color-mix(in srgb, var(--critical) 16%, transparent); color: var(--critical); }
+  .sig .txt { color: var(--ink-2); }
+  .sig .txt a { color: var(--ink-2); text-decoration-color: var(--border); }
+  .coi { display: flex; gap: 8px; font-size: 12.5px; background: color-mix(in srgb, var(--warning) 12%, transparent); border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent); border-radius: 8px; padding: 8px 10px; color: var(--ink-2); }
+  .coi .tag { flex: none; font-size: 10.5px; font-weight: 700; color: var(--warning); }
+  .watchlist-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; }
+
+  /* ---- Roadmap ---- */
+  .roadmap { display: flex; flex-direction: column; gap: 10px; }
+  .roadmap .item { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; }
+  .roadmap .item .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: 7px; }
+  .roadmap .item b { color: var(--ink); }
+  .roadmap .item span { color: var(--ink-2); }
+
+  footer { border-top: 1px solid var(--border); padding-top: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 12.5px; color: var(--muted); }
+</style>
+
+<div class="wrap">
+
+  <div class="hero">
+    <p class="eyebrow">Research &amp; Portfolio Management &middot; Paper Portfolio</p>
+    <h1>AI Infrastructure Ledger</h1>
+    <p class="lede">A risk-managed, core-satellite paper portfolio built around one thematic bet — the AI infrastructure buildout — and the sourced, self-correcting research process behind it. Inception Sept&nbsp;19, 2026.</p>
+    <div class="meta">
+      <span>Starting capital <b class="mono">$100,000</b></span>
+      <span>Benchmark <b class="mono">SPY</b></span>
+      <span>7 funded positions &middot; 3 pre-IPO watchlist</span>
+    </div>
+    <div class="disclaimer">This is a hypothetical, educational paper portfolio for demonstrating a research and risk-management process. It is not investment advice, and nothing here should be read as a recommendation to buy or sell any security. All figures are current as of inception and will be updated as real, dated performance accrues.</div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi">
+      <span class="label">Total value</span>
+      <span class="value mono">$100,000</span>
+      <span class="sub">at inception</span>
+    </div>
+    <div class="kpi">
+      <span class="label">Return since inception</span>
+      <span class="value mono">+0.00%</span>
+      <span class="sub">Day 0 — funded today</span>
+    </div>
+    <div class="kpi">
+      <span class="label">Concentration (HHI)</span>
+      <span class="value mono">0.18</span>
+      <span class="sub">≈ 5.5 effective positions</span>
+    </div>
+    <div class="kpi">
+      <span class="label">Coverage</span>
+      <span class="value mono">7 / 3</span>
+      <span class="sub">funded / pre-IPO watchlist</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>How this portfolio gets built</h2>
+    <p class="intro">Every position starts as a researched thesis, not a screener hit. The same loop that sizes today's positions is meant to get smarter about which signals to trust as real performance accrues.</p>
+    <div class="process">
+      <div class="step"><span class="n">01</span><h3>Research signal</h3><p>Live search across filings, earnings, insider activity, and sector/macro news — not just a 10-K skim.</p></div>
+      <div class="step"><span class="n">02</span><h3>Thesis</h3><p>Each name gets an explicit bull case and bear case, dated and sourced, logged before capital is committed.</p></div>
+      <div class="step"><span class="n">03</span><h3>Position sizing</h3><p>Weights are signal-informed within a risk-managed sleeve — a name with a flagged risk signal gets sized down, not skipped.</p></div>
+      <div class="step"><span class="n">04</span><h3>Calibration</h3><p>Realized returns get checked back against conviction and individual signals, so the process prunes what didn't actually predict anything.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Allocation</h2>
+    <p class="intro">50% core (broad equity + bonds + cash) as risk ballast, 50% satellite in four already-researched AI-infrastructure names. Satellite weights aren't equal — they follow the signals logged for each name.</p>
+    <div class="bar-card">
+      <div class="stackbar">
+        <div class="seg" style="width:30%; background:var(--slot-core-equity);">SPY 30%</div>
+        <div class="seg" style="width:15%; background:var(--slot-core-bond);">BND 15%</div>
+        <div class="seg" style="width:5%; background:var(--slot-cash); color:#3a2c00;">5%</div>
+        <div class="seg" style="width:15%; background:var(--slot-satellite);">CRWV 15%</div>
+        <div class="seg" style="width:15%; background:var(--slot-satellite); filter:brightness(0.88);">NBIS 15%</div>
+        <div class="seg" style="width:12%; background:var(--slot-satellite); filter:brightness(0.76);">VRT 12%</div>
+        <div class="seg" style="width:8%; background:var(--slot-satellite); filter:brightness(0.64);">SNDK 8%</div>
+      </div>
+      <div class="ruler"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--slot-core-equity)"></i>Core equity — SPY</span>
+        <span><i class="dot" style="background:var(--slot-core-bond)"></i>Core bond — BND</span>
+        <span><i class="dot" style="background:var(--slot-cash)"></i>Cash</span>
+        <span><i class="dot" style="background:var(--slot-satellite)"></i>Satellite — AI infrastructure (4 names)</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Position</th><th>Sleeve</th><th class="num">Target</th><th class="num">Actual</th><th class="num">Value</th><th class="num">Return</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono">SPY</span></td><td><span class="pill core">Core equity</span></td><td class="num">30.0%</td><td class="num">30.0%</td><td class="num">$30,000</td><td class="num">+0.0%</td></tr>
+          <tr><td><span class="mono">BND</span></td><td><span class="pill bond">Core bond</span></td><td class="num">15.0%</td><td class="num">15.0%</td><td class="num">$15,000</td><td class="num">+0.0%</td></tr>
+          <tr><td><span class="mono">CASH</span></td><td><span class="pill cash">Cash</span></td><td class="num">5.0%</td><td class="num">5.0%</td><td class="num">$5,000</td><td class="num">+0.0%</td></tr>
+          <tr><td><span class="mono">CRWV</span></td><td><span class="pill sat">Satellite</span></td><td class="num">15.0%</td><td class="num">15.0%</td><td class="num">$15,000</td><td class="num">+0.0%</td></tr>
+          <tr><td><span class="mono">NBIS</span></td><td><span class="pill sat">Satellite</span></td><td class="num">15.0%</td><td class="num">15.0%</td><td class="num">$15,000</td><td class="num">+0.0%</td></tr>
+          <tr><td><span class="mono">VRT</span></td><td><span class="pill sat">Satellite</span></td><td class="num">12.0%</td><td class="num">12.0%</td><td class="num">$12,000</td><td class="num">+0.0%</td></tr>
+          <tr><td><span class="mono">SNDK</span></td><td><span class="pill sat">Satellite</span></td><td class="num">8.0%</td><td class="num">8.0%</td><td class="num">$8,000</td><td class="num">+0.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why core-satellite</h2>
+    <div class="risk-grid">
+      <div>
+        <p>A concentrated basket of AI-infrastructure bets is a research thesis, not a portfolio — it wins big if the theme plays out and gets hit hard if sentiment turns, with no ballast either way. Wealth management is the opposite instinct: client capital is sized so no single call, however good the research, can do outsized damage. The 50% core sleeve (broad equity, bonds, cash) is that ballast, funded first and rebalanced independently of how any satellite thesis is performing.</p>
+        <p>Sizing within the satellite sleeve is also signal-informed rather than equal-weight: SNDK carries the smallest satellite position specifically because its own logged signal flags a blow-off-top risk profile (up roughly 50x in a year), while CRWV and NBIS — with stronger backlog and growth signals — carry the largest.</p>
+      </div>
+      <div class="hhi-card">
+        <span class="label" style="font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);">Herfindahl-Hirschman Index</span>
+        <span class="big">0.181</span>
+        <p style="margin:0;font-size:13px;color:var(--ink-2);">Sum of squared position weights — lower means more diversified. 0.181 is roughly equivalent to holding 5.5 equal-weight positions.</p>
+        <p style="margin:0;font-size:12.5px;color:var(--muted);">Caveat: HHI treats each position as independent. The four satellite names are all exposed to the same AI-infrastructure theme and move together more than the number alone suggests — real diversification here comes from the core/satellite split, not the position count.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Research notes</h2>
+    <p class="intro">Every funded position and every pre-IPO name on the watchlist, with the actual bull/bear signals logged before sizing — condensed here, sourced in full in the underlying tracker.</p>
+    <div class="cards">
+
+      <div class="card">
+        <div class="head"><div><div class="sym">CRWV</div><div class="name">CoreWeave, Inc. &middot; Satellite</div></div><span class="conv">conviction 3/5</span></div>
+        <p class="thesis">Nvidia-backed AI cloud infrastructure with a massive contracted backlog, but capital-intensive and customer-concentrated.</p>
+        <div class="sig bull"><span class="tag">Bull</span><span class="txt">Q2 2026 revenue backlog reached $104.2B, mostly Nvidia-powered cloud contracts. <a href="https://fortune.com/2026/08/11/data-center-stocks/" target="_blank" rel="noopener">Fortune ↗</a></span></div>
+        <div class="sig bear"><span class="tag">Bear</span><span class="txt">Down ~45% from its 52-week high of $153.20; debt-funded buildout with concentrated demand exposure. <a href="https://www.investing.com/equities/coreweave" target="_blank" rel="noopener">Investing.com ↗</a></span></div>
+      </div>
+
+      <div class="card">
+        <div class="head"><div><div class="sym">NBIS</div><div class="name">Nebius Group N.V. &middot; Satellite</div></div><span class="conv">conviction 3/5</span></div>
+        <p class="thesis">AI cloud/GPU infrastructure provider (formerly Yandex N.V.) showing extreme growth and apparent pricing power.</p>
+        <div class="sig bull"><span class="tag">Bull</span><span class="txt">Q2 2026 revenue surged &gt;500% YoY to ~$575M on large AI capacity contracts. <a href="https://www.cnbc.com/quotes/NBIS" target="_blank" rel="noopener">CNBC ↗</a></span></div>
+        <div class="sig bull"><span class="tag">Bull</span><span class="txt">Shares jumped ~9% premarket on reports of GPU cloud price hikes — demand outstripping supply. <a href="https://www.tradingview.com/symbols/NASDAQ-NBIS/" target="_blank" rel="noopener">TradingView ↗</a></span></div>
+      </div>
+
+      <div class="card">
+        <div class="head"><div><div class="sym">VRT</div><div class="name">Vertiv Holdings Co &middot; Satellite</div></div><span class="conv">conviction 3/5</span></div>
+        <p class="thesis">Power and cooling infrastructure for AI datacenters — wins regardless of which chip vendor leads.</p>
+        <div class="sig bull"><span class="tag">Bull</span><span class="txt">34% revenue growth / 47% earnings growth projected for 2026 on datacenter power &amp; cooling demand. <a href="https://fortune.com/2026/08/11/data-center-stocks/" target="_blank" rel="noopener">Fortune ↗</a></span></div>
+        <div class="sig bear"><span class="tag">Bear</span><span class="txt">Stock has nearly doubled off its 52-week low ($133.85) — already pricing in continued hypergrowth. <a href="https://www.heygotrade.com/en/us-stock/vrt/" target="_blank" rel="noopener">HeyGo ↗</a></span></div>
+      </div>
+
+      <div class="card">
+        <div class="head"><div><div class="sym">SNDK</div><div class="name">Sandisk Corporation &middot; Satellite</div></div><span class="conv">conviction 2/5</span></div>
+        <p class="thesis">NAND/flash memory supply squeeze tied to AI server demand — and an extremely parabolic move.</p>
+        <div class="sig bull"><span class="tag">Bull</span><span class="txt">Up 464.5% YTD 2026 on a NAND/flash scarcity narrative tied to AI server buildout. <a href="https://www.investing.com/equities/sandisk-corp" target="_blank" rel="noopener">Investing.com ↗</a></span></div>
+        <div class="sig bear"><span class="tag">Bear</span><span class="txt">52-week range $93.54–$2,354.39; a move from ~$34 to ~$1,800 in a year is a classic blow-off-top risk, not a stable entry. <a href="https://www.morningstar.com/stocks/xnas/sndk/quote" target="_blank" rel="noopener">Morningstar ↗</a></span></div>
+      </div>
+
+      <div class="card">
+        <div class="head"><div><div class="sym">ANTH</div><div class="name">Anthropic PBC &middot; Pre-IPO</div></div><span class="watchlist-badge">Watchlist</span></div>
+        <p class="thesis">AI frontier lab; confidentially filed its S-1, reportedly targeting an October 2026 listing.</p>
+        <div class="sig bull"><span class="tag">Bull</span><span class="txt">Confidentially filed S-1 in June 2026; ~90% prediction-market odds of a 2026 listing. <a href="https://www.npr.org/2026/06/01/nx-s1-5843199/anthropic-ipo-filing-ai-large" target="_blank" rel="noopener">NPR ↗</a></span></div>
+        <div class="coi"><span class="tag">Disclosure</span><span>Anthropic develops the model that performed this research. Any Anthropic-specific analysis on this page carries an inherent conflict of interest and should be independently verified before being relied on.</span></div>
+      </div>
+
+      <div class="card">
+        <div class="head"><div><div class="sym">CBRS</div><div class="name">Cerebras Systems Inc. &middot; Pre-IPO</div></div><span class="watchlist-badge">Watchlist</span></div>
+        <p class="thesis">Wafer-scale AI inference chipmaker; S-1 filed April 2026 targeting Nasdaq at a $23–26B valuation.</p>
+        <div class="sig bull"><span class="tag">Bull</span><span class="txt">~$510M revenue and a ~$10B OpenAI deal disclosed in the S-1. <a href="https://tech-insider.org/cerebras-ipo-filing-510m-revenue-openai-deal-23b-valuation-2026/" target="_blank" rel="noopener">Tech Insider ↗</a></span></div>
+        <div class="sig bear"><span class="tag">Bear</span><span class="txt">Customer concentration hasn't been resolved, just rotated — G42/MBZUAI were 86% of 2025 revenue; that dependency is now shifting toward OpenAI. <a href="https://www.atlaspeakresearch.com/report/31f3bf" target="_blank" rel="noopener">Atlas Peak ↗</a></span></div>
+      </div>
+
+      <div class="card">
+        <div class="head"><div><div class="sym">DATABRICKS</div><div class="name">Databricks, Inc. &middot; Pre-IPO</div></div><span class="watchlist-badge">Watchlist</span></div>
+        <p class="thesis">Data/AI platform; no S-1 filed yet, with the CEO explicitly pushing the timeline toward 2027 or later.</p>
+        <div class="sig bull"><span class="tag">Bull</span><span class="txt">Crossed a $7B annualized revenue run-rate, &gt;80% YoY growth, and a $5B round at a $190B valuation (Aug 2026). <a href="https://www.allocations.com/insights/databricks-ipo-2026-date-valuation-and-how-to-invest" target="_blank" rel="noopener">Allocations ↗</a></span></div>
+        <div class="sig bear"><span class="tag">Bear</span><span class="txt">No S-1 as of Aug 2026; CEO called 2026 "a terrible year to go public" — timeline risk, not a near-term catalyst.</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>What happens next</h2>
+    <div class="roadmap">
+      <div class="item"><span class="dot"></span><span><b>Daily research pass —</b> a scheduled check re-searches every name for material news and logs only genuinely new, sourced signals.</span></div>
+      <div class="item"><span class="dot"></span><span><b>Calibration reporting —</b> once enough snapshots accrue, conviction levels and individual signal types get checked against realized returns — the honest version of "which of my ideas actually worked."</span></div>
+      <div class="item"><span class="dot"></span><span><b>Benchmark tracking —</b> portfolio return gets tracked against SPY, not just in isolation.</span></div>
+      <div class="item"><span class="dot"></span><span><b>This page updates —</b> the same link gets redeployed with real, dated performance as it accrues — this is inception, not the finished story.</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>All figures sourced via live web search on 2026-09-19; individual sources are linked inline above. Built with a Python/SQLite research tracker and an AI-assisted research workflow (Claude Code) — methodology and source code available on request.</span>
+    <span>Hypothetical paper portfolio for educational and demonstration purposes only. Not investment advice.</span>
+  </footer>
+
+</div>
