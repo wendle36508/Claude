@@ -1,3 +1,8 @@
+import os
+import subprocess
+import sys
+from pathlib import Path
+
 import pytest
 
 from wealth_lab import db
@@ -90,3 +95,20 @@ def test_set_ipo_details_rejects_non_positive_figures(conn):
         db.set_ipo_details(conn, tid, disclosed_revenue=-1.0)
     with pytest.raises(ValueError):
         db.set_ipo_details(conn, tid, lockup_days=0)
+
+
+def test_db_path_env_var_override_is_read_at_import(tmp_path):
+    # DB_PATH is a module-level constant computed at import time from
+    # WEALTH_LAB_DB_PATH, so this exercises a fresh interpreter rather than
+    # monkeypatching db.DB_PATH directly (which every other test does, and
+    # which wouldn't prove the env var itself is wired up).
+    override = tmp_path / "custom" / "tracker.db"
+    repo_root = Path(__file__).resolve().parent.parent
+    result = subprocess.run(
+        [sys.executable, "-c", "from wealth_lab import db; print(db.DB_PATH)"],
+        env={**os.environ, "WEALTH_LAB_DB_PATH": str(override)},
+        cwd=str(repo_root),
+        capture_output=True, text=True,
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == str(override)

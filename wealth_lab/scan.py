@@ -29,7 +29,7 @@ from datetime import datetime, timedelta, timezone
 
 from wealth_lab import db, report, universe
 
-UNIVERSE_BATCH_SIZE = 5
+UNIVERSE_BATCH_SIZE = 25
 
 STALE_AFTER_DAYS = 7
 

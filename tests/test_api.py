@@ -2,6 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from wealth_lab import db, portfolio
+from wealth_lab.providers.base import DataProvider, Fundamentals, NewsItem
 
 
 @pytest.fixture
@@ -9,6 +10,32 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setattr(db, "DB_PATH", tmp_path / "api_test.db")
     from wealth_lab.api import app  # import after DB_PATH is patched
     return TestClient(app)
+
+
+_DEFAULT_FUNDAMENTALS = Fundamentals(name="Apple Inc", sector="Technology", revenue_ttm=None, market_cap=3_500_000.0)
+
+
+class FakeLiveProvider(DataProvider):
+    is_live = True
+
+    def __init__(self, price=231.5, fundamentals=_DEFAULT_FUNDAMENTALS, news=None):
+        self._price = price
+        self._fundamentals = fundamentals
+        self._news = news or []
+
+    def get_price(self, symbol):
+        return self._price
+
+    def get_fundamentals(self, symbol):
+        return self._fundamentals
+
+    def get_news(self, symbol, since_hours=48):
+        return self._news
+
+
+def use_provider(monkeypatch, provider):
+    import wealth_lab.api as api_module
+    monkeypatch.setattr(api_module, "get_provider", lambda: provider)
 
 
 def seed_thesis(symbol="AAA", with_signal=True, with_position=False):
@@ -157,3 +184,59 @@ def test_research_endpoint_503_without_live_provider(client):
 
     assert r.status_code == 503
     assert "MockProvider" in r.json()["detail"]
+
+
+def test_research_endpoint_creates_thesis_from_live_provider(client, monkeypatch):
+    use_provider(monkeypatch, FakeLiveProvider(
+        news=[NewsItem(headline="Apple beats estimates", summary="s", url="http://x/1",
+                        published_at="2026-09-19T00:00:00+00:00", source="Reuters")],
+    ))
+
+    r = client.post("/research/aapl")
+
+    assert r.status_code == 200
+    body = r.json()
+    assert body["symbol"] == "AAPL"
+    assert body["name"] == "Apple Inc"
+    assert body["sector"] == "Technology"
+    assert body["entry_price"] == 231.5
+    assert body["unclassified_news_logged"] == 1
+
+    with db.connect() as conn:
+        thesis = db.get_thesis_by_symbol(conn, "AAPL")
+    assert thesis["conviction"] == 3
+
+
+def test_research_endpoint_logs_news_as_unclassified_signals(client, monkeypatch):
+    use_provider(monkeypatch, FakeLiveProvider(news=[
+        NewsItem(headline="headline one", summary="s", url="http://x/1", published_at="", source="Reuters"),
+        NewsItem(headline="headline two", summary="s", url="http://x/2", published_at="", source="AP"),
+    ]))
+
+    client.post("/research/AAPL")
+
+    with db.connect() as conn:
+        t = db.get_thesis_by_symbol(conn, "AAPL")
+        signals = db.list_signals(conn, t["id"])
+
+    assert len(signals) == 2
+    assert all(s["direction"] == "neutral" for s in signals)
+    assert all(s["category"] == "other" for s in signals)
+    assert {s["rationale"] for s in signals} == {"headline one", "headline two"}
+
+
+def test_research_endpoint_409_when_already_researched(client, monkeypatch):
+    seed_thesis(symbol="AAPL")
+    use_provider(monkeypatch, FakeLiveProvider())
+
+    r = client.post("/research/AAPL")
+
+    assert r.status_code == 409
+
+
+def test_research_endpoint_404_when_provider_has_no_data(client, monkeypatch):
+    use_provider(monkeypatch, FakeLiveProvider(price=None, fundamentals=None))
+
+    r = client.post("/research/NOTASYMBOL")
+
+    assert r.status_code == 404

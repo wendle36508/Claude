@@ -240,7 +240,7 @@ correctly on one day of signal history, not a bug, and exactly why it's a
 comparison (`wealth_lab/sizing.py`, also in the console dashboard's
 portfolio card) rather than something that actually moves capital yet.
 
-## HTTP API (provider-ready, not live)
+## HTTP API (provider-ready, and can be made live)
 
 ```
 pip install -r requirements.txt
@@ -250,30 +250,26 @@ uvicorn wealth_lab.api:app --reload
 A thin FastAPI layer over the same engine the CLI uses - `GET /theses`,
 `GET /theses/{symbol}`, `GET /compare`, `GET /portfolio`, `GET /universe`
 (S&P 500 coverage, see above), `GET /snapshot` (everything at once), and
-`POST /research/{symbol}`. This exists for a
-real frontend that needs to serve more than one person at once, which a
-static Claude Artifact can't do.
+`POST /research/{symbol}`. This exists for a real frontend that needs to
+serve more than one person at once, which a static Claude Artifact can't
+do.
 
-**This is not a live product.** Every read endpoint reflects whatever is
-already in the tracker's local database - same data the CLI and console
-dashboard use. `POST /research/{symbol}` (the endpoint that would pull in
-a *new*, not-yet-researched ticker automatically) returns `503` because
-there's no live market-data/news provider wired up: this environment has
-no general outbound network access from Python, only an agent's own
-WebSearch tool calls can reach live data, and those can't be triggered by
-an arbitrary visitor's HTTP request. `wealth_lab/providers/` is the
-interface a real provider (Finnhub, Alpha Vantage, Marketaux, SEC's own
-`data.sec.gov`, etc.) would implement to make that endpoint real -
-`providers/README.md` walks through what that takes, including the parts
-that are a deliberate choice for later rather than an oversight now: a
-real API key (sign up yourself, this can't be done from a coding session),
-a cache in front of the provider so concurrent visitors don't multiply API
-costs, a database that isn't a single local SQLite file (concurrent writes
-from many users need something like Postgres), and real hosting.
+**By default this still isn't live** - every read endpoint reflects
+whatever is already in the tracker's local database, and `POST
+/research/{symbol}` returns `503`, because the default `MockProvider`
+honestly returns nothing rather than fabricating data. But
+`wealth_lab/providers/finnhub.py` is now a real implementation, not just
+an interface: set `WEALTH_LAB_PROVIDER=finnhub` and a `FINNHUB_API_KEY`
+and `/research/{symbol}` actually fetches a live price, fundamentals, and
+recent news for a not-yet-researched ticker and logs a new thesis (see
+`providers/README.md`). What it deliberately still doesn't do is decide
+bullish/bearish for you - see that same doc's last section.
 
-CORS is wide open for local development - restrict `allow_origins` in
-`wealth_lab/api.py` before this ever sits on the public internet; it also
-has no authentication yet.
+**Actually deploying this somewhere real** - a persistent database that
+survives redeploys, CORS locked to your real frontend, and who's allowed
+to trigger writes - is a separate checklist, **[DEPLOYMENT.md](DEPLOYMENT.md)**,
+because every step there needs your own accounts and can't be done from a
+coding session.
 
 ## Tests
 
@@ -304,9 +300,13 @@ and signals are logged by hand or imported from data you pull yourself.
 
 ## Roadmap ideas (not yet built)
 
-- A live `fetch_price()` implementation once run with real network access.
-- Incrementally research the full S&P 500 universe via the daily Routine
-  (`universe.py`'s `next_batch()` - currently 2/495 symbols covered).
-- A real `DataProvider` implementation (see `providers/README.md`) so
-  `POST /research/{symbol}` can actually research a new ticker instead of
-  always returning 503.
+- A live `fetch_price()` implementation once run with real network access
+  (separate from the Finnhub `DataProvider` below - this is `scan.py`'s own
+  staleness-refresh path).
+- Finish the S&P 500 universe buildout via the daily Routine
+  (`universe.py`'s `next_batch()` - see `universe-status` for the current
+  count).
+- News-to-signal classification for `POST /research/{symbol}` (an LLM call
+  per headline deciding bullish/bearish/category) - the Finnhub
+  `DataProvider` itself is built and real; this is the deliberately-deferred
+  piece on top of it. See `providers/README.md`'s last section.

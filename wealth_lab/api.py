@@ -5,12 +5,15 @@ dashboard - can serve lookups to more than one person at once.
     uvicorn wealth_lab.api:app --reload
     # interactive docs at http://127.0.0.1:8000/docs
 
-This is provider-ready, not live: every read endpoint reflects whatever is
-already in the tracker's database (same data the CLI and console dashboard
-use), and `POST /research/{symbol}` - the endpoint that would pull in a
-*new*, not-yet-researched ticker - returns 503 until a real DataProvider is
-registered (see providers/README.md). That's not a bug to fix later; it's
-the honest state of an engine with no live data source wired up yet.
+This is provider-ready, and can be made live: every read endpoint reflects
+whatever is already in the tracker's database (same data the CLI and
+console dashboard use). `POST /research/{symbol}` - the endpoint that pulls
+in a *new*, not-yet-researched ticker - returns 503 with the default
+MockProvider, but does real work once `WEALTH_LAB_PROVIDER=finnhub` (or
+another registered provider) is configured: see providers/README.md. It
+creates a thesis skeleton (name/sector/entry price from the provider) and
+logs recent headlines as unclassified signals - it deliberately does not
+decide bullish/bearish on its own; see providers/README.md for why.
 
 CORS is wide open (`allow_origins=["*"]`) for local development. Restrict
 this to your actual frontend's origin before deploying anywhere real -
@@ -20,6 +23,7 @@ on the public internet as-is.
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Query
@@ -150,17 +154,21 @@ def get_snapshot():
 @app.post(
     "/research/{symbol}",
     tags=["research"],
-    summary="Research a new ticker (not implemented without a live provider)",
+    summary="Auto-create a thesis skeleton for a new ticker from live data",
     responses={
         503: {"description": "No live data provider configured - see providers/README.md"},
-        501: {"description": "A live provider is configured but news-to-signal classification isn't implemented yet"},
+        404: {"description": "Provider is live but has no data for this symbol"},
+        409: {"description": "This symbol already has a thesis - use GET /theses/{symbol} instead"},
     },
 )
 def research_symbol(symbol: str):
-    """Would pull in a ticker with no existing thesis: fetch price/news/
-    fundamentals from the configured DataProvider, classify the news into
-    signals, and log a new thesis. Always 503 today - see the module
-    docstring and providers/README.md for what's missing and why."""
+    """Pulls in a ticker with no existing thesis: fetches price/fundamentals/
+    news from the configured DataProvider and logs a new thesis - name,
+    sector, and entry price from the provider, recent headlines logged as
+    unclassified 'other' signals (rationale is the raw headline) rather
+    than guessed as bullish/bearish. See providers/README.md for why
+    direction classification is a separate, not-yet-built decision. 503
+    with the default MockProvider (no live provider configured)."""
     provider = get_provider()
     if not provider.is_live:
         raise HTTPException(
@@ -171,6 +179,46 @@ def research_symbol(symbol: str):
                 "see providers/README.md to wire one up."
             ),
         )
-    # Reachable once a real provider is registered; classification of raw
-    # news into signals isn't implemented (see providers/README.md step 5).
-    raise HTTPException(status_code=501, detail="live provider configured but auto-research isn't implemented yet")
+
+    symbol = symbol.upper()
+    with db.connect() as conn:
+        if db.get_thesis_by_symbol(conn, symbol) is not None:
+            raise HTTPException(status_code=409, detail=f"{symbol} already has a thesis - see GET /theses/{symbol}")
+
+        fundamentals = provider.get_fundamentals(symbol)
+        price = provider.get_price(symbol)
+        if fundamentals is None and price is None:
+            raise HTTPException(status_code=404, detail=f"{type(provider).__name__} has no data for {symbol}")
+
+        thesis_id = db.add_thesis(
+            conn, symbol=symbol, asset_type="stock",
+            thesis=(
+                "Auto-created from live provider data, not yet reviewed. Conviction below is a "
+                "placeholder, not an actual rating - recent headlines are logged unclassified "
+                "(see the 'other' category signals) pending a real bullish/bearish judgment call."
+            ),
+            conviction=3,
+            name=fundamentals.name if fundamentals else None,
+            sector=fundamentals.sector if fundamentals else None,
+            entry_price=price,
+            entry_date=datetime.now(timezone.utc).date().isoformat() if price is not None else None,
+        )
+
+        news = provider.get_news(symbol)
+        for item in news:
+            db.add_signal(
+                conn, thesis_id, name="unclassified_news", direction="neutral", category="other",
+                rationale=item.headline, source=item.url,
+            )
+
+        return {
+            "thesis_id": thesis_id,
+            "symbol": symbol,
+            "name": fundamentals.name if fundamentals else None,
+            "sector": fundamentals.sector if fundamentals else None,
+            "market_cap": fundamentals.market_cap if fundamentals else None,
+            "entry_price": price,
+            "unclassified_news_logged": len(news),
+            "note": "conviction and thesis text are placeholders, and news is logged unclassified - "
+                    "review and reclassify before trusting the score. See providers/README.md.",
+        }

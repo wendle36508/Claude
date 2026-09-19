@@ -24,6 +24,12 @@ def register_provider(name: str, provider_cls: type[DataProvider]) -> None:
 
 def get_provider() -> DataProvider:
     name = os.environ.get("WEALTH_LAB_PROVIDER", "mock")
+    if name == "finnhub" and "finnhub" not in _REGISTRY:
+        # imported lazily so the default (mock) path never needs `requests`
+        # installed - only a deployment that opts into WEALTH_LAB_PROVIDER=finnhub
+        # needs requirements-live.txt
+        from wealth_lab.providers.finnhub import FinnhubProvider
+        register_provider("finnhub", FinnhubProvider)
     if name not in _REGISTRY:
         raise ValueError(
             f"unknown provider {name!r} (WEALTH_LAB_PROVIDER env var) - "

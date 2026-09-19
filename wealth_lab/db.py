@@ -11,6 +11,7 @@ Schema, in plain terms:
 
 from __future__ import annotations
 
+import os
 import sqlite3
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -18,7 +19,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterator, Optional
 
-DB_PATH = Path(__file__).resolve().parent.parent / "data" / "tracker.db"
+# WEALTH_LAB_DB_PATH overrides this for a real deployment - the default path
+# lives inside the repo checkout, which most hosts wipe on every redeploy.
+# Point it at a mounted persistent volume instead (see DEPLOYMENT.md).
+DB_PATH = Path(os.environ.get(
+    "WEALTH_LAB_DB_PATH", str(Path(__file__).resolve().parent.parent / "data" / "tracker.db")
+))
 
 SIGNAL_CATEGORIES = ("growth", "valuation", "risk", "catalyst", "macro", "other")
 THESIS_STATUSES = ("open", "closed_win", "closed_loss", "closed_flat")
