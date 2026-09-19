@@ -24,7 +24,7 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS theses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     symbol TEXT NOT NULL,
-    asset_type TEXT NOT NULL CHECK (asset_type IN ('stock', 'ipo')),
+    asset_type TEXT NOT NULL CHECK (asset_type IN ('stock', 'ipo', 'etf', 'cash')),
     name TEXT,
     thesis TEXT NOT NULL,
     conviction INTEGER NOT NULL CHECK (conviction BETWEEN 1 AND 5),
@@ -56,8 +56,20 @@ CREATE TABLE IF NOT EXISTS snapshots (
     recorded_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS positions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    thesis_id INTEGER NOT NULL REFERENCES theses(id) ON DELETE CASCADE,
+    sleeve TEXT NOT NULL CHECK (sleeve IN ('core_equity', 'core_bond', 'cash', 'satellite')),
+    target_weight REAL NOT NULL CHECK (target_weight >= 0 AND target_weight <= 1),
+    shares REAL NOT NULL,
+    cost_basis REAL NOT NULL,
+    opened_at TEXT NOT NULL,
+    UNIQUE(thesis_id)
+);
+
 CREATE INDEX IF NOT EXISTS idx_signals_thesis ON signals(thesis_id);
 CREATE INDEX IF NOT EXISTS idx_snapshots_thesis ON snapshots(thesis_id);
+CREATE INDEX IF NOT EXISTS idx_positions_thesis ON positions(thesis_id);
 """
 
 
@@ -188,3 +200,27 @@ def latest_snapshot(conn: sqlite3.Connection, thesis_id: int) -> Optional[sqlite
         "SELECT * FROM snapshots WHERE thesis_id = ? ORDER BY recorded_at DESC LIMIT 1",
         (thesis_id,),
     ).fetchone()
+
+
+def add_position(
+    conn: sqlite3.Connection,
+    thesis_id: int,
+    sleeve: str,
+    target_weight: float,
+    shares: float,
+    cost_basis: float,
+) -> int:
+    cur = conn.execute(
+        """INSERT INTO positions (thesis_id, sleeve, target_weight, shares, cost_basis, opened_at)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        (thesis_id, sleeve, target_weight, shares, cost_basis, _now()),
+    )
+    return cur.lastrowid
+
+
+def list_positions(conn: sqlite3.Connection) -> list[sqlite3.Row]:
+    return conn.execute(
+        """SELECT positions.*, theses.symbol, theses.asset_type, theses.entry_price
+           FROM positions JOIN theses ON theses.id = positions.thesis_id
+           ORDER BY positions.sleeve, positions.target_weight DESC"""
+    ).fetchall()

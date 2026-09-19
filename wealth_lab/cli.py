@@ -14,7 +14,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from wealth_lab import db, report
+from wealth_lab import db, portfolio, report
 
 
 def cmd_add(conn, args) -> None:
@@ -121,6 +121,34 @@ def cmd_report(conn, args) -> None:
         print("  no closed theses yet")
 
 
+def cmd_portfolio(conn, args) -> None:
+    values = portfolio.current_values(conn)
+    if not values:
+        print("no funded positions yet - run `python -m wealth_lab.seed_portfolio`")
+        return
+
+    total = portfolio.total_value(values)
+    weights = portfolio.current_weights(values)
+
+    print(f"== positions (total market value ${total:,.2f}) ==")
+    for v in sorted(values, key=lambda v: v.market_value, reverse=True):
+        print(
+            f"  {v.symbol:<8} {v.sleeve:<12} target={v.target_weight * 100:5.1f}%  "
+            f"actual={weights[v.symbol] * 100:5.1f}%  value=${v.market_value:>10,.2f}  "
+            f"return={v.pct_return * 100:+.1f}%"
+        )
+
+    print("\n== sleeve breakdown ==")
+    for sleeve, w in sorted(portfolio.sleeve_weights(values).items(), key=lambda kv: -kv[1]):
+        print(f"  {sleeve:<12} {w * 100:5.1f}%")
+
+    hhi = portfolio.herfindahl_index(values)
+    print(f"\nconcentration (HHI): {hhi:.3f}  (1/n for n equal-weight positions; lower = more diversified)")
+
+    ret = portfolio.portfolio_return(values, args.starting_capital)
+    print(f"portfolio return since inception: {ret * 100:+.2f}%  (vs starting capital ${args.starting_capital:,.0f})")
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="wealth_lab")
     sub = p.add_subparsers(dest="command", required=True)
@@ -167,6 +195,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     rep = sub.add_parser("report", help="calibration report: conviction/signals vs realized return")
     rep.set_defaults(func=cmd_report)
+
+    pf = sub.add_parser("portfolio", help="show current portfolio allocation and risk metrics")
+    pf.add_argument("--starting-capital", type=float, default=100_000.0)
+    pf.set_defaults(func=cmd_portfolio)
 
     return p
 
