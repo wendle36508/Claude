@@ -113,7 +113,9 @@
   .kpi .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
   .kpi .value { font-size: 19px; font-weight: 600; }
   .kpi .sub { font-size: 11px; color: var(--ink-2); }
-  @media (max-width: 760px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+  /* single column below 760px: 5 tiles don't divide evenly into 2 columns,
+     and a 2-col grid with an odd last item leaves a visible empty cell */
+  @media (max-width: 760px) { .kpis { grid-template-columns: 1fr; } }
 
   section { display: flex; flex-direction: column; gap: 12px; }
   section > h2 { font-size: 17px; }
@@ -121,6 +123,10 @@
   .bar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
   .stackbar { display: flex; height: 34px; border-radius: 6px; overflow: hidden; gap: 2px; background: var(--surface-2); }
   .seg { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-shadow: 0 1px 1px rgba(0,0,0,0.25); }
+  /* narrow segments (small sleeve weights) can't fit "SYMBOL NN%" without
+     overlapping neighbors on a phone-width bar - the color block plus the
+     legend below still communicates the breakdown without it */
+  @media (max-width: 480px) { .seg { font-size: 0; } }
   .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 12.5px; color: var(--ink-2); }
   .legend .dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
   .risk-line { font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 4px 16px; }
@@ -188,13 +194,13 @@
       <h1>Wealth Lab Console</h1>
     </div>
     <div style="text-align:right;">
-      <div class="meta-line" id="generated-at">loading…</div>
+      <div class="meta-line" id="generated-at">loading&hellip;</div>
       <div class="meta-line">data snapshot, not live - redeployed on request</div>
     </div>
   </header>
   <p class="disclaimer">Hypothetical paper portfolio and research tooling for educational/demonstration purposes. Not investment advice.</p>
 
-  <div id="loading" class="loading">Loading snapshot…</div>
+  <div id="loading" class="loading">Loading snapshot&hellip;</div>
 
   <div id="app" hidden>
     <section id="kpi-section"></section>
@@ -206,7 +212,7 @@
 
     <section>
       <h2>Every thesis, side by side</h2>
-      <p class="risk-note" style="margin:0;">Click a column to sort · click a row to expand its full research note. Nothing here is blended into one ranking number - score, confidence, range, and volatility each answer a different question.</p>
+      <p class="risk-note" style="margin:0;">Click a column to sort &middot; click a row to expand its full research note. Nothing here is blended into one ranking number - score, confidence, range, and volatility each answer a different question.</p>
       <div class="table-card">
         <div class="table-scroll">
           <table id="thesis-table">
@@ -241,19 +247,19 @@
   var state = { data: null, sortKey: 'score', sortDesc: true, openRow: null };
 
   function fmtPct(v, digits) {
-    if (v === null || v === undefined) return '—';
+    if (v === null || v === undefined) return '&mdash;';
     digits = digits === undefined ? 1 : digits;
     var s = (v * 100).toFixed(digits);
     return (v >= 0 ? '+' : '') + s + '%';
   }
   function fmtNum(v, digits) {
-    if (v === null || v === undefined) return '—';
+    if (v === null || v === undefined) return '&mdash;';
     digits = digits === undefined ? 2 : digits;
     var s = v.toFixed(digits);
     return (v >= 0 ? '+' : '') + s;
   }
   function fmtMoney(v) {
-    if (v === null || v === undefined) return '—';
+    if (v === null || v === undefined) return '&mdash;';
     return '$' + v.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
   }
   function escapeHtml(s) {
@@ -270,12 +276,12 @@
   function renderKpis(d) {
     var p = d.portfolio;
     var tiles = [];
-    tiles.push(['Total value', p ? fmtMoney(p.total_value) : '—', p ? ('of $' + p.starting_capital.toLocaleString()) : '']);
-    tiles.push(['Return since inception', p ? fmtPct(p.return_since_inception, 2) : '—', '']);
-    tiles.push(['Concentration (HHI)', p ? p.hhi.toFixed(3) : '—', 'lower = more diversified']);
-    tiles.push(['Portfolio volatility', (p && p.risk.volatility !== null) ? fmtPct(p.risk.volatility, 1) : '—',
+    tiles.push(['Total value', p ? fmtMoney(p.total_value) : '&mdash;', p ? ('of $' + p.starting_capital.toLocaleString()) : '']);
+    tiles.push(['Return since inception', p ? fmtPct(p.return_since_inception, 2) : '&mdash;', '']);
+    tiles.push(['Concentration (HHI)', p ? p.hhi.toFixed(3) : '&mdash;', 'lower = more diversified']);
+    tiles.push(['Portfolio volatility', (p && p.risk.volatility !== null) ? fmtPct(p.risk.volatility, 1) : '&mdash;',
                 (p && p.naive_volatility) ? ('naive upper bound ' + fmtPct(p.naive_volatility.weighted_volatility, 1)) : 'insufficient history']);
-    tiles.push(['Beta vs SPY', (p && p.risk.beta_vs_benchmark !== null) ? fmtNum(p.risk.beta_vs_benchmark, 2) : '—', 'whole account only']);
+    tiles.push(['Beta vs SPY', (p && p.risk.beta_vs_benchmark !== null) ? fmtNum(p.risk.beta_vs_benchmark, 2) : '&mdash;', 'whole account only']);
 
     var html = '<div class="kpis">' + tiles.map(function (t) {
       return '<div class="kpi"><span class="label">' + t[0] + '</span><span class="value mono">' + t[1] + '</span><span class="sub">' + t[2] + '</span></div>';
@@ -388,10 +394,10 @@
     }
     if (info.valuation_gap) {
       var g = info.valuation_gap;
-      parts.push('Implied multiple (' + g.metric + '): ' + fmtNum(g.ipo_multiple, 1) + 'x');
+      parts.push('Implied multiple (' + g.metric + '): ' + g.ipo_multiple.toFixed(1) + 'x');
       if (g.n_comps > 0) {
         var dir = g.premium_to_peers >= 0 ? 'premium' : 'discount';
-        parts.push('Peer median (' + g.n_comps + ' comps): ' + fmtNum(g.peer_median, 1) + 'x &rarr; ' +
+        parts.push('Peer median (' + g.n_comps + ' comps): ' + g.peer_median.toFixed(1) + 'x &rarr; ' +
           dir + ' of ' + Math.abs(g.premium_to_peers * 100).toFixed(0) + '% to peers');
       } else {
         parts.push('No comparables logged yet');
@@ -399,7 +405,7 @@
     }
     if (info.comparables && info.comparables.length) {
       parts.push(info.comparables.map(function (c) {
-        return c.peer_symbol + ' ' + fmtNum(c.peer_multiple, 1) + 'x';
+        return c.peer_symbol + ' ' + c.peer_multiple.toFixed(1) + 'x';
       }).join(' &middot; '));
     }
     if (info.notes) parts.push('<span class="dim">' + escapeHtml(info.notes) + '</span>');
@@ -491,15 +497,15 @@
       var main =
         '<tr class="row' + (isOpen ? ' open' : '') + '" data-id="' + t.id + '">' +
           '<td class="sym-cell">' + t.symbol + '</td>' +
-          '<td class="dim">' + escapeHtml(t.sector || '—') + '</td>' +
+          '<td class="dim">' + (t.sector ? escapeHtml(t.sector) : '&mdash;') + '</td>' +
           '<td class="num">' + t.conviction + '/5</td>' +
-          '<td class="num">' + (t.score ? fmtNum(t.score.value, 2) : '—') + '</td>' +
-          '<td class="num">' + (t.confidence ? t.confidence.value.toFixed(2) : '—') + '</td>' +
-          '<td class="num">' + (t.range ? fmtPct(t.range.floor, 1) : '—') + '</td>' +
-          '<td class="num">' + (t.range ? fmtPct(t.range.base, 1) : '—') + '</td>' +
-          '<td class="num">' + (t.range ? fmtPct(t.range.ceiling, 1) : '—') + '</td>' +
-          '<td class="num">' + (t.risk && t.risk.volatility !== null ? fmtPct(t.risk.volatility, 1) : '—') + '</td>' +
-          '<td class="num">' + (t.return_pct !== null ? fmtPct(t.return_pct, 1) : '—') + '</td>' +
+          '<td class="num">' + (t.score ? fmtNum(t.score.value, 2) : '&mdash;') + '</td>' +
+          '<td class="num">' + (t.confidence ? t.confidence.value.toFixed(2) : '&mdash;') + '</td>' +
+          '<td class="num">' + (t.range ? fmtPct(t.range.floor, 1) : '&mdash;') + '</td>' +
+          '<td class="num">' + (t.range ? fmtPct(t.range.base, 1) : '&mdash;') + '</td>' +
+          '<td class="num">' + (t.range ? fmtPct(t.range.ceiling, 1) : '&mdash;') + '</td>' +
+          '<td class="num">' + (t.risk && t.risk.volatility !== null ? fmtPct(t.risk.volatility, 1) : '&mdash;') + '</td>' +
+          '<td class="num">' + (t.return_pct !== null ? fmtPct(t.return_pct, 1) : '&mdash;') + '</td>' +
         '</tr>';
       var detail = isOpen ? '<tr class="detail-row"><td colspan="10">' + detailHtml(t) + '</td></tr>' : '';
       return main + detail;
@@ -517,8 +523,8 @@
     Array.prototype.forEach.call(document.querySelectorAll('#thesis-table thead th'), function (th) {
       var key = th.getAttribute('data-key');
       th.classList.toggle('sorted', key === state.sortKey);
-      var base = th.textContent.replace(/\s*[▲▼]\s*$/, '');
-      th.innerHTML = base + (key === state.sortKey ? '<span class="arrow">' + (state.sortDesc ? '▼' : '▲') + '</span>' : '');
+      var base = th.textContent.replace(/\s*[\u25B2\u25BC]\s*$/, '');
+      th.innerHTML = base + (key === state.sortKey ? '<span class="arrow">' + (state.sortDesc ? '&#9660;' : '&#9650;') + '</span>' : '');
     });
   }
 
