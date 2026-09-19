@@ -1,0 +1,670 @@
+{
+  "generated_at": "2026-09-19T17:16:21+00:00",
+  "portfolio": {
+    "starting_capital": 100000.0,
+    "total_value": 100000.0,
+    "return_since_inception": 0.0,
+    "hhi": 0.18079999999999996,
+    "sleeve_weights": {
+      "cash": 0.05,
+      "core_bond": 0.15,
+      "core_equity": 0.3,
+      "satellite": 0.5
+    },
+    "risk": {
+      "sufficient": false,
+      "volatility": null,
+      "sharpe": null,
+      "max_drawdown": null,
+      "beta_vs_benchmark": null,
+      "n_snapshots": 1
+    },
+    "naive_volatility": {
+      "weighted_volatility": 0.0,
+      "covered_weight": 0.05,
+      "n_positions_included": 1
+    }
+  },
+  "theses": [
+    {
+      "id": 10,
+      "symbol": "CASH",
+      "name": "Cash",
+      "sector": "Cash",
+      "asset_type": "cash",
+      "status": "open",
+      "conviction": 5,
+      "thesis": "Liquidity buffer for rebalancing and to avoid being forced to sell into a drawdown.",
+      "entry_price": null,
+      "entry_date": "2026-09-19",
+      "latest_price": null,
+      "return_pct": null,
+      "position": {
+        "sleeve": "cash",
+        "target_weight": 0.05,
+        "shares": 5000.0,
+        "cost_basis": 1.0,
+        "market_value": 5000.0
+      },
+      "score": null,
+      "confidence": null,
+      "range": null,
+      "category_scores": {},
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": []
+    },
+    {
+      "id": 9,
+      "symbol": "BND",
+      "name": "Vanguard Total Bond Market ETF",
+      "sector": "Fixed Income Index",
+      "asset_type": "etf",
+      "status": "open",
+      "conviction": 5,
+      "thesis": "Core fixed income; dampens volatility and is the standard multi-asset diversifier a stock-only portfolio lacks.",
+      "entry_price": 71.94,
+      "entry_date": "2026-09-19",
+      "latest_price": 71.94,
+      "return_pct": 0.0,
+      "position": {
+        "sleeve": "core_bond",
+        "target_weight": 0.15,
+        "shares": 208.5070892410342,
+        "cost_basis": 71.94,
+        "market_value": 15000.0
+      },
+      "score": null,
+      "confidence": null,
+      "range": null,
+      "category_scores": {},
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 1,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": []
+    },
+    {
+      "id": 8,
+      "symbol": "SPY",
+      "name": "SPDR S&P 500 ETF Trust",
+      "sector": "Broad Market Equity Index",
+      "asset_type": "etf",
+      "status": "open",
+      "conviction": 5,
+      "thesis": "Broad US equity core; the ballast that keeps this from being an AI-only bet.",
+      "entry_price": 761.69,
+      "entry_date": "2026-09-19",
+      "latest_price": 761.69,
+      "return_pct": 0.0,
+      "position": {
+        "sleeve": "core_equity",
+        "target_weight": 0.3,
+        "shares": 39.38610195748927,
+        "cost_basis": 761.69,
+        "market_value": 30000.0
+      },
+      "score": null,
+      "confidence": null,
+      "range": null,
+      "category_scores": {},
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 1,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": []
+    },
+    {
+      "id": 7,
+      "symbol": "DATABRICKS",
+      "name": "Databricks, Inc.",
+      "sector": "Data & AI Platform Software",
+      "asset_type": "ipo",
+      "status": "open",
+      "conviction": 2,
+      "thesis": "Data/AI platform; no S-1 filed as of Aug 2026, CEO explicitly pushed timeline toward 2027+ despite reaffirming intent to go public",
+      "entry_price": null,
+      "entry_date": null,
+      "latest_price": null,
+      "return_pct": null,
+      "position": null,
+      "score": {
+        "value": 0.0,
+        "n_signals": 2,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 0.6666193484030506,
+        "agreement": 0.0,
+        "recency": 0.999929022604576
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": null,
+        "base_price": null,
+        "ceiling_price": null,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "scale_and_growth",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Crossed $7B annualized revenue run-rate with >80% YoY growth in Q2 2026; closed $5B strategic round at $190B valuation Aug 13 2026",
+          "source": "https://www.allocations.com/insights/databricks-ipo-2026-date-valuation-and-how-to-invest",
+          "recorded_at": "2026-09-19T16:58:40+00:00"
+        },
+        {
+          "name": "timeline_risk",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "No S-1 (public or confidential) filed as of Aug 2026; CEO called 2026 'a terrible year to go public' citing a crowded IPO calendar, timeline slipping toward 2027+",
+          "source": "https://www.allocations.com/insights/databricks-ipo-2026-date-valuation-and-how-to-invest",
+          "recorded_at": "2026-09-19T16:58:40+00:00"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "symbol": "CBRS",
+      "name": "Cerebras Systems Inc.",
+      "sector": "AI Chips / Semiconductors",
+      "asset_type": "ipo",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Wafer-scale AI inference chipmaker; S-1 filed April 2026 targeting Nasdaq under CBRS, ~$23-26B valuation range, anchored by a large OpenAI deal",
+      "entry_price": null,
+      "entry_date": null,
+      "latest_price": null,
+      "return_pct": null,
+      "position": null,
+      "score": {
+        "value": 0.0,
+        "n_signals": 2,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 0.6666193483833077,
+        "agreement": 0.0,
+        "recency": 0.9999290225749615
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": null,
+        "base_price": null,
+        "ceiling_price": null,
+        "source": "default"
+      },
+      "category_scores": {
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "s1_filed_with_marquee_deal",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "S-1 filed April 2026; ~$510M revenue, ~$10B OpenAI deal disclosed, targeting ~$23-26B IPO valuation",
+          "source": "https://tech-insider.org/cerebras-ipo-filing-510m-revenue-openai-deal-23b-valuation-2026/",
+          "recorded_at": "2026-09-19T16:58:40+00:00"
+        },
+        {
+          "name": "customer_concentration",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Original 2024 filing showed G42 at >80% of revenue and was withdrawn over a CFIUS national security review. By 2025, G42+MBZUAI (related UAE parties) still made up 86% of revenue; that dependency has now rotated toward OpenAI rather than been resolved",
+          "source": "https://www.atlaspeakresearch.com/report/31f3bf",
+          "recorded_at": "2026-09-19T16:58:40+00:00"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "symbol": "ANTH",
+      "name": "Anthropic PBC",
+      "sector": "AI Frontier Labs",
+      "asset_type": "ipo",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "AI frontier lab; confidentially filed S-1, ~90% prediction-market odds of listing in 2026, reportedly targeting October. NOTE: Anthropic is Claude's developer - flagging this as an inherent conflict of interest in any analysis I produce on it.",
+      "entry_price": null,
+      "entry_date": null,
+      "latest_price": null,
+      "return_pct": null,
+      "position": null,
+      "score": {
+        "value": 0.4999999832863817,
+        "n_signals": 2,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.3332859832899495,
+        "band": "medium",
+        "coverage": 0.6666193260832641,
+        "agreement": 0.4999999832863817,
+        "recency": 0.9999289891248972
+      },
+      "range": {
+        "floor": -0.14168561086242476,
+        "base": 0.12499999582159542,
+        "ceiling": 0.3916856025056156,
+        "floor_price": null,
+        "base_price": null,
+        "ceiling_price": null,
+        "source": "default"
+      },
+      "category_scores": {
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "other": {
+          "value": 0.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "ipo_filing_confirmed",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Confidentially filed S-1 with SEC in June 2026; ~90% prediction-market odds of a 2026 listing, reportedly targeting October",
+          "source": "https://www.npr.org/2026/06/01/nx-s1-5843199/anthropic-ipo-filing-ai-large",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        },
+        {
+          "name": "conflict_of_interest",
+          "category": "other",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Anthropic develops the model performing this research; treat any Anthropic-specific output here with extra skepticism and independently verify",
+          "source": "self-disclosed",
+          "recorded_at": "2026-09-19T16:58:40+00:00"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "symbol": "SNDK",
+      "name": "Sandisk Corporation",
+      "sector": "Semiconductors / Memory",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 2,
+      "thesis": "NAND/flash memory supply squeeze play tied to AI server demand; extremely parabolic move",
+      "entry_price": 1791.82,
+      "entry_date": "2026-09-19",
+      "latest_price": 1791.82,
+      "return_pct": 0.0,
+      "position": {
+        "sleeve": "satellite",
+        "target_weight": 0.08,
+        "shares": 4.464734180888706,
+        "cost_basis": 1791.82,
+        "market_value": 8000.000000000001
+      },
+      "score": {
+        "value": 0.0,
+        "n_signals": 2,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 0.6666193037852706,
+        "agreement": 0.0,
+        "recency": 0.9999289556779059
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 1075.0919999999999,
+        "base_price": 1791.82,
+        "ceiling_price": 2508.548,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 1,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "memory_supply_squeeze",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Stock up 464.5% YTD 2026 on NAND/flash scarcity narrative tied to AI server buildout",
+          "source": "https://www.investing.com/equities/sandisk-corp",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        },
+        {
+          "name": "parabolic_extension",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "52-wk range $93.54-$2,354.39; move from ~$34 to ~$1,800 in about a year is a classic blow-off-top risk profile, not a stable entry",
+          "source": "https://www.morningstar.com/stocks/xnas/sndk/quote",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "symbol": "VRT",
+      "name": "Vertiv Holdings Co",
+      "sector": "Datacenter Power & Cooling",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Picks-and-shovels power/cooling supplier for AI datacenters; wins regardless of which chip vendor leads",
+      "entry_price": 241.49,
+      "entry_date": "2026-09-19",
+      "latest_price": 241.49,
+      "return_pct": 0.0,
+      "position": {
+        "sleeve": "satellite",
+        "target_weight": 0.12,
+        "shares": 49.69149861277899,
+        "cost_basis": 241.49,
+        "market_value": 12000.0
+      },
+      "score": {
+        "value": 0.0,
+        "n_signals": 2,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 0.6666193037694494,
+        "agreement": 0.0,
+        "recency": 0.9999289556541742
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 144.894,
+        "base_price": 241.49,
+        "ceiling_price": 338.086,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "valuation": {
+          "value": -1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 1,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "datacenter_capex_beneficiary",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "34% revenue growth / 47% earnings growth projected for 2026 on AI datacenter power & cooling demand",
+          "source": "https://fortune.com/2026/08/11/data-center-stocks/",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        },
+        {
+          "name": "valuation",
+          "category": "valuation",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Stock nearly doubled off its 52-wk low ($133.85); already pricing in continued hypergrowth",
+          "source": "https://www.heygotrade.com/en/us-stock/vrt/",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "symbol": "NBIS",
+      "name": "Nebius Group N.V.",
+      "sector": "AI Cloud Infrastructure",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "AI cloud/GPU infra provider (ex-Yandex NV) showing extreme growth and apparent pricing power",
+      "entry_price": 217.99,
+      "entry_date": "2026-09-19",
+      "latest_price": 217.99,
+      "return_pct": 0.0,
+      "position": {
+        "sleeve": "satellite",
+        "target_weight": 0.15,
+        "shares": 68.81049589430708,
+        "cost_basis": 217.99,
+        "market_value": 15000.000000000002
+      },
+      "score": {
+        "value": 1.0,
+        "n_signals": 2,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.6665719442059931,
+        "band": "high",
+        "coverage": 0.6666193037538958,
+        "agreement": 1.0,
+        "recency": 0.9999289556308436
+      },
+      "range": {
+        "floor": 0.11662877768239724,
+        "base": 0.25,
+        "ceiling": 0.3833712223176028,
+        "floor_price": 243.41390724698581,
+        "base_price": 272.4875,
+        "ceiling_price": 301.5610927530143,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 1,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "revenue_growth",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 revenue surged >500% YoY to ~$575M on large AI capacity contracts",
+          "source": "https://www.cnbc.com/quotes/NBIS",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        },
+        {
+          "name": "pricing_power",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Shares jumped ~9% premarket on reports of GPU cloud price hikes, implying demand outstripping supply",
+          "source": "https://www.tradingview.com/symbols/NASDAQ-NBIS/",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "symbol": "CRWV",
+      "name": "CoreWeave, Inc.",
+      "sector": "AI Cloud Infrastructure",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Pure-play Nvidia-backed AI cloud infra; huge contracted backlog but capital-intensive and customer-concentrated",
+      "entry_price": 81.36,
+      "entry_date": "2026-09-19",
+      "latest_price": 81.36,
+      "return_pct": 0.0,
+      "position": {
+        "sleeve": "satellite",
+        "target_weight": 0.15,
+        "shares": 184.36578171091446,
+        "cost_basis": 81.36,
+        "market_value": 15000.0
+      },
+      "score": {
+        "value": 0.0,
+        "n_signals": 2,
+        "weights_used": "manual"
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 0.6666193037392779,
+        "agreement": 0.0,
+        "recency": 0.9999289556089169
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 48.815999999999995,
+        "base_price": 81.36,
+        "ceiling_price": 113.904,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 1,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "revenue_backlog",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 revenue backlog reached $104.2B, mostly Nvidia-powered cloud contracts",
+          "source": "https://fortune.com/2026/08/11/data-center-stocks/",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        },
+        {
+          "name": "drawdown_and_concentration",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Down ~45% from 52-wk high of $153.20; capex/debt-funded buildout with heavy customer concentration risk (Microsoft/OpenAI-linked demand)",
+          "source": "https://www.investing.com/equities/coreweave",
+          "recorded_at": "2026-09-19T16:58:39+00:00"
+        }
+      ]
+    }
+  ]
+}

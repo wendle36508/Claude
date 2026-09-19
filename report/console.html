@@ -1,0 +1,485 @@
+<title>Wealth Lab Console</title>
+<meta name="description" content="Live working view of the research tracker: every thesis's score, confidence, expected range, and risk metrics, plus the funded portfolio - read straight from the model, not narrated.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --page:       #f9f9f7;
+    --surface:    #ffffff;
+    --surface-2:  #fcfcfb;
+    --ink:        #0b0e14;
+    --ink-2:      #4b5259;
+    --muted:      #898781;
+    --grid:       #e1e0d9;
+    --border:     rgba(11,11,11,0.10);
+    --accent:     #16324f;
+    --gold:       #8a6a12;
+
+    --good:       #0ca30c;
+    --good-bg:    rgba(12,163,12,0.10);
+    --critical:   #d03b3b;
+    --critical-bg:rgba(208,59,59,0.09);
+    --neutral-ink:#6b6f76;
+    --neutral-bg: rgba(107,111,118,0.10);
+
+    --slot-core-equity: #2a78d6;
+    --slot-satellite:   #eb6834;
+    --slot-core-bond:   #1baf7a;
+    --slot-cash:        #eda100;
+
+    --row-hover: rgba(11,14,20,0.035);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page:       #0d0d0d;
+      --surface:    #16171a;
+      --surface-2:  #1a1a19;
+      --ink:        #f5f6f7;
+      --ink-2:      #c3c2b7;
+      --muted:      #8f8d86;
+      --grid:       #2c2c2a;
+      --border:     rgba(255,255,255,0.12);
+      --accent:     #7fabd9;
+      --gold:       #d8b34a;
+
+      --good:       #0ca30c;
+      --good-bg:    rgba(12,163,12,0.16);
+      --critical:   #e66767;
+      --critical-bg:rgba(230,103,103,0.14);
+      --neutral-ink:#a9adb5;
+      --neutral-bg: rgba(169,173,181,0.14);
+
+      --slot-core-equity: #3987e5;
+      --slot-satellite:   #d95926;
+      --slot-core-bond:   #199e70;
+      --slot-cash:        #c98500;
+
+      --row-hover: rgba(255,255,255,0.045);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page:       #0d0d0d;
+    --surface:    #16171a;
+    --surface-2:  #1a1a19;
+    --ink:        #f5f6f7;
+    --ink-2:      #c3c2b7;
+    --muted:      #8f8d86;
+    --grid:       #2c2c2a;
+    --border:     rgba(255,255,255,0.12);
+    --accent:     #7fabd9;
+    --gold:       #d8b34a;
+
+    --good:       #0ca30c;
+    --good-bg:    rgba(12,163,12,0.16);
+    --critical:   #e66767;
+    --critical-bg:rgba(230,103,103,0.14);
+    --neutral-ink:#a9adb5;
+    --neutral-bg: rgba(169,173,181,0.14);
+
+    --slot-core-equity: #3987e5;
+    --slot-satellite:   #d95926;
+    --slot-core-bond:   #199e70;
+    --slot-cash:        #c98500;
+
+    --row-hover: rgba(255,255,255,0.045);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding-inline: 16px;
+    padding-block: 24px 64px;
+    line-height: 1.45;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  a { color: var(--accent); }
+
+  header.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 20px; }
+  header.top h1 { font-size: clamp(22px, 3.4vw, 30px); }
+  .meta-line { font-size: 12.5px; color: var(--muted); }
+  .disclaimer { font-size: 11.5px; color: var(--muted); max-width: 62ch; }
+
+  .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .kpi { background: var(--surface); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .kpi .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .kpi .value { font-size: 19px; font-weight: 600; }
+  .kpi .sub { font-size: 11px; color: var(--ink-2); }
+  @media (max-width: 760px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+
+  section { display: flex; flex-direction: column; gap: 12px; }
+  section > h2 { font-size: 17px; }
+
+  .bar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .stackbar { display: flex; height: 34px; border-radius: 6px; overflow: hidden; gap: 2px; background: var(--surface-2); }
+  .seg { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-shadow: 0 1px 1px rgba(0,0,0,0.25); }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 12.5px; color: var(--ink-2); }
+  .legend .dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .risk-line { font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 4px 16px; }
+  .risk-line b { color: var(--ink); font-weight: 600; }
+  .risk-note { font-size: 11.5px; color: var(--muted); }
+
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 760px; }
+  thead th {
+    text-align: right; padding: 9px 10px; border-bottom: 1px solid var(--grid);
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600;
+    cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th:first-child, thead th:nth-child(2) { text-align: left; }
+  thead th.sorted { color: var(--accent); }
+  thead th .arrow { font-size: 9px; margin-left: 3px; opacity: 0.7; }
+  tbody td { padding: 9px 10px; border-bottom: 1px solid var(--grid); text-align: right; white-space: nowrap; }
+  tbody td:first-child, tbody td:nth-child(2) { text-align: left; }
+  tbody tr.row { cursor: pointer; }
+  tbody tr.row:hover { background: var(--row-hover); }
+  tbody tr.row.open { background: var(--row-hover); }
+  .sym-cell { font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
+  .num { font-family: 'IBM Plex Mono', monospace; }
+  .dim { color: var(--muted); }
+
+  .status-pill { display: inline-block; padding: 5px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+  .status-pill.good { background: var(--good-bg); color: var(--good); }
+  .status-pill.critical { background: var(--critical-bg); color: var(--critical); }
+  .status-pill.neutral { background: var(--neutral-bg); color: var(--neutral-ink); }
+
+  .detail-row td { padding: 0; }
+  .detail { padding: 16px 20px 22px; background: var(--surface-2); border-bottom: 1px solid var(--grid); white-space: normal; text-align: left; }
+  .detail-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .detail-grid { grid-template-columns: 1fr; } }
+  .detail h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 0 0 8px; font-family: 'Source Sans 3', sans-serif; font-weight: 700; }
+  .detail p.thesis-text { font-size: 13.5px; color: var(--ink-2); margin: 0 0 14px; }
+
+  .cat-bars { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .cat-bar-row { display: grid; grid-template-columns: 76px 1fr 42px; align-items: center; gap: 8px; font-size: 12px; }
+  .cat-bar-track { position: relative; height: 8px; background: var(--grid); border-radius: 4px; }
+  .cat-bar-fill { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+  .cat-bar-fill.pos { background: var(--good); left: 50%; }
+  .cat-bar-fill.neg { background: var(--critical); right: 50%; }
+  .cat-bar-mid { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--border); }
+
+  .sig-list { display: flex; flex-direction: column; gap: 10px; }
+  .sig { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; }
+  .sig .name { font-weight: 600; color: var(--ink); }
+  .sig .txt { color: var(--ink-2); }
+  .sig .txt a { color: var(--ink-2); text-decoration-color: var(--border); font-size: 11.5px; }
+  .sig .meta { color: var(--muted); font-size: 11px; }
+
+  .risk-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+
+  footer { border-top: 1px solid var(--border); padding-top: 16px; font-size: 11.5px; color: var(--muted); }
+
+  .loading { padding: 40px 0; text-align: center; color: var(--muted); font-size: 13px; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow" style="margin:0 0 4px; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--gold);">Research &amp; Portfolio Management</p>
+      <h1>Wealth Lab Console</h1>
+    </div>
+    <div style="text-align:right;">
+      <div class="meta-line" id="generated-at">loading…</div>
+      <div class="meta-line">data snapshot, not live - redeployed on request</div>
+    </div>
+  </header>
+  <p class="disclaimer">Hypothetical paper portfolio and research tooling for educational/demonstration purposes. Not investment advice.</p>
+
+  <div id="loading" class="loading">Loading snapshot…</div>
+
+  <div id="app" hidden>
+    <section id="kpi-section"></section>
+
+    <section id="portfolio-section">
+      <h2>Portfolio</h2>
+      <div id="portfolio-card"></div>
+    </section>
+
+    <section>
+      <h2>Every thesis, side by side</h2>
+      <p class="risk-note" style="margin:0;">Click a column to sort · click a row to expand its full research note. Nothing here is blended into one ranking number - score, confidence, range, and volatility each answer a different question.</p>
+      <div class="table-card">
+        <div class="table-scroll">
+          <table id="thesis-table">
+            <thead>
+              <tr>
+                <th data-key="symbol" style="text-align:left">Symbol</th>
+                <th data-key="sector" style="text-align:left">Sector</th>
+                <th data-key="conviction">Conv</th>
+                <th data-key="score">Score</th>
+                <th data-key="confidence">Conf</th>
+                <th data-key="floor">Floor</th>
+                <th data-key="base">Base</th>
+                <th data-key="ceiling">Ceil</th>
+                <th data-key="volatility">Vol</th>
+                <th data-key="return">Return</th>
+              </tr>
+            </thead>
+            <tbody id="thesis-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    Built with a Python/SQLite research tracker (wealth_lab) - composite scoring with decay/confidence, floor/ceiling ranges, category sub-scores, and volatility/Sharpe/drawdown/beta, all computed from sourced signals. This page renders a JSON snapshot exported from that tracker.
+  </footer>
+</div>
+
+<script>
+(function () {
+  var state = { data: null, sortKey: 'score', sortDesc: true, openRow: null };
+
+  function fmtPct(v, digits) {
+    if (v === null || v === undefined) return '—';
+    digits = digits === undefined ? 1 : digits;
+    var s = (v * 100).toFixed(digits);
+    return (v >= 0 ? '+' : '') + s + '%';
+  }
+  function fmtNum(v, digits) {
+    if (v === null || v === undefined) return '—';
+    digits = digits === undefined ? 2 : digits;
+    var s = v.toFixed(digits);
+    return (v >= 0 ? '+' : '') + s;
+  }
+  function fmtMoney(v) {
+    if (v === null || v === undefined) return '—';
+    return '$' + v.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+  function escapeHtml(s) {
+    if (s === null || s === undefined) return '';
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+  function directionPill(direction) {
+    var cls = direction === 'bullish' ? 'good' : direction === 'bearish' ? 'critical' : 'neutral';
+    return '<span class="status-pill ' + cls + '">' + direction + '</span>';
+  }
+
+  function renderKpis(d) {
+    var p = d.portfolio;
+    var tiles = [];
+    tiles.push(['Total value', p ? fmtMoney(p.total_value) : '—', p ? ('of $' + p.starting_capital.toLocaleString()) : '']);
+    tiles.push(['Return since inception', p ? fmtPct(p.return_since_inception, 2) : '—', '']);
+    tiles.push(['Concentration (HHI)', p ? p.hhi.toFixed(3) : '—', 'lower = more diversified']);
+    tiles.push(['Portfolio volatility', (p && p.risk.volatility !== null) ? fmtPct(p.risk.volatility, 1) : '—',
+                (p && p.naive_volatility) ? ('naive upper bound ' + fmtPct(p.naive_volatility.weighted_volatility, 1)) : 'insufficient history']);
+    tiles.push(['Beta vs SPY', (p && p.risk.beta_vs_benchmark !== null) ? fmtNum(p.risk.beta_vs_benchmark, 2) : '—', 'whole account only']);
+
+    var html = '<div class="kpis">' + tiles.map(function (t) {
+      return '<div class="kpi"><span class="label">' + t[0] + '</span><span class="value mono">' + t[1] + '</span><span class="sub">' + t[2] + '</span></div>';
+    }).join('') + '</div>';
+    document.getElementById('kpi-section').innerHTML = html;
+  }
+
+  var SLEEVE_COLOR = { core_equity: 'var(--slot-core-equity)', core_bond: 'var(--slot-core-bond)', cash: 'var(--slot-cash)', satellite: 'var(--slot-satellite)' };
+  var SLEEVE_LABEL = { core_equity: 'Core equity', core_bond: 'Core bond', cash: 'Cash', satellite: 'Satellite' };
+
+  function renderPortfolio(d) {
+    var p = d.portfolio;
+    var el = document.getElementById('portfolio-card');
+    if (!p) { el.innerHTML = '<p class="risk-note">No funded positions yet.</p>'; return; }
+
+    var funded = d.theses.filter(function (t) { return t.position; });
+    var segs = funded.slice().sort(function (a, b) { return b.position.target_weight - a.position.target_weight; })
+      .map(function (t) {
+        var w = (t.position.target_weight * 100).toFixed(0);
+        return '<div class="seg" style="width:' + (t.position.target_weight * 100) + '%; background:' + SLEEVE_COLOR[t.position.sleeve] + ';">' + t.symbol + ' ' + w + '%</div>';
+      }).join('');
+
+    var legendItems = Object.keys(p.sleeve_weights).sort(function (a, b) { return p.sleeve_weights[b] - p.sleeve_weights[a]; })
+      .map(function (s) {
+        return '<span><i class="dot" style="background:' + SLEEVE_COLOR[s] + '"></i>' + SLEEVE_LABEL[s] + ' ' + (p.sleeve_weights[s] * 100).toFixed(0) + '%</span>';
+      }).join('');
+
+    var naiveLine = '';
+    if (p.naive_volatility) {
+      naiveLine = '<div class="risk-note">naive upper-bound vol ' + fmtPct(p.naive_volatility.weighted_volatility, 1) +
+        ' (ignores correlation, coverage ' + (p.naive_volatility.covered_weight * 100).toFixed(0) + '% of portfolio)</div>';
+    }
+
+    el.innerHTML =
+      '<div class="bar-card">' +
+        '<div class="stackbar">' + segs + '</div>' +
+        '<div class="legend">' + legendItems + '</div>' +
+        '<div class="risk-line">' +
+          (p.risk.sufficient
+            ? '<span><b>Vol</b> ' + fmtPct(p.risk.volatility, 1) + '</span><span><b>Sharpe</b> ' + fmtNum(p.risk.sharpe, 2) + '</span><span><b>Max DD</b> ' + fmtPct(p.risk.max_drawdown, 1) + '</span>'
+            : '<span class="risk-note">Not enough snapshot history yet for real portfolio volatility/Sharpe/drawdown (' + p.risk.n_snapshots + ' date(s) so far).</span>') +
+        '</div>' +
+        naiveLine +
+      '</div>';
+  }
+
+  function categoryBars(catScores) {
+    var order = ['growth', 'valuation', 'risk', 'catalyst', 'macro', 'other'];
+    var rows = order.filter(function (c) { return catScores[c]; }).map(function (c) {
+      var v = catScores[c].value;
+      var pct = Math.abs(v) * 50;
+      var fillHtml = v >= 0
+        ? '<div class="cat-bar-fill pos" style="width:' + pct + '%;"></div>'
+        : '<div class="cat-bar-fill neg" style="width:' + pct + '%;"></div>';
+      return '<div class="cat-bar-row"><span class="dim">' + c + '</span>' +
+        '<div class="cat-bar-track">' + fillHtml + '<div class="cat-bar-mid"></div></div>' +
+        '<span class="mono">' + fmtNum(v, 2) + '</span></div>';
+    }).join('');
+    return rows ? '<div class="cat-bars">' + rows + '</div>' : '<p class="risk-note">No signals logged yet.</p>';
+  }
+
+  function signalList(signals) {
+    if (!signals.length) return '<p class="risk-note">No signals logged.</p>';
+    return '<div class="sig-list">' + signals.map(function (s) {
+      var src = s.source ? ' &middot; <a href="' + escapeHtml(s.source) + '" target="_blank" rel="noopener">source</a>' : '';
+      return '<div class="sig">' + directionPill(s.direction) +
+        '<div><div class="name">[' + s.category + '] ' + escapeHtml(s.name) + '</div>' +
+        '<div class="txt">' + escapeHtml(s.rationale || '') + '</div>' +
+        '<div class="meta">weight ' + s.weight.toFixed(2) + ' &middot; logged ' + s.recorded_at.slice(0, 10) + src + '</div></div></div>';
+    }).join('') + '</div>';
+  }
+
+  function detailHtml(t) {
+    var riskHtml;
+    if (t.risk.sufficient) {
+      riskHtml = 'Vol ' + fmtPct(t.risk.volatility, 1) + ' &middot; Sharpe ' + fmtNum(t.risk.sharpe, 2) + ' &middot; Max drawdown ' + fmtPct(t.risk.max_drawdown, 1);
+    } else {
+      riskHtml = 'Not enough price history yet (' + t.risk.n_snapshots + ' snapshot(s), need 3+) for volatility/Sharpe/drawdown.';
+    }
+
+    var rangeHtml = t.range
+      ? 'Expected range (' + t.range.source + '): floor ' + fmtPct(t.range.floor, 1) + ' &middot; base ' + fmtPct(t.range.base, 1) + ' &middot; ceiling ' + fmtPct(t.range.ceiling, 1) +
+        (t.range.floor_price ? ' &rarr; $' + t.range.floor_price.toFixed(2) + ' / $' + t.range.base_price.toFixed(2) + ' / $' + t.range.ceiling_price.toFixed(2) : '')
+      : 'No signals logged yet - nothing to score.';
+
+    var confHtml = t.confidence
+      ? 'Confidence ' + t.confidence.value.toFixed(2) + ' (' + t.confidence.band + ') - coverage ' + t.confidence.coverage.toFixed(2) +
+        ', agreement ' + t.confidence.agreement.toFixed(2) + ', recency ' + t.confidence.recency.toFixed(2)
+      : '';
+
+    var positionHtml = t.position
+      ? t.position.sleeve + ' sleeve, target ' + (t.position.target_weight * 100).toFixed(1) + '%, ' +
+        t.position.shares.toFixed(4) + ' shares @ $' + t.position.cost_basis.toFixed(2)
+      : 'Not funded - watchlist only';
+
+    return (
+      '<div class="detail">' +
+        '<p class="thesis-text">' + escapeHtml(t.thesis) + '</p>' +
+        '<div class="detail-grid">' +
+          '<div>' +
+            '<h4>Signals</h4>' + signalList(t.signals) +
+          '</div>' +
+          '<div>' +
+            '<h4>Category scores</h4>' + categoryBars(t.category_scores) +
+            '<h4>Score</h4>' +
+            '<div class="risk-box">' + confHtml + '<br>' + rangeHtml + '</div>' +
+            '<h4 style="margin-top:14px;">Risk</h4>' +
+            '<div class="risk-box">' + riskHtml + '</div>' +
+            '<h4 style="margin-top:14px;">Portfolio</h4>' +
+            '<div class="risk-box">' + positionHtml + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function rowValue(t, key) {
+    switch (key) {
+      case 'symbol': return t.symbol;
+      case 'sector': return t.sector || '';
+      case 'conviction': return t.conviction;
+      case 'score': return t.score ? t.score.value : null;
+      case 'confidence': return t.confidence ? t.confidence.value : null;
+      case 'floor': return t.range ? t.range.floor : null;
+      case 'base': return t.range ? t.range.base : null;
+      case 'ceiling': return t.range ? t.range.ceiling : null;
+      case 'volatility': return t.risk ? t.risk.volatility : null;
+      case 'return': return t.return_pct;
+      default: return null;
+    }
+  }
+
+  function sortTheses(theses, key, desc) {
+    var withVal = theses.filter(function (t) { return rowValue(t, key) !== null && rowValue(t, key) !== undefined; });
+    var withoutVal = theses.filter(function (t) { return rowValue(t, key) === null || rowValue(t, key) === undefined; });
+    withVal.sort(function (a, b) {
+      var av = rowValue(a, key), bv = rowValue(b, key);
+      if (typeof av === 'string') return desc ? bv.localeCompare(av) : av.localeCompare(bv);
+      return desc ? bv - av : av - bv;
+    });
+    return withVal.concat(withoutVal);
+  }
+
+  function renderTable() {
+    var rows = sortTheses(state.data.theses.slice(), state.sortKey, state.sortDesc);
+    var tbody = document.getElementById('thesis-tbody');
+    var html = rows.map(function (t) {
+      var isOpen = state.openRow === t.id;
+      var main =
+        '<tr class="row' + (isOpen ? ' open' : '') + '" data-id="' + t.id + '">' +
+          '<td class="sym-cell">' + t.symbol + '</td>' +
+          '<td class="dim">' + escapeHtml(t.sector || '—') + '</td>' +
+          '<td class="num">' + t.conviction + '/5</td>' +
+          '<td class="num">' + (t.score ? fmtNum(t.score.value, 2) : '—') + '</td>' +
+          '<td class="num">' + (t.confidence ? t.confidence.value.toFixed(2) : '—') + '</td>' +
+          '<td class="num">' + (t.range ? fmtPct(t.range.floor, 1) : '—') + '</td>' +
+          '<td class="num">' + (t.range ? fmtPct(t.range.base, 1) : '—') + '</td>' +
+          '<td class="num">' + (t.range ? fmtPct(t.range.ceiling, 1) : '—') + '</td>' +
+          '<td class="num">' + (t.risk && t.risk.volatility !== null ? fmtPct(t.risk.volatility, 1) : '—') + '</td>' +
+          '<td class="num">' + (t.return_pct !== null ? fmtPct(t.return_pct, 1) : '—') + '</td>' +
+        '</tr>';
+      var detail = isOpen ? '<tr class="detail-row"><td colspan="10">' + detailHtml(t) + '</td></tr>' : '';
+      return main + detail;
+    }).join('');
+    tbody.innerHTML = html;
+
+    Array.prototype.forEach.call(tbody.querySelectorAll('tr.row'), function (tr) {
+      tr.addEventListener('click', function () {
+        var id = parseInt(tr.getAttribute('data-id'), 10);
+        state.openRow = state.openRow === id ? null : id;
+        renderTable();
+      });
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('#thesis-table thead th'), function (th) {
+      var key = th.getAttribute('data-key');
+      th.classList.toggle('sorted', key === state.sortKey);
+      var base = th.textContent.replace(/\s*[▲▼]\s*$/, '');
+      th.innerHTML = base + (key === state.sortKey ? '<span class="arrow">' + (state.sortDesc ? '▼' : '▲') + '</span>' : '');
+    });
+  }
+
+  function attachSortHandlers() {
+    Array.prototype.forEach.call(document.querySelectorAll('#thesis-table thead th'), function (th) {
+      th.addEventListener('click', function () {
+        var key = th.getAttribute('data-key');
+        if (state.sortKey === key) { state.sortDesc = !state.sortDesc; }
+        else { state.sortKey = key; state.sortDesc = true; }
+        renderTable();
+      });
+    });
+  }
+
+  fetch('data.json').then(function (r) { return r.json(); }).then(function (d) {
+    state.data = d;
+    document.getElementById('generated-at').textContent = 'as of ' + d.generated_at.replace('T', ' ').slice(0, 16) + ' UTC';
+    renderKpis(d);
+    renderPortfolio(d);
+    attachSortHandlers();
+    renderTable();
+    document.getElementById('loading').hidden = true;
+    document.getElementById('app').hidden = false;
+  }).catch(function (err) {
+    document.getElementById('loading').textContent = 'Could not load data.json - ' + err;
+  });
+})();
+</script>
