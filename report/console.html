@@ -477,14 +477,18 @@
   function categoryBars(catScores) {
     var order = ['growth', 'valuation', 'risk', 'catalyst', 'macro', 'other'];
     var rows = order.filter(function (c) { return catScores[c]; }).map(function (c) {
-      var v = catScores[c].value;
-      var pct = Math.abs(v) * 50;
-      var fillHtml = v >= 0
+      var cat = catScores[c];
+      // s100 defaults to 50 (neutral) for a data.json exported before
+      // category-level public scores existed, so an old snapshot still
+      // renders instead of throwing on a missing field.
+      var s100 = cat.public_score ? cat.public_score.value : 50;
+      var pct = Math.abs(s100 - 50);
+      var fillHtml = s100 >= 50
         ? '<div class="cat-bar-fill pos" style="width:' + pct + '%;"></div>'
         : '<div class="cat-bar-fill neg" style="width:' + pct + '%;"></div>';
       return '<div class="cat-bar-row"><span class="dim">' + c + '</span>' +
         '<div class="cat-bar-track">' + fillHtml + '<div class="cat-bar-mid"></div></div>' +
-        '<span class="mono">' + fmtNum(v, 2) + '</span></div>';
+        '<span class="mono">' + s100 + '</span></div>';
     }).join('');
     return rows ? '<div class="cat-bars">' + rows + '</div>' : '<p class="risk-note">No signals logged yet.</p>';
   }
@@ -590,7 +594,7 @@
             '<div class="risk-box">' + newsHtml(t.news) + '</div>' +
           '</div>' +
           '<div>' +
-            '<h4>Category scores</h4>' + categoryBars(t.category_scores) +
+            '<h4>Category scores (0-100)</h4>' + categoryBars(t.category_scores) +
             '<h4>Score detail</h4>' +
             '<div class="risk-box">' + confHtml + '<br>' + rangeHtml + '</div>' +
             '<h4 style="margin-top:14px;">Risk</h4>' +

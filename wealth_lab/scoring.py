@@ -30,6 +30,15 @@ model - it does not know this company's multiple, growth rate, or discount
 rate. calibrate_range_model() is the honest fix for that: once enough
 theses have closed with a known outcome, the range's width gets fit from
 what actually happened instead of from an assumed constant.
+
+live_quant_signals() is a fourth input, alongside manual/learned/decayed
+weights above: real P/E, P/B, and beta from a live DataProvider, turned
+into synthetic valuation/risk signals and blended into composite_score()/
+category_score() through the exact same weighted-average engine every
+logged signal already goes through - not a second formula. It's the only
+part of this module that talks to a live provider, and it degrades to
+exactly today's behavior (nothing added) with the default MockProvider or
+any symbol the provider has no data for.
 """
 
 from __future__ import annotations
@@ -40,6 +49,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from wealth_lab import db, report
+from wealth_lab.providers import get_provider
 
 DEFAULT_WEIGHT = 1.0
 MIN_OBSERVATIONS_TO_LEARN = 3
@@ -77,6 +87,18 @@ PUBLIC_SCORE_BANDS = (
     (30, "Bearish"),
     (0, "Strongly Bearish"),
 )
+
+# Reference points live_quant_signals() measures a stock's P/E and P/B
+# against to decide bullish/bearish and by how much. Flat, unsegmented
+# benchmarks - "roughly what an average large-cap looks like," not
+# sector-adjusted or fitted to anything - so a capital-intensive utility
+# and a software company get compared to the same yardstick. Documented
+# here so the choice is auditable, not hidden inside a formula.
+LIVE_BENCHMARK_PE = 20.0
+LIVE_BENCHMARK_PB = 3.0
+LIVE_BENCHMARK_BETA = 1.0
+LIVE_SIGNAL_WEIGHT = 1.0  # matches DEFAULT_WEIGHT - a live reading counts the same as one manually logged signal
+MIN_LIVE_SIGNAL_MAGNITUDE = 0.1  # floor so a near-benchmark reading still counts as weak evidence, not zero
 
 
 def _direction_sign(direction: str) -> float:
@@ -170,6 +192,75 @@ def learned_signal_weights(conn: sqlite3.Connection, min_n: int = MIN_OBSERVATIO
     return weights
 
 
+def _quant_reading_to_signal(name: str, category: str, deviation: float, as_of: datetime) -> dict:
+    """deviation is (benchmark - actual) / benchmark for a "lower is
+    bullish" metric like P/E, already sign-flipped by the caller for a
+    "higher is bullish" one - so positive deviation always means bullish
+    here. Clipped to [-1, 1] and floored at MIN_LIVE_SIGNAL_MAGNITUDE so
+    a reading exactly at the benchmark still registers as weak evidence
+    rather than contributing nothing."""
+    magnitude = max(min(abs(deviation), 1.0), MIN_LIVE_SIGNAL_MAGNITUDE)
+    direction = "bullish" if deviation > 0 else "bearish" if deviation < 0 else "neutral"
+    return {
+        "name": name, "category": category, "direction": direction,
+        "weight": LIVE_SIGNAL_WEIGHT * magnitude,
+        "rationale": None, "source": None,
+        "recorded_at": as_of.isoformat(),
+    }
+
+
+def live_quant_signals(symbol: str, provider=None, as_of: Optional[datetime] = None) -> list[dict]:
+    """Real P/E, P/B, and beta - fetched live via a DataProvider and turned
+    into synthetic signal dicts with the same shape db.list_signals() rows
+    have, so composite_score()/category_score() can blend them into the
+    existing weighted-average engine instead of needing a second formula.
+    Each one is timestamped as of right now, so it always decays as fresh -
+    that's the actual sense in which this is "live": every call re-derives
+    it from the provider, nothing is cached or stored in the database.
+
+    Only valuation (P/E, P/B) and risk (beta) get a live signal. Finnhub's
+    free tier has no reliable forward-looking or revenue-growth numbers to
+    honestly turn into a growth/catalyst/macro signal, so those categories
+    stay exactly what they are today: whatever's actually been researched
+    and logged - this never fabricates evidence for a category real data
+    isn't available for.
+
+    Returns [] - never raises, never fabricates - when: no live provider is
+    configured (provider.is_live is False, the default MockProvider case),
+    the provider has no data for this symbol, or a metric field is missing
+    or non-positive (a P/E from negative earnings isn't "cheap," it's
+    undefined for this heuristic, so it's skipped rather than misread)."""
+    if provider is None:
+        provider = get_provider()
+    if not provider.is_live:
+        return []
+
+    metrics = provider.get_quant_metrics(symbol)
+    if metrics is None:
+        return []
+
+    as_of = as_of or datetime.now(timezone.utc)
+    out = []
+
+    if metrics.pe_ttm is not None and metrics.pe_ttm > 0:
+        deviation = (LIVE_BENCHMARK_PE - metrics.pe_ttm) / LIVE_BENCHMARK_PE
+        out.append(_quant_reading_to_signal("live_pe_ratio", "valuation", deviation, as_of))
+
+    if metrics.pb_ttm is not None and metrics.pb_ttm > 0:
+        deviation = (LIVE_BENCHMARK_PB - metrics.pb_ttm) / LIVE_BENCHMARK_PB
+        out.append(_quant_reading_to_signal("live_price_to_book", "valuation", deviation, as_of))
+
+    if metrics.beta is not None:
+        # same "lower is bullish" shape as P/E and P/B: higher beta = more
+        # volatile = riskier = bearish in the risk category's convention
+        # (bearish there means "a risk factor"), so a beta below the
+        # benchmark is the bullish (less-risky) direction
+        deviation = (LIVE_BENCHMARK_BETA - metrics.beta) / LIVE_BENCHMARK_BETA
+        out.append(_quant_reading_to_signal("live_beta", "risk", deviation, as_of))
+
+    return out
+
+
 def _score_signals(
     thesis_id: int,
     signals: list,
@@ -216,12 +307,16 @@ def composite_score(
     signal_weights: Optional[dict[str, float]] = None,
     half_life_days: Optional[float] = DECAY_HALF_LIFE_DAYS,
     as_of: Optional[datetime] = None,
+    live_signals: Optional[list[dict]] = None,
 ) -> Optional[ScoreResult]:
     """half_life_days=None disables decay (every signal counts at full
     weight regardless of age) - useful for inspecting the raw, undecayed
     score. as_of defaults to now; tests and the calibration model pass it
-    explicitly so results don't drift with wall-clock time."""
-    signals = db.list_signals(conn, thesis_id)
+    explicitly so results don't drift with wall-clock time. live_signals,
+    from live_quant_signals(), are blended in alongside the logged ones
+    through this same weighted-average engine - pass None (the default)
+    to score on logged signals only, exactly today's behavior."""
+    signals = list(db.list_signals(conn, thesis_id)) + list(live_signals or [])
     return _score_signals(thesis_id, signals, signal_weights, half_life_days, as_of or datetime.now(timezone.utc))
 
 
@@ -232,13 +327,17 @@ def category_score(
     signal_weights: Optional[dict[str, float]] = None,
     half_life_days: Optional[float] = DECAY_HALF_LIFE_DAYS,
     as_of: Optional[datetime] = None,
+    live_signals: Optional[list[dict]] = None,
 ) -> Optional[ScoreResult]:
     """Same math as composite_score, restricted to one signal category
     (growth / valuation / risk / catalyst / macro / other) - the "growth
     potential" or "risk" sub-score for a thesis, not just one overall
-    number. Returns None if no signals in that category have been logged,
-    same as composite_score does for zero signals overall."""
+    number. Returns None if no signals (logged or live) fall in that
+    category. live_signals works the same as in composite_score() - pass
+    the same list here and to composite_score() so both see the same live
+    reading rather than fetching it twice."""
     signals = [s for s in db.list_signals(conn, thesis_id) if s["category"] == category]
+    signals += [s for s in (live_signals or []) if s["category"] == category]
     return _score_signals(thesis_id, signals, signal_weights, half_life_days, as_of or datetime.now(timezone.utc))
 
 

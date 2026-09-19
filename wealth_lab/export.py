@@ -43,7 +43,13 @@ def thesis_snapshot(conn, t) -> dict:
             "market_value": market_value,
         }
 
-    result = scoring.composite_score(conn, t["id"])
+    # Fetched once and reused for the overall score and every category below,
+    # so a live provider (once actually deployed - see providers/README.md)
+    # only gets hit once per thesis, not once per category. [] with the
+    # default MockProvider - see scoring.live_quant_signals()'s docstring.
+    live_signals = scoring.live_quant_signals(t["symbol"])
+
+    result = scoring.composite_score(conn, t["id"], live_signals=live_signals)
     score = public_score = confidence = rng = None
     category_scores = {}
     if result is not None:
@@ -63,9 +69,14 @@ def thesis_snapshot(conn, t) -> dict:
             "source": range_result.source,
         }
         for category in db.SIGNAL_CATEGORIES:
-            cat_result = scoring.category_score(conn, t["id"], category)
+            cat_result = scoring.category_score(conn, t["id"], category, live_signals=live_signals)
             if cat_result is not None:
-                category_scores[category] = {"value": cat_result.score, "n_signals": cat_result.n_signals}
+                cat_conf = scoring.confidence(cat_result)
+                cat_pub = scoring.public_score(cat_result, cat_conf)
+                category_scores[category] = {
+                    "value": cat_result.score, "n_signals": cat_result.n_signals,
+                    "public_score": {"value": cat_pub.score_100, "label": cat_pub.label},
+                }
 
     rm = risk.compute_risk_metrics(conn, t["id"])
     risk_metrics = {

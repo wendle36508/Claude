@@ -111,3 +111,34 @@ def test_get_fundamentals_maps_fields(provider, monkeypatch):
 def test_get_fundamentals_none_when_symbol_unknown(provider, monkeypatch):
     monkeypatch.setattr(provider._session, "get", lambda url, params, timeout: FakeResponse({}))
     assert provider.get_fundamentals("NOTASYMBOL") is None
+
+
+def test_get_quant_metrics_maps_fields(provider, monkeypatch):
+    monkeypatch.setattr(
+        provider._session, "get",
+        lambda url, params, timeout: FakeResponse({
+            "metric": {
+                "peBasicExclExtraTTM": 28.4, "pbQuarterly": 6.1, "beta": 1.15,
+                "52WeekHigh": 260.1, "52WeekLow": 164.08,
+            },
+            "metricType": "all", "series": {}, "symbol": "AAPL",
+        }),
+    )
+    m = provider.get_quant_metrics("AAPL")
+    assert m.pe_ttm == 28.4
+    assert m.pb_ttm == 6.1
+    assert m.beta == 1.15
+    assert m.week52_high == 260.1
+    assert m.week52_low == 164.08
+
+
+def test_get_quant_metrics_none_when_no_metric_block(provider, monkeypatch):
+    monkeypatch.setattr(provider._session, "get", lambda url, params, timeout: FakeResponse({"metric": {}}))
+    assert provider.get_quant_metrics("NOTASYMBOL") is None
+
+
+def test_get_quant_metrics_none_on_request_failure(provider, monkeypatch):
+    def raise_error(url, params, timeout):
+        raise requests.ConnectionError("boom")
+    monkeypatch.setattr(provider._session, "get", raise_error)
+    assert provider.get_quant_metrics("AAPL") is None

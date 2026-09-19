@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from wealth_lab.providers.base import DataProvider, Fundamentals, NewsItem
+from wealth_lab.providers.base import DataProvider, Fundamentals, NewsItem, QuantMetrics
 
 
 class MockProvider(DataProvider):
@@ -23,4 +23,7 @@ class MockProvider(DataProvider):
         return []
 
     def get_fundamentals(self, symbol: str) -> Optional[Fundamentals]:
+        return None
+
+    def get_quant_metrics(self, symbol: str) -> Optional[QuantMetrics]:
         return None

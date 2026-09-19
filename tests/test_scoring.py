@@ -141,6 +141,127 @@ def test_no_decay_flag_scores_every_signal_at_full_weight(conn):
     assert result.score == 0.0  # decay disabled -> the two signals cancel exactly
 
 
+# ---- live quant signals ----
+
+class FakeQuantProvider:
+    """A minimal stand-in for a DataProvider - live_quant_signals() only
+    calls .is_live and .get_quant_metrics(), so that's all this needs."""
+    def __init__(self, metrics=None, is_live=True):
+        self.is_live = is_live
+        self._metrics = metrics
+
+    def get_quant_metrics(self, symbol):
+        return self._metrics
+
+
+def make_metrics(pe_ttm=None, pb_ttm=None, beta=None):
+    from wealth_lab.providers.base import QuantMetrics
+    return QuantMetrics(pe_ttm=pe_ttm, pb_ttm=pb_ttm, beta=beta, week52_high=None, week52_low=None)
+
+
+def test_live_quant_signals_empty_without_live_provider():
+    provider = FakeQuantProvider(metrics=make_metrics(pe_ttm=10), is_live=False)
+    assert scoring.live_quant_signals("AAA", provider=provider) == []
+
+
+def test_live_quant_signals_empty_when_provider_has_no_data():
+    provider = FakeQuantProvider(metrics=None, is_live=True)
+    assert scoring.live_quant_signals("AAA", provider=provider) == []
+
+
+def test_live_quant_signals_cheap_pe_is_bullish_valuation():
+    provider = FakeQuantProvider(metrics=make_metrics(pe_ttm=10.0))  # well below the 20.0 benchmark
+    sigs = scoring.live_quant_signals("AAA", provider=provider)
+
+    pe_sig = next(s for s in sigs if s["name"] == "live_pe_ratio")
+    assert pe_sig["direction"] == "bullish"
+    assert pe_sig["category"] == "valuation"
+    assert pe_sig["weight"] > 0
+
+
+def test_live_quant_signals_rich_pe_is_bearish_valuation():
+    provider = FakeQuantProvider(metrics=make_metrics(pe_ttm=40.0))  # well above benchmark
+    sigs = scoring.live_quant_signals("AAA", provider=provider)
+
+    pe_sig = next(s for s in sigs if s["name"] == "live_pe_ratio")
+    assert pe_sig["direction"] == "bearish"
+
+
+def test_live_quant_signals_high_beta_is_bearish_risk():
+    provider = FakeQuantProvider(metrics=make_metrics(beta=1.8))  # well above the 1.0 benchmark
+    sigs = scoring.live_quant_signals("AAA", provider=provider)
+
+    beta_sig = next(s for s in sigs if s["name"] == "live_beta")
+    assert beta_sig["direction"] == "bearish"
+    assert beta_sig["category"] == "risk"
+
+
+def test_live_quant_signals_low_beta_is_bullish_risk():
+    provider = FakeQuantProvider(metrics=make_metrics(beta=0.4))
+    sigs = scoring.live_quant_signals("AAA", provider=provider)
+
+    beta_sig = next(s for s in sigs if s["name"] == "live_beta")
+    assert beta_sig["direction"] == "bullish"
+
+
+def test_live_quant_signals_skips_missing_fields():
+    provider = FakeQuantProvider(metrics=make_metrics(pe_ttm=15.0))  # pb_ttm and beta both None
+    sigs = scoring.live_quant_signals("AAA", provider=provider)
+
+    assert {s["name"] for s in sigs} == {"live_pe_ratio"}
+
+
+def test_live_quant_signals_skips_non_positive_pe():
+    provider = FakeQuantProvider(metrics=make_metrics(pe_ttm=-5.0))  # negative earnings - undefined, not "cheap"
+    sigs = scoring.live_quant_signals("AAA", provider=provider)
+
+    assert {s["name"] for s in sigs} == set()
+
+
+def test_composite_score_blends_live_signals_with_logged_ones(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
+    live = scoring.live_quant_signals("AAA", provider=FakeQuantProvider(metrics=make_metrics(pe_ttm=10.0)))
+
+    without_live = scoring.composite_score(conn, tid)
+    with_live = scoring.composite_score(conn, tid, live_signals=live)
+
+    assert with_live.n_signals == without_live.n_signals + len(live)
+
+
+def test_category_score_only_includes_live_signals_in_matching_category(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "hiring", "bullish", category="growth", weight=1.0)
+    live = scoring.live_quant_signals(
+        "AAA", provider=FakeQuantProvider(metrics=make_metrics(pe_ttm=10.0, beta=0.5))
+    )  # 2 live signals: valuation (P/E) and risk (beta)
+
+    growth = scoring.category_score(conn, tid, "growth", live_signals=live)
+    valuation = scoring.category_score(conn, tid, "valuation", live_signals=live)
+    risk = scoring.category_score(conn, tid, "risk", live_signals=live)
+
+    assert growth.n_signals == 1  # only the logged signal - live signals don't leak into growth
+    assert valuation.n_signals == 1
+    assert risk.n_signals == 1
+
+
+def test_composite_score_none_when_no_logged_or_live_signals(conn):
+    tid = make_thesis(conn)
+    result = scoring.composite_score(conn, tid, live_signals=[])
+    assert result is None
+
+
+def test_live_signals_default_to_get_provider_when_not_passed(conn, monkeypatch):
+    # composite_score/category_score don't take live_signals from thin air -
+    # live_quant_signals() itself falls back to get_provider(), which the
+    # default MockProvider makes a no-op, so this must stay identical to
+    # calling composite_score() with no live_signals at all.
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
+
+    assert scoring.live_quant_signals("AAA") == []
+
+
 # ---- confidence ----
 
 def test_confidence_is_high_with_agreement_and_full_coverage(conn):

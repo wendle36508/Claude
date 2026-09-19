@@ -36,6 +36,21 @@ class Fundamentals:
     market_cap: Optional[float]
 
 
+@dataclass
+class QuantMetrics:
+    """Real valuation/risk numbers, as opposed to Fundamentals' company
+    facts - this is specifically what scoring.live_quant_signals() blends
+    into the valuation/risk category scores. Kept separate from
+    Fundamentals rather than added to it: those are "what is this
+    company," these are "is it priced richly and how bumpy is it,"
+    genuinely different questions with different callers."""
+    pe_ttm: Optional[float]         # trailing P/E
+    pb_ttm: Optional[float]         # price-to-book
+    beta: Optional[float]           # vs. the provider's own market index
+    week52_high: Optional[float]
+    week52_low: Optional[float]
+
+
 class DataProvider(ABC):
     @property
     @abstractmethod
@@ -59,4 +74,13 @@ class DataProvider(ABC):
     @abstractmethod
     def get_fundamentals(self, symbol: str) -> Optional[Fundamentals]:
         """Basic company facts for `symbol`, or None if unavailable."""
+        ...
+
+    @abstractmethod
+    def get_quant_metrics(self, symbol: str) -> Optional[QuantMetrics]:
+        """P/E, P/B, beta, 52-week range for `symbol`, or None if
+        unavailable. Feeds scoring.live_quant_signals() - real numbers
+        blended into the valuation/risk category scores, not just signal
+        tallies. Individual fields on the returned QuantMetrics can still
+        be None if the provider doesn't have that one specifically."""
         ...

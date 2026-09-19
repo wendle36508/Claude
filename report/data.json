@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T19:40:45+00:00",
+  "generated_at": "2026-09-19T19:53:42+00:00",
   "portfolio": {
     "starting_capital": 100000.0,
     "total_value": 100393.05975402708,
@@ -34,10 +34,10 @@
       },
       {
         "symbol": "NBIS",
-        "conviction_magnitude": 0.665800232924714,
+        "conviction_magnitude": 0.6657310569360642,
         "current_weight": 0.15,
-        "suggested_weight": 0.36354264631582545,
-        "delta": 0.21354264631582545
+        "suggested_weight": 0.363537491757938,
+        "delta": 0.21353749175793799
       },
       {
         "symbol": "VRT",
@@ -48,10 +48,10 @@
       },
       {
         "symbol": "SNDK",
-        "conviction_magnitude": 0.2499110868777833,
+        "conviction_magnitude": 0.24989810378244337,
         "current_weight": 0.08,
-        "suggested_weight": 0.13645735368417455,
-        "delta": 0.05645735368417455
+        "suggested_weight": 0.13646250824206205,
+        "delta": 0.056462508242062046
       }
     ]
   },
@@ -83,9 +83,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6666104079045819,
+        "coverage": 0.6665757769207732,
         "agreement": 0.0,
-        "recency": 0.9999156118568729
+        "recency": 0.9998636653811598
       },
       "range": {
         "floor": -0.4,
@@ -99,11 +99,19 @@
       "category_scores": {
         "valuation": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -165,33 +173,45 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.33327649760656064,
+        "value": 0.33324187049818405,
         "band": "medium",
-        "coverage": 0.9999147427754437,
+        "coverage": 0.9998627963348531,
         "agreement": 0.33333333333333337,
-        "recency": 0.9999147427754438
+        "recency": 0.9998627963348532
       },
       "range": {
-        "floor": -0.1833560676240424,
+        "floor": -0.183369918467393,
         "base": 0.08333333333333334,
-        "ceiling": 0.35002273429070907,
-        "floor_price": 94.38770570401317,
+        "ceiling": 0.35003658513405966,
+        "floor_price": 94.38610482353872,
         "base_price": 125.21166666666666,
-        "ceiling_price": 156.03562762932017,
+        "ceiling_price": 156.0372285097946,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -262,33 +282,45 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.33327609651408807,
+        "value": 0.3332414694489887,
         "band": "medium",
-        "coverage": 0.9999141410852556,
+        "coverage": 0.9998621946783298,
         "agreement": 0.3333333333333333,
-        "recency": 0.9999141410852554
+        "recency": 0.9998621946783297
       },
       "range": {
-        "floor": -0.3500228947276981,
+        "floor": -0.35003674555373787,
         "base": -0.08333333333333333,
-        "ceiling": 0.18335622806103147,
-        "floor_price": 1855.8861284550562,
+        "ceiling": 0.18337007888707124,
+        "floor_price": 1855.8465800529566,
         "base_price": 2617.3675,
-        "ceiling_price": 3378.848871544944,
+        "ceiling_price": 3378.888419947043,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -349,7 +381,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.3333333333333333,
+        "value": 0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
@@ -359,33 +391,45 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.33327569542463836,
+        "value": 0.33324106840107826,
         "band": "medium",
-        "coverage": 0.9999135393992399,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9999135393992398
+        "coverage": 0.9998615930233717,
+        "agreement": 0.33333333333333337,
+        "recency": 0.9998615930233717
       },
       "range": {
-        "floor": -0.18335638849681135,
-        "base": 0.08333333333333333,
-        "ceiling": 0.350023055163478,
-        "floor_price": 21.281732515773093,
+        "floor": -0.1833702393062354,
+        "base": 0.08333333333333334,
+        "ceiling": 0.35003690597290205,
+        "floor_price": 21.281371563679503,
         "base_price": 28.231666666666662,
-        "ceiling_price": 35.18160081756024,
+        "ceiling_price": 35.181961769653824,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -456,33 +500,45 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3332752497767715,
+        "value": 0.3332406227938548,
         "band": "medium",
-        "coverage": 0.9999128708694144,
+        "coverage": 0.9998609245197875,
         "agreement": 0.33333333333333337,
-        "recency": 0.9999128708694145
+        "recency": 0.9998609245197877
       },
       "range": {
-        "floor": -0.1833565667559581,
+        "floor": -0.18337041754912473,
         "base": 0.08333333333333334,
-        "ceiling": 0.35002323342262476,
-        "floor_price": 55.24592825895944,
+        "ceiling": 0.3500370842157914,
+        "floor_price": 55.24499125280172,
         "base_price": 73.2875,
-        "ceiling_price": 91.32907174104058,
+        "ceiling_price": 91.33000874719829,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -553,37 +609,53 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49995556638110616,
+        "value": 0.49992959325114006,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999111327622123
+        "recency": 0.9998591865022801
       },
       "range": {
-        "floor": -0.07501777344755756,
+        "floor": -0.07502816269954399,
         "base": 0.125,
-        "ceiling": 0.32501777344755756,
-        "floor_price": 164.25834379118274,
+        "ceiling": 0.325028162699544,
+        "floor_price": 164.256498867815,
         "base_price": 199.7775,
-        "ceiling_price": 235.29665620881727,
+        "ceiling_price": 235.29850113218504,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -667,7 +739,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.999910464229517
+        "recency": 0.9998585180032462
       },
       "range": {
         "floor": -0.4,
@@ -681,15 +753,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -773,7 +857,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999097288490955
+        "recency": 0.9998577826594909
       },
       "range": {
         "floor": -0.4,
@@ -787,15 +871,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -865,7 +961,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -0.3333333333333333,
+        "value": -0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
@@ -875,29 +971,37 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3332727096341437,
+        "value": 0.33323808291532375,
         "band": "medium",
-        "coverage": 0.9999090603162024,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9999090603162025
+        "coverage": 0.9998571141648046,
+        "agreement": 0.33333333333333337,
+        "recency": 0.9998571141648046
       },
       "range": {
-        "floor": -0.35002424947967586,
-        "base": -0.08333333333333333,
-        "ceiling": 0.18335758281300923,
-        "floor_price": 36.86012481200758,
+        "floor": -0.3500381001672038,
+        "base": -0.08333333333333334,
+        "ceiling": 0.18337143350053717,
+        "floor_price": 36.859339339517874,
         "base_price": 51.98416666666667,
-        "ceiling_price": 67.10820852132575,
+        "ceiling_price": 67.10899399381546,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
         }
       },
       "risk": {
@@ -972,7 +1076,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999075896055611
+        "recency": 0.9998556435316376
       },
       "range": {
         "floor": -0.4,
@@ -986,15 +1090,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -1064,7 +1180,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.33333333333333337,
+        "value": 0.3333333333333333,
         "n_signals": 3,
         "weights_used": "manual"
       },
@@ -1074,33 +1190,45 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.33327132816781185,
+        "value": 0.3332367015905644,
         "band": "medium",
-        "coverage": 0.9999069879260948,
-        "agreement": 0.33333333333333337,
-        "recency": 0.9999069879260948
+        "coverage": 0.9998550418794183,
+        "agreement": 0.3333333333333333,
+        "recency": 0.9998550418794182
       },
       "range": {
-        "floor": -0.1833581353995419,
-        "base": 0.08333333333333334,
-        "ceiling": 0.35002480206620856,
-        "floor_price": 254.5962677078388,
+        "floor": -0.18337198603044091,
+        "base": 0.08333333333333333,
+        "ceiling": 0.35003865269710754,
+        "floor_price": 254.59194963514975,
         "base_price": 337.73999999999995,
-        "ceiling_price": 420.88373229216114,
+        "ceiling_price": 420.88805036485024,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -1161,7 +1289,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.499999974929572,
+        "value": 0.49999997492957204,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -1171,37 +1299,53 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49995317641067255,
+        "value": 0.4999272034035307,
         "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.499999974929572,
-        "recency": 0.9999064029575081
+        "agreement": 0.49999997492957204,
+        "recency": 0.9998544569406197
       },
       "range": {
-        "floor": -0.07501873570333796,
-        "base": 0.124999993732393,
-        "ceiling": 0.32501872316812397,
-        "floor_price": 193.79282468279365,
-        "base_price": 235.6987486868736,
-        "ceiling_price": 277.6046726909537,
+        "floor": -0.07502912490619473,
+        "base": 0.12499999373239301,
+        "ceiling": 0.32502911237098076,
+        "floor_price": 193.79064804090314,
+        "base_price": 235.69874868687367,
+        "ceiling_price": 277.60684933284415,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -1281,33 +1425,45 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999528922829209,
+        "value": 0.4999269192911078,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999057845658418
+        "recency": 0.9998538385822155
       },
       "range": {
-        "floor": -0.3250188430868317,
+        "floor": -0.3250292322835569,
         "base": -0.125,
-        "ceiling": 0.07501884308683168,
-        "floor_price": 17.88700065819896,
+        "ceiling": 0.0750292322835569,
+        "floor_price": 17.886725344485743,
         "base_price": 23.1875,
-        "ceiling_price": 28.48799934180104,
+        "ceiling_price": 28.488274655514257,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 0.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -1377,7 +1533,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -0.3333333333333333,
+        "value": -0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
@@ -1387,33 +1543,45 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.33326954561927574,
+        "value": 0.333234919233917,
         "band": "medium",
-        "coverage": 0.9999043138509941,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9999043138509941
+        "coverage": 0.9998523679532648,
+        "agreement": 0.33333333333333337,
+        "recency": 0.9998523679532649
       },
       "range": {
-        "floor": -0.350025515085623,
-        "base": -0.08333333333333333,
-        "ceiling": 0.1833588484189564,
-        "floor_price": 30.24331278306596,
+        "floor": -0.35003936563976656,
+        "base": -0.08333333333333334,
+        "ceiling": 0.18337269897309985,
+        "floor_price": 30.242668316781664,
         "base_price": 42.652499999999996,
-        "ceiling_price": 55.06168721693404,
+        "ceiling_price": 55.06233168321834,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -1474,7 +1642,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.33333333333333337,
+        "value": 0.3333333333333333,
         "n_signals": 3,
         "weights_used": "manual"
       },
@@ -1484,33 +1652,45 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3332691891012301,
+        "value": 0.33323456274983876,
         "band": "medium",
-        "coverage": 0.9999037790226067,
-        "agreement": 0.33333333333333337,
-        "recency": 0.999903779022607
+        "coverage": 0.9998518331480502,
+        "agreement": 0.3333333333333333,
+        "recency": 0.9998518331480502
       },
       "range": {
-        "floor": -0.18335899102617467,
-        "base": 0.08333333333333334,
-        "ceiling": 0.35002565769284133,
-        "floor_price": 266.6822878904924,
+        "floor": -0.18337284156673117,
+        "base": 0.08333333333333333,
+        "ceiling": 0.3500395082333978,
+        "floor_price": 266.67776485796827,
         "base_price": 353.7733333333333,
-        "ceiling_price": 440.86437877617425,
+        "ceiling_price": 440.8689018086984,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -1571,7 +1751,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -0.33333333333333337,
+        "value": -0.3333333333333333,
         "n_signals": 3,
         "weights_used": "manual"
       },
@@ -1581,33 +1761,45 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3332688771434794,
+        "value": 0.3332342508091281,
         "band": "medium",
-        "coverage": 0.9999033110408416,
-        "agreement": 0.33333333333333337,
-        "recency": 0.9999033110408416
+        "coverage": 0.9998513651675355,
+        "agreement": 0.3333333333333333,
+        "recency": 0.9998513651675354
       },
       "range": {
-        "floor": -0.3500257824759416,
-        "base": -0.08333333333333334,
-        "ceiling": 0.18335911580927491,
-        "floor_price": 9.606618935005582,
+        "floor": -0.35003963300968205,
+        "base": -0.08333333333333333,
+        "ceiling": 0.18337296634301542,
+        "floor_price": 9.6064142241169,
         "base_price": 13.548333333333332,
-        "ceiling_price": 17.490047731661083,
+        "ceiling_price": 17.490252442549767,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -1682,7 +1874,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999027093646852
+        "recency": 0.9998507635094683
       },
       "range": {
         "floor": -0.4,
@@ -1696,19 +1888,35 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -1792,7 +2000,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999010381222663
+        "recency": 0.9998490923453828
       },
       "range": {
         "floor": -0.4,
@@ -1806,19 +2014,35 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -1902,7 +2126,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999004364448035
+        "recency": 0.999848490693496
       },
       "range": {
         "floor": -0.4,
@@ -1916,19 +2140,35 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -2012,7 +2252,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9998998347652296
+        "recency": 0.9998478890465167
       },
       "range": {
         "floor": -0.4,
@@ -2026,15 +2266,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
         }
       },
       "risk": {
@@ -2118,7 +2370,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.999899233089828
+        "recency": 0.9998472873905412
       },
       "range": {
         "floor": -0.4,
@@ -2132,15 +2384,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -2210,7 +2474,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -1.6713618097310243e-08,
+        "value": -1.6713618102336784e-08,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -2220,29 +2484,37 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 1.6711912409483897e-08,
+        "value": 1.6711044215078643e-08,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 1.6713618097310243e-08,
-        "recency": 0.9998979462246645
+        "agreement": 1.6713618102336784e-08,
+        "recency": 0.9998460005941036
       },
       "range": {
-        "floor": -0.39999999749363957,
-        "base": -4.178404524327561e-09,
-        "ceiling": 0.39999998913683055,
-        "floor_price": 149.98800062653999,
+        "floor": -0.39999999749398685,
+        "base": -4.178404525584196e-09,
+        "ceiling": 0.3999999891371778,
+        "floor_price": 149.98800062645316,
         "base_price": 249.97999895548244,
-        "ceiling_price": 349.97199728442484,
+        "ceiling_price": 349.97199728451164,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
         }
       },
       "risk": {
@@ -2322,33 +2594,45 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999486137835099,
+        "value": 0.4999226409860612,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.49999999999999994,
-        "recency": 0.9998972275670199
+        "recency": 0.9998452819721225
       },
       "range": {
-        "floor": -0.07502055448659607,
+        "floor": -0.07503094360557554,
         "base": 0.12499999999999999,
-        "ceiling": 0.32502055448659606,
-        "floor_price": 56.05375439811228,
+        "ceiling": 0.3250309436055755,
+        "floor_price": 56.05312481750212,
         "base_price": 68.175,
-        "ceiling_price": 80.29624560188772,
+        "ceiling_price": 80.29687518249787,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -2432,7 +2716,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9998966927408856
+        "recency": 0.9998447471723023
       },
       "range": {
         "floor": -0.4,
@@ -2446,15 +2730,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -2538,7 +2834,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9998960910679093
+        "recency": 0.9998441455282441
       },
       "range": {
         "floor": -0.4,
@@ -2552,15 +2848,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -2644,7 +2952,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9998352281996397
+        "recency": 0.9997832858245312
       },
       "range": {
         "floor": -0.4,
@@ -2658,15 +2966,27 @@
       "category_scores": {
         "growth": {
           "value": 0.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
         },
         "valuation": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -2746,37 +3066,53 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999170291962772,
+        "value": 0.4998910580356335,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9998340583925543
+        "recency": 0.999782116071267
       },
       "range": {
-        "floor": -0.07503318832148917,
+        "floor": -0.07504357678574661,
         "base": 0.125,
-        "ceiling": 0.3250331883214892,
-        "floor_price": 41.605007189299414,
+        "ceiling": 0.3250435767857466,
+        "floor_price": 41.60453991617712,
         "base_price": 50.6025,
-        "ceiling_price": 59.59999281070058,
+        "ceiling_price": 59.60046008382288,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -2860,7 +3196,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9998329888556732
+        "recency": 0.9997810465848025
       },
       "range": {
         "floor": -0.4,
@@ -2874,19 +3210,35 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "valuation": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -2956,7 +3308,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -1.6713618078890247e-08,
+        "value": -1.671361808241719e-08,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -2966,29 +3318,37 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 1.6710809680464688e-08,
+        "value": 1.6709941541570585e-08,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 1.6713618078890247e-08,
-        "recency": 0.9998319694507615
+        "agreement": 1.671361808241719e-08,
+        "recency": 0.9997800272311791
       },
       "range": {
-        "floor": -0.39999999749408066,
-        "base": -4.178404519722562e-09,
-        "ceiling": 0.39999998913727164,
-        "floor_price": 99.73200041653391,
+        "floor": -0.39999999749442794,
+        "base": -4.1784045206042975e-09,
+        "ceiling": 0.3999999891376189,
+        "floor_price": 99.73200041647618,
         "base_price": 166.2199993054656,
-        "ceiling_price": 232.70799819439728,
+        "ceiling_price": 232.707998194455,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
         }
       },
       "risk": {
@@ -3072,7 +3432,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9998307829313516
+        "recency": 0.9997788407790245
       },
       "range": {
         "floor": -0.4,
@@ -3086,15 +3446,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -3296,9 +3668,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.66623335252947,
+        "coverage": 0.6661987410799871,
         "agreement": 0.0,
-        "recency": 0.999350028794205
+        "recency": 0.9992981116199806
       },
       "range": {
         "floor": -0.4,
@@ -3312,11 +3684,19 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -3414,9 +3794,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6662333524916104,
+        "coverage": 0.666198741039947,
         "agreement": 0.0,
-        "recency": 0.9993500287374156
+        "recency": 0.9992981115599205
       },
       "range": {
         "floor": -0.4,
@@ -3430,11 +3810,19 @@
       "category_scores": {
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -3520,7 +3908,7 @@
       "return_pct": null,
       "position": null,
       "score": {
-        "value": 0.4999999832863817,
+        "value": 0.4999999832863816,
         "n_signals": 2,
         "weights_used": "manual"
       },
@@ -3530,16 +3918,16 @@
         "n_signals": 2
       },
       "confidence": {
-        "value": 0.3329001265642045,
+        "value": 0.33286553850665357,
         "band": "medium",
-        "coverage": 0.6662333301900927,
-        "agreement": 0.4999999832863817,
-        "recency": 0.9993499952851402
+        "coverage": 0.6661987187353122,
+        "agreement": 0.4999999832863816,
+        "recency": 0.9992980781029694
       },
       "range": {
-        "floor": -0.14183995355272283,
-        "base": 0.12499999582159542,
-        "ceiling": 0.3918399451959137,
+        "floor": -0.1418537887757432,
+        "base": 0.1249999958215954,
+        "ceiling": 0.39185378041893404,
         "floor_price": null,
         "base_price": null,
         "ceiling_price": null,
@@ -3548,11 +3936,19 @@
       "category_scores": {
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         },
         "other": {
           "value": 0.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
         }
       },
       "risk": {
@@ -3629,7 +4025,7 @@
         "market_value": 8000.000000000001
       },
       "score": {
-        "value": 0.5000490878969609,
+        "value": 0.500049087896961,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -3639,33 +4035,45 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49977310734029107,
+        "value": 0.49974714365361683,
         "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.5000490878969609,
-        "recency": 0.9994480930705613
+        "agreement": 0.500049087896961,
+        "recency": 0.9993961707947233
       },
       "range": {
-        "floor": -0.07507848508964335,
-        "base": 0.12501227197424022,
-        "ceiling": 0.3251030290381238,
-        "floor_price": 1657.2928688466752,
-        "base_price": 2015.819489168883,
-        "ceiling_price": 2374.346109491091,
+        "floor": -0.07508887056431301,
+        "base": 0.12501227197424025,
+        "ceiling": 0.3251134145127935,
+        "floor_price": 1657.2742599454525,
+        "base_price": 2015.8194891688834,
+        "ceiling_price": 2374.3647183923135,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
         }
       },
       "risk": {
@@ -3755,7 +4163,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9994480930217845
+        "recency": 0.9993961707393344
       },
       "range": {
         "floor": -0.4,
@@ -3769,15 +4177,27 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
         }
       },
       "risk": {
@@ -3863,25 +4283,29 @@
         "n_signals": 2
       },
       "confidence": {
-        "value": 0.6658002306750026,
+        "value": 0.6657310545555575,
         "band": "high",
-        "coverage": 0.6662333078209177,
+        "coverage": 0.6661986963639589,
         "agreement": 1.0,
-        "recency": 0.9993499617313766
+        "recency": 0.9992980445459384
       },
       "range": {
-        "floor": 0.11632009227000104,
+        "floor": 0.11629242182222299,
         "base": 0.25,
-        "ceiling": 0.38367990772999894,
-        "floor_price": 243.3466169139375,
+        "ceiling": 0.383707578177777,
+        "floor_price": 243.3405850330264,
         "base_price": 272.4875,
-        "ceiling_price": 301.6283830860625,
+        "ceiling_price": 301.6344149669736,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         }
       },
       "risk": {
@@ -3953,7 +4377,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9994480929305786
+        "recency": 0.9993961706383114
       },
       "range": {
         "floor": -0.4,
@@ -3967,11 +4391,19 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 2
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
         }
       },
       "risk": {

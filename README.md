@@ -126,6 +126,46 @@ signals, which is common in this tracker's research pattern (mix bull and
 bear, don't cherry-pick one side) - it's the model correctly reporting
 genuinely balanced evidence, not a scoring bug.
 
+## Category scores are 0-100 too, and can blend in live market data
+
+`category_score()`'s growth/valuation/risk/catalyst/macro/other breakdown
+gets the exact same `public_score()` treatment as the overall score -
+`lookup`, `compare`, and the console dashboard all show each category as
+0-100 (50 = neutral), confidence-shrunk the same way. No new formula: it's
+the identical function, just called per category.
+
+**Why category scores used to cluster at 50, and what actually fixes it.**
+Making the *equation* more elaborate wouldn't have helped - a category with
+an equal count of bullish and bearish signals at flat weight genuinely
+cancels to zero regardless of how complicated the math wrapped around that
+average is. What actually produces a real, differentiated valuation or risk
+score is a *third kind of input* alongside logged and learned signal
+weights: `scoring.live_quant_signals()` fetches a symbol's real P/E, P/B,
+and beta from a live `DataProvider` and turns them into synthetic signals -
+same shape as a logged one, blended into the identical weighted-average
+engine `_score_signals()` already runs, not a separate calculation. A cheap
+P/E relative to a flat 20x benchmark contributes a bullish valuation
+signal; a beta above 1.0 contributes a bearish risk signal (higher
+volatility = more risk, matching the risk category's existing bearish
+convention) - each weighted by how far the number sits from its benchmark,
+so a P/E of 8 moves the category more than a P/E of 17 does. Only
+valuation and risk get this - Finnhub's free tier has no reliable
+revenue-growth or forward-looking numbers to honestly build a growth/
+catalyst/macro signal from, so those stay exactly what they've always
+been: whatever's actually been researched and logged.
+
+**This needs a real live provider to do anything.** `live_quant_signals()`
+returns `[]` - contributing nothing, changing nothing - with the default
+MockProvider, which is what this repo runs on until `WEALTH_LAB_PROVIDER=finnhub`
+is set with a real API key (see `providers/README.md` and `DEPLOYMENT.md`).
+Every score in this session's dashboard is signal-only for exactly that
+reason. `providers.base.QuantMetrics` and `FinnhubProvider.get_quant_metrics()`
+are real, tested-against-mocked-responses code (same caveat as the rest of
+the Finnhub integration: never exercised against a live call from inside
+this sandbox), ready to activate the moment a real provider is deployed -
+nothing else needs to change for category/overall scores to start
+reflecting real market data.
+
 ## Compare theses side by side
 
 ```

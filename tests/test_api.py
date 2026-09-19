@@ -2,7 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from wealth_lab import db, portfolio
-from wealth_lab.providers.base import DataProvider, Fundamentals, NewsItem
+from wealth_lab.providers.base import DataProvider, Fundamentals, NewsItem, QuantMetrics
 
 
 @pytest.fixture
@@ -31,6 +31,9 @@ class FakeLiveProvider(DataProvider):
 
     def get_news(self, symbol, since_hours=48):
         return self._news
+
+    def get_quant_metrics(self, symbol):
+        return None
 
 
 def use_provider(monkeypatch, provider):

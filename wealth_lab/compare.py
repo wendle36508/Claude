@@ -41,7 +41,8 @@ class ComparisonRow:
 def build_comparison(conn: sqlite3.Connection, status: Optional[str] = None) -> list[ComparisonRow]:
     rows = []
     for t in db.list_theses(conn, status=status):
-        result = scoring.composite_score(conn, t["id"])
+        live_signals = scoring.live_quant_signals(t["symbol"])
+        result = scoring.composite_score(conn, t["id"], live_signals=live_signals)
         conf = scoring.confidence(result) if result else None
         pub = scoring.public_score(result, conf) if result else None
         rng = scoring.expected_return_range(conn, result, conf, entry_price=t["entry_price"]) if result else None

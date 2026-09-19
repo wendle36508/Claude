@@ -5,11 +5,11 @@ there is no outbound network access to finnhub.io (or any external host)
 from Python here, only this agent's own WebSearch/WebFetch tool calls can
 reach the live web, and those aren't available to a running HTTP server's
 request handler. Written directly against Finnhub's documented endpoint
-shapes (/quote, /company-news, /stock/profile2 - see each method's
-docstring), but the actual HTTP round trip has only been exercised via
-mocked responses in tests, not a real call. Confirm it against the real
-API the first time you deploy this somewhere with real network access
-(see providers/README.md's live-deployment section).
+shapes (/quote, /company-news, /stock/profile2, /stock/metric - see each
+method's docstring), but the actual HTTP round trip has only been
+exercised via mocked responses in tests, not a real call. Confirm it
+against the real API the first time you deploy this somewhere with real
+network access (see providers/README.md's live-deployment section).
 
 Needs the `requests` package (requirements-live.txt, not the base
 requirements.txt - kept out of the default install so MockProvider's path
@@ -27,7 +27,7 @@ from typing import Optional
 
 import requests
 
-from wealth_lab.providers.base import DataProvider, Fundamentals, NewsItem
+from wealth_lab.providers.base import DataProvider, Fundamentals, NewsItem, QuantMetrics
 
 BASE_URL = "https://finnhub.io/api/v1"
 REQUEST_TIMEOUT_SECONDS = 10
@@ -109,4 +109,17 @@ class FinnhubProvider(DataProvider):
             # left None rather than approximated from per-share metrics.
             revenue_ttm=None,
             market_cap=data.get("marketCapitalization"),
+        )
+
+    def get_quant_metrics(self, symbol: str) -> Optional[QuantMetrics]:
+        data = self._get("/stock/metric", symbol=symbol.upper(), metric="all")
+        if not data or not data.get("metric"):
+            return None
+        m = data["metric"]
+        return QuantMetrics(
+            pe_ttm=m.get("peBasicExclExtraTTM"),
+            pb_ttm=m.get("pbQuarterly"),
+            beta=m.get("beta"),
+            week52_high=m.get("52WeekHigh"),
+            week52_low=m.get("52WeekLow"),
         )

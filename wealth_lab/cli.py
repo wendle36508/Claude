@@ -186,7 +186,10 @@ def cmd_score(conn, args) -> None:
 
     signal_weights = scoring.learned_signal_weights(conn) if args.learned else None
     half_life = None if args.no_decay else scoring.DECAY_HALF_LIFE_DAYS
-    result = scoring.composite_score(conn, args.thesis_id, signal_weights=signal_weights, half_life_days=half_life)
+    live_signals = scoring.live_quant_signals(thesis["symbol"])
+    result = scoring.composite_score(
+        conn, args.thesis_id, signal_weights=signal_weights, half_life_days=half_life, live_signals=live_signals
+    )
     if result is None:
         print(f"#{args.thesis_id} {thesis['symbol']}: no signals logged yet - nothing to score")
         return
@@ -195,6 +198,9 @@ def cmd_score(conn, args) -> None:
     pub = scoring.public_score(result, conf)
     print(f"#{args.thesis_id} {thesis['symbol']} - SCORE: {pub.score_100}/100 ({pub.label}, "
           f"based on {pub.n_signals} signal{'s' if pub.n_signals != 1 else ''})")
+    if live_signals:
+        print(f"  (includes {len(live_signals)} live valuation/risk reading(s) from "
+              f"{type(scoring.get_provider()).__name__} - see providers/README.md)")
 
     print(f"\n  composite score ({result.weights_used} weights{', no decay' if args.no_decay else ''}):")
     for c in result.breakdown:
@@ -294,7 +300,8 @@ def cmd_lookup(conn, args) -> None:
     else:
         print("Portfolio: not funded - watchlist only")
 
-    result = scoring.composite_score(conn, t["id"])
+    live_signals = scoring.live_quant_signals(t["symbol"])
+    result = scoring.composite_score(conn, t["id"], live_signals=live_signals)
     if result is None:
         print("\nNo signals logged yet - nothing to score.")
         return
@@ -303,18 +310,23 @@ def cmd_lookup(conn, args) -> None:
     pub = scoring.public_score(result, conf)
     rng = scoring.expected_return_range(conn, result, conf, entry_price=t["entry_price"])
     print(f"\nSCORE: {pub.score_100}/100 ({pub.label})")
+    if live_signals:
+        print(f"  (includes {len(live_signals)} live valuation/risk reading(s) from "
+              f"{type(scoring.get_provider()).__name__} - see providers/README.md)")
     print(f"Composite score: {result.score:+.2f}   Confidence: {conf.confidence:.2f} ({conf.band})   "
           f"Conviction: {t['conviction']}/5")
     print(f"Expected range ({rng.source}): floor {rng.floor_return * 100:+.1f}%  "
           f"base {rng.base_return * 100:+.1f}%  ceiling {rng.ceiling_return * 100:+.1f}%"
           + (f"  ->  ${rng.floor_price:,.2f} / ${rng.base_price:,.2f} / ${rng.ceiling_price:,.2f}" if rng.floor_price else ""))
 
-    print("\nBy category:")
+    print("\nBy category (SCORE 0-100 / raw -1..+1):")
     for category in db.SIGNAL_CATEGORIES:
-        cat_result = scoring.category_score(conn, t["id"], category)
+        cat_result = scoring.category_score(conn, t["id"], category, live_signals=live_signals)
         if cat_result is None:
             continue
-        print(f"  {category:<10} {cat_result.score:+.2f}  (n={cat_result.n_signals})")
+        cat_conf = scoring.confidence(cat_result)
+        cat_pub = scoring.public_score(cat_result, cat_conf)
+        print(f"  {category:<10} {cat_pub.score_100:>3}/100  {cat_result.score:+.2f}  (n={cat_result.n_signals})")
 
     print("\nSignals:")
     for s in db.list_signals(conn, t["id"]):
