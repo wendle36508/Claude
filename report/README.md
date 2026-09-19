@@ -15,7 +15,19 @@ same artifact URL so the link stays live.
 
 ## `console.html` + `data.json` - working dashboard
 
-https://claude.ai/artifact/CAZEioYamJYzt8yF559rrq
+https://claude.ai/artifact/CAZEioYamJYzt8yF559rrq (preview, static/stale data)
+`https://<your-app>.fly.dev/dashboard` (the real live site, once deployed - see DEPLOYMENT.md)
+
+**These are the same HTML file, but only one of them can actually be live.**
+`console.html`'s JS tries a same-origin `fetch('/snapshot')` first. Served
+from `wealth_lab/api.py`'s `/dashboard` route, that resolves to real data -
+same origin, nothing to block. Published as a Claude Artifact, that same
+fetch has nothing to resolve against (the Artifact's own origin has no
+`/snapshot`), so it falls through to a hardcoded absolute URL - confirmed
+directly that Claude's Artifact platform blocks that too, sandboxing
+outbound fetches from published pages - and finally to the static
+`data.json` snapshot. So the Artifact link is a real, working preview of
+the UI, just never a live one; only the deployed `/dashboard` route is.
 
 The actual tool, split into two tabs since they're different jobs:
 

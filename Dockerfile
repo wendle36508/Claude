@@ -12,6 +12,7 @@ COPY requirements-live.txt requirements.txt ./
 RUN pip install --no-cache-dir -r requirements-live.txt
 
 COPY wealth_lab ./wealth_lab
+COPY report/console.html ./report/console.html
 
 # The database file itself is NOT copied in - it's created fresh (empty)
 # on first run at WEALTH_LAB_DB_PATH, which should point at a mounted

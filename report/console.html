@@ -779,9 +779,16 @@
     });
   }
 
-  // Set this to your deployed wealth_lab API's base URL (see DEPLOYMENT.md)
-  // to have this page pull live data instead of the static data.json
-  // snapshot. '' disables it and goes straight to data.json.
+  // Absolute fallback if this page isn't being served by the API itself -
+  // e.g. if it's ever hosted somewhere other than the deployed app. Most
+  // hosting contexts (including a published Claude Artifact - confirmed by
+  // testing directly) block a page from fetching an arbitrary external
+  // origin like this one, so this rarely succeeds; it's a second try
+  // before giving up and falling back to the static snapshot, not the
+  // primary path. The primary path is the relative fetch('/snapshot')
+  // below, which only works when this exact file is served by the
+  // wealth_lab API itself (see api.py's /dashboard route) - same origin,
+  // nothing to block.
   var LIVE_API_BASE = 'https://wealth-lab-twendle1.fly.dev';
 
   function renderApp(d, sourceLineText) {
@@ -806,19 +813,31 @@
     });
   }
 
-  if (LIVE_API_BASE) {
+  function loadFromAbsoluteApi() {
+    if (!LIVE_API_BASE) { loadStaticSnapshot(); return; }
     fetch(LIVE_API_BASE + '/snapshot').then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     }).then(function (d) {
       renderApp(d, 'connected live to ' + LIVE_API_BASE.replace(/^https?:\/\//, ''));
     }).catch(function () {
-      // Live API unreachable (app asleep, redeployed elsewhere, offline) -
-      // fall back to the static snapshot rather than showing a dead page.
       loadStaticSnapshot();
     });
-  } else {
-    loadStaticSnapshot();
   }
+
+  // Primary path: same-origin relative fetch, which only resolves to a
+  // real API response when this file is served by the API itself.
+  // Elsewhere (e.g. as a static file with no API behind it) '/snapshot'
+  // 404s or hits a different app, so this falls through to the absolute
+  // URL, then the static file, rather than assuming same-origin means
+  // same-app.
+  fetch('/snapshot').then(function (r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(function (d) {
+    renderApp(d, 'connected live (' + location.host + ')');
+  }).catch(function () {
+    loadFromAbsoluteApi();
+  });
 })();
 </script>

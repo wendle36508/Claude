@@ -24,13 +24,17 @@ on the public internet as-is.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 
 from wealth_lab import compare, db, export, portfolio, universe
 from wealth_lab.providers import get_provider
+
+DASHBOARD_HTML_PATH = Path(__file__).resolve().parent.parent / "report" / "console.html"
 
 ThesisStatus = Literal["open", "closed_win", "closed_loss", "closed_flat"]
 
@@ -63,6 +67,20 @@ def root():
         "live_data": provider.is_live,
         "provider": type(provider).__name__,
     }
+
+
+@app.get("/dashboard", tags=["meta"], summary="The visual dashboard (same page as the Claude Artifact)", response_class=HTMLResponse)
+def dashboard():
+    """Serves report/console.html directly from this API, same origin as
+    /snapshot - the point of that being same-origin: a published Claude
+    Artifact copy of this same file can't fetch an external site's data
+    (confirmed by testing - the platform sandboxes outbound fetches from
+    published pages), so this route is what actually makes the dashboard
+    live. console.html's own JS tries a relative fetch('/snapshot') first,
+    which only resolves to real data when it's loaded from here."""
+    if not DASHBOARD_HTML_PATH.exists():
+        raise HTTPException(status_code=500, detail="report/console.html missing from this deployment")
+    return DASHBOARD_HTML_PATH.read_text()
 
 
 @app.get("/theses", tags=["research"], summary="List all theses")

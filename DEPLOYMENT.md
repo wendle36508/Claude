@@ -9,6 +9,16 @@ outbound network access and nothing here persists once the session ends.
 This is a checklist, in the order to actually do it. Each step says what it
 costs and what happens if you skip it.
 
+**Where to actually view the live site once it's deployed:** `https://<your-app>.fly.dev/dashboard`
+- **not** the Claude Artifact link. Confirmed directly: a published Claude
+Artifact can't fetch an external site's data - the platform sandboxes
+outbound requests from published pages, so `console.html` published as an
+Artifact always falls back to its static snapshot, no matter how well the
+live API works. `wealth_lab/api.py`'s `/dashboard` route serves that exact
+same HTML file from the API itself, so its same-origin `fetch('/snapshot')`
+actually resolves to real data - that's the real live product; the Artifact
+link is a preview of the same UI on stale/static data, nothing more.
+
 ## 1. Get a Finnhub API key
 
 Free. https://finnhub.io/register - takes a couple minutes. Free tier is

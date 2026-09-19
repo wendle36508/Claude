@@ -62,6 +62,16 @@ def test_root_reports_mock_provider(client):
     assert body["provider"] == "MockProvider"
 
 
+def test_dashboard_serves_console_html(client):
+    r = client.get("/dashboard")
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("text/html")
+    assert "<title>Wealth Lab Console</title>" in r.text
+    # the whole point of serving it from here rather than as a static file
+    # elsewhere: its own JS tries a same-origin fetch('/snapshot') first
+    assert "fetch('/snapshot')" in r.text
+
+
 def test_list_theses_empty(client):
     r = client.get("/theses")
     assert r.status_code == 200
