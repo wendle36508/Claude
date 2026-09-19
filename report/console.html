@@ -161,6 +161,7 @@
   .detail-row td { padding: 0; }
   .detail { padding: 16px 20px 22px; background: var(--surface-2); border-bottom: 1px solid var(--grid); white-space: normal; text-align: left; }
   .detail-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
+  .detail-grid > div { min-width: 0; }
   @media (max-width: 700px) { .detail-grid { grid-template-columns: 1fr; } }
   .detail h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 0 0 8px; font-family: 'Source Sans 3', sans-serif; font-weight: 700; }
   .detail p.thesis-text { font-size: 13.5px; color: var(--ink-2); margin: 0 0 14px; }
@@ -175,6 +176,7 @@
 
   .sig-list { display: flex; flex-direction: column; gap: 10px; }
   .sig { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; }
+  .sig-body { flex: 1; min-width: 0; }
   .sig .name { font-weight: 600; color: var(--ink); }
   .sig .txt { color: var(--ink-2); }
   .sig .txt a { color: var(--ink-2); text-decoration-color: var(--border); font-size: 11.5px; }
@@ -185,6 +187,39 @@
   footer { border-top: 1px solid var(--border); padding-top: 16px; font-size: 11.5px; color: var(--muted); }
 
   .loading { padding: 40px 0; text-align: center; color: var(--muted); font-size: 13px; }
+
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); }
+  .tab-btn {
+    font: inherit; font-size: 13.5px; font-weight: 600; color: var(--muted);
+    background: none; border: none; border-bottom: 2px solid transparent;
+    padding: 10px 14px; margin-bottom: -1px; cursor: pointer;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: flex; flex-direction: column; gap: 28px; }
+  .tab-panel[hidden] { display: none; }
+
+  .search-wrap { position: relative; }
+  #search-input {
+    width: 100%; font: inherit; font-size: 15px; padding: 12px 14px;
+    border: 1px solid var(--border); border-radius: 10px; background: var(--surface);
+    color: var(--ink); box-sizing: border-box;
+  }
+  #search-input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .search-suggestions {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 5;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(11,14,20,0.12); overflow: hidden;
+  }
+  .search-item { display: flex; justify-content: space-between; gap: 10px; padding: 10px 14px; cursor: pointer; }
+  .search-item:hover, .search-item.active { background: var(--row-hover); }
+  .search-item .sym-cell { font-size: 13px; }
+  .search-item .dim { font-size: 12px; }
+  .search-empty { padding: 12px 14px; font-size: 12.5px; color: var(--muted); }
+
+  .lookup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .lookup-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--grid); }
+  .lookup-header .sym-cell { font-size: 20px; }
 </style>
 
 <div class="wrap">
@@ -203,38 +238,57 @@
   <div id="loading" class="loading">Loading snapshot&hellip;</div>
 
   <div id="app" hidden>
-    <section id="kpi-section"></section>
+    <nav class="tabs">
+      <button type="button" class="tab-btn active" data-tab="lookup">Lookup</button>
+      <button type="button" class="tab-btn" data-tab="portfolio">Portfolio</button>
+    </nav>
 
-    <section id="portfolio-section">
-      <h2>Portfolio</h2>
-      <div id="portfolio-card"></div>
-    </section>
-
-    <section>
-      <h2>Every thesis, side by side</h2>
-      <p class="risk-note" style="margin:0;">Click a column to sort &middot; click a row to expand its full research note. Nothing here is blended into one ranking number - score, confidence, range, and volatility each answer a different question.</p>
-      <div class="table-card">
-        <div class="table-scroll">
-          <table id="thesis-table">
-            <thead>
-              <tr>
-                <th data-key="symbol" style="text-align:left">Symbol</th>
-                <th data-key="sector" style="text-align:left">Sector</th>
-                <th data-key="conviction">Conv</th>
-                <th data-key="score">Score</th>
-                <th data-key="confidence">Conf</th>
-                <th data-key="floor">Floor</th>
-                <th data-key="base">Base</th>
-                <th data-key="ceiling">Ceil</th>
-                <th data-key="volatility">Vol</th>
-                <th data-key="return">Return</th>
-              </tr>
-            </thead>
-            <tbody id="thesis-tbody"></tbody>
-          </table>
+    <div id="tab-lookup" class="tab-panel">
+      <section>
+        <div class="search-wrap">
+          <input id="search-input" type="text" placeholder="Search a researched ticker or company (e.g. NBIS, CoreWeave)" autocomplete="off">
+          <div id="search-suggestions" class="search-suggestions" hidden></div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section id="lookup-result-section" hidden>
+        <div id="lookup-result"></div>
+      </section>
+
+      <section>
+        <h2>Every thesis, side by side</h2>
+        <p class="risk-note" style="margin:0;">Click a column to sort &middot; click a row to expand its full research note. Nothing here is blended into one ranking number - score, confidence, range, and volatility each answer a different question.</p>
+        <div class="table-card">
+          <div class="table-scroll">
+            <table id="thesis-table">
+              <thead>
+                <tr>
+                  <th data-key="symbol" style="text-align:left">Symbol</th>
+                  <th data-key="sector" style="text-align:left">Sector</th>
+                  <th data-key="conviction">Conv</th>
+                  <th data-key="score">Score</th>
+                  <th data-key="confidence">Conf</th>
+                  <th data-key="floor">Floor</th>
+                  <th data-key="base">Base</th>
+                  <th data-key="ceiling">Ceil</th>
+                  <th data-key="volatility">Vol</th>
+                  <th data-key="return">Return</th>
+                </tr>
+              </thead>
+              <tbody id="thesis-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="tab-portfolio" class="tab-panel" hidden>
+      <section id="kpi-section"></section>
+      <section id="portfolio-section">
+        <h2>Portfolio</h2>
+        <div id="portfolio-card"></div>
+      </section>
+    </div>
   </div>
 
   <footer>
@@ -373,7 +427,7 @@
     return '<div class="sig-list">' + signals.map(function (s) {
       var src = s.source ? ' &middot; <a href="' + escapeHtml(s.source) + '" target="_blank" rel="noopener">source</a>' : '';
       return '<div class="sig">' + directionPill(s.direction) +
-        '<div><div class="name">[' + s.category + '] ' + escapeHtml(s.name) + '</div>' +
+        '<div class="sig-body"><div class="name">[' + s.category + '] ' + escapeHtml(s.name) + '</div>' +
         '<div class="txt">' + escapeHtml(s.rationale || '') + '</div>' +
         '<div class="meta">weight ' + s.weight.toFixed(2) + ' &middot; logged ' + s.recorded_at.slice(0, 10) + src + '</div></div></div>';
     }).join('') + '</div>';
@@ -539,12 +593,112 @@
     });
   }
 
+  // ---- lookup search (type-ahead) ----
+
+  function lookupResultHtml(t) {
+    return (
+      '<div class="lookup-card">' +
+        '<div class="lookup-header">' +
+          '<div><span class="sym-cell">' + t.symbol + '</span> ' +
+          '<span class="dim">' + escapeHtml(t.name || '') + (t.sector ? ' &middot; ' + escapeHtml(t.sector) : '') + '</span></div>' +
+          '<span class="status-pill neutral">' + t.status + '</span>' +
+        '</div>' +
+        detailHtml(t) +
+      '</div>'
+    );
+  }
+
+  function showLookupResult(t) {
+    document.getElementById('lookup-result').innerHTML = lookupResultHtml(t);
+    document.getElementById('lookup-result-section').hidden = false;
+  }
+
+  function findThesis(id) {
+    for (var i = 0; i < state.data.theses.length; i++) {
+      if (state.data.theses[i].id === id) return state.data.theses[i];
+    }
+    return null;
+  }
+
+  function renderSuggestions(query) {
+    var box = document.getElementById('search-suggestions');
+    if (!query) { box.hidden = true; box.innerHTML = ''; return; }
+    var q = query.toLowerCase();
+    var matches = state.data.theses.filter(function (t) {
+      return t.symbol.toLowerCase().indexOf(q) !== -1 || (t.name && t.name.toLowerCase().indexOf(q) !== -1);
+    }).slice(0, 8);
+
+    if (!matches.length) {
+      box.innerHTML = '<div class="search-empty">No researched ticker matches &quot;' + escapeHtml(query) +
+        '&quot;. This only searches what&#39;s already logged - ask the agent to research a new ticker first.</div>';
+      box.hidden = false;
+      return;
+    }
+
+    box.innerHTML = matches.map(function (t) {
+      return '<div class="search-item" data-id="' + t.id + '">' +
+        '<span class="sym-cell">' + t.symbol + '</span>' +
+        '<span class="dim">' + escapeHtml(t.name || '') + '</span>' +
+      '</div>';
+    }).join('');
+    box.hidden = false;
+
+    Array.prototype.forEach.call(box.querySelectorAll('.search-item'), function (item) {
+      item.addEventListener('click', function () {
+        selectSearchResult(parseInt(item.getAttribute('data-id'), 10));
+      });
+    });
+  }
+
+  function selectSearchResult(id) {
+    var t = findThesis(id);
+    if (!t) return;
+    document.getElementById('search-input').value = t.symbol;
+    document.getElementById('search-suggestions').hidden = true;
+    showLookupResult(t);
+  }
+
+  function attachSearchHandlers() {
+    var input = document.getElementById('search-input');
+    input.addEventListener('input', function () { renderSuggestions(input.value.trim()); });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        var first = document.querySelector('.search-item');
+        if (first) selectSearchResult(parseInt(first.getAttribute('data-id'), 10));
+      } else if (e.key === 'Escape') {
+        document.getElementById('search-suggestions').hidden = true;
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.search-wrap')) {
+        document.getElementById('search-suggestions').hidden = true;
+      }
+    });
+  }
+
+  // ---- tabs ----
+
+  function attachTabHandlers() {
+    Array.prototype.forEach.call(document.querySelectorAll('.tab-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        var tab = btn.getAttribute('data-tab');
+        Array.prototype.forEach.call(document.querySelectorAll('.tab-btn'), function (b) {
+          b.classList.toggle('active', b === btn);
+        });
+        document.getElementById('tab-lookup').hidden = tab !== 'lookup';
+        document.getElementById('tab-portfolio').hidden = tab !== 'portfolio';
+      });
+    });
+  }
+
   fetch('data.json').then(function (r) { return r.json(); }).then(function (d) {
     state.data = d;
     document.getElementById('generated-at').textContent = 'as of ' + d.generated_at.replace('T', ' ').slice(0, 16) + ' UTC';
     renderKpis(d);
     renderPortfolio(d);
     attachSortHandlers();
+    attachSearchHandlers();
+    attachTabHandlers();
     renderTable();
     document.getElementById('loading').hidden = true;
     document.getElementById('app').hidden = false;

@@ -17,12 +17,22 @@ same artifact URL so the link stays live.
 
 https://claude.ai/artifact/CAZEioYamJYzt8yF559rrq
 
-The actual tool: every thesis's composite score, confidence, expected
-floor/base/ceiling range, category sub-scores, risk metrics, and full
-signal list with sources - sortable, click a row to expand it - plus the
-funded portfolio's allocation and risk. `console.html` is a static shell
-that fetches `data.json` at load and renders it; it does not change when
-the data changes.
+The actual tool, split into two tabs since they're different jobs:
+
+- **Lookup** (default tab) - the stock research tool. A type-ahead search
+  box (matches on symbol or company name) jumps straight to a ticker's full
+  card: thesis, signals with sources, category sub-scores, composite
+  score/confidence/expected range, risk metrics, IPO details if applicable.
+  The "every thesis side by side" comparison table sits below it for
+  browsing/sorting the whole researched universe.
+- **Portfolio** - the account view: allocation bar, sleeve weights, real +
+  naive risk, confidence-driven sizing suggestions. This is one application
+  of the lookup tool's research, not the tool itself - kept separate on
+  purpose (a user asked "which stocks are good bets" doesn't care about
+  someone else's specific position sizing).
+
+`console.html` is a static shell that fetches `data.json` at load and
+renders it; it does not change when the data changes.
 
 **To refresh it:** regenerate the data file and republish just that file to
 the same artifact:
