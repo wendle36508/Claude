@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-09-19T17:44:37+00:00",
+  "generated_at": "2026-09-19T17:47:49+00:00",
   "portfolio": {
     "starting_capital": 100000.0,
-    "total_value": 100000.0,
-    "return_since_inception": 0.0,
-    "hhi": 0.18079999999999996,
+    "total_value": 100393.05975402708,
+    "return_since_inception": 0.003930597540270828,
+    "hhi": 0.18033833204343763,
     "sleeve_weights": {
-      "cash": 0.05,
-      "core_bond": 0.15,
-      "core_equity": 0.3,
-      "satellite": 0.5
+      "cash": 0.04980423957841801,
+      "core_bond": 0.14941271873525402,
+      "core_equity": 0.29882543747050805,
+      "satellite": 0.5019576042158199
     },
     "risk": {
       "sufficient": false,
@@ -21,7 +21,7 @@
     },
     "naive_volatility": {
       "weighted_volatility": 0.0,
-      "covered_weight": 0.05,
+      "covered_weight": 0.04980423957841801,
       "n_positions_included": 1
     },
     "sizing_suggestions": [
@@ -34,10 +34,10 @@
       },
       {
         "symbol": "NBIS",
-        "conviction_magnitude": 0.666420807557595,
+        "conviction_magnitude": 0.6664036826165599,
         "current_weight": 0.15,
-        "suggested_weight": 0.5,
-        "delta": 0.35
+        "suggested_weight": 0.36358758372439437,
+        "delta": 0.21358758372439438
       },
       {
         "symbol": "VRT",
@@ -48,10 +48,10 @@
       },
       {
         "symbol": "SNDK",
-        "conviction_magnitude": 0.0,
+        "conviction_magnitude": 0.2500243149930963,
         "current_weight": 0.08,
-        "suggested_weight": 0.0,
-        "delta": -0.08
+        "suggested_weight": 0.13641241627560563,
+        "delta": 0.05641241627560563
       }
     ]
   },
@@ -183,9 +183,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665437703214503,
+        "coverage": 0.6665352062132718,
         "agreement": 0.0,
-        "recency": 0.9998156554821754
+        "recency": 0.9998028093199076
       },
       "range": {
         "floor": -0.4,
@@ -292,9 +292,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665437702952927,
+        "coverage": 0.666535206185243,
         "agreement": 0.0,
-        "recency": 0.999815655442939
+        "recency": 0.9998028092778645
       },
       "range": {
         "floor": -0.4,
@@ -394,21 +394,21 @@
       "return_pct": null,
       "position": null,
       "score": {
-        "value": 0.4999999832863816,
+        "value": 0.4999999832863817,
         "n_signals": 2,
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.3332104148559297,
+        "value": 0.33320185237715283,
         "band": "medium",
-        "coverage": 0.6665437479958167,
-        "agreement": 0.4999999832863816,
-        "recency": 0.9998156219937263
+        "coverage": 0.6665351838827114,
+        "agreement": 0.4999999832863817,
+        "recency": 0.9998027758240684
       },
       "range": {
-        "floor": -0.1417158382360327,
-        "base": 0.1249999958215954,
-        "ceiling": 0.3917158298792235,
+        "floor": -0.14171926322754347,
+        "base": 0.12499999582159542,
+        "ceiling": 0.39171925487073433,
         "floor_price": null,
         "base_price": null,
         "ceiling_price": null,
@@ -494,33 +494,37 @@
         "market_value": 8000.000000000001
       },
       "score": {
-        "value": 0.0,
-        "n_signals": 2,
+        "value": 0.5000490878969609,
+        "n_signals": 4,
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.0,
-        "band": "low",
-        "coverage": 0.6665437256967863,
-        "agreement": 0.0,
-        "recency": 0.9998155885451795
+        "value": 0.499999542071741,
+        "band": "medium",
+        "coverage": 1.0,
+        "agreement": 0.5000490878969609,
+        "recency": 0.9999009180770067
       },
       "range": {
-        "floor": -0.4,
-        "base": 0.0,
-        "ceiling": 0.4,
-        "floor_price": 1075.0919999999999,
-        "base_price": 1791.82,
-        "ceiling_price": 2508.548,
+        "floor": -0.07498791119706338,
+        "base": 0.12501227197424022,
+        "ceiling": 0.32501245514554383,
+        "floor_price": 1657.4551609588777,
+        "base_price": 2015.819489168883,
+        "ceiling_price": 2374.1838173788883,
         "source": "default"
       },
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 2
         },
         "risk": {
           "value": -1.0,
+          "n_signals": 1
+        },
+        "catalyst": {
+          "value": 1.0,
           "n_signals": 1
         }
       },
@@ -550,6 +554,24 @@
           "rationale": "52-wk range $93.54-$2,354.39; move from ~$34 to ~$1,800 in about a year is a classic blow-off-top risk profile, not a stable entry",
           "source": "https://www.morningstar.com/stocks/xnas/sndk/quote",
           "recorded_at": "2026-09-19T16:58:39+00:00"
+        },
+        {
+          "name": "sp100_inclusion",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Added to the S&P 100 index (announced ~Sept 18 2026); index inclusion typically forces buying from funds tracking the index, distinct from the underlying demand story",
+          "source": "https://www.timothysykes.com/news/sandisk-corporation-sndk-news-2026_09_18-2/",
+          "recorded_at": "2026-09-19T17:47:36+00:00"
+        },
+        {
+          "name": "contracted_revenue_backlog",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q4 revenue ~$8.97B (+372% YoY); disclosed $93.9B in multiyear minimum revenue contracts, adding real forward visibility beyond the spot-price NAND squeeze narrative",
+          "source": "https://www.timothysykes.com/news/sandisk-corporation-sndk-news-2026_09_18-2/",
+          "recorded_at": "2026-09-19T17:47:36+00:00"
         }
       ],
       "ipo": null
@@ -565,26 +587,26 @@
       "thesis": "Picks-and-shovels power/cooling supplier for AI datacenters; wins regardless of which chip vendor leads",
       "entry_price": 241.49,
       "entry_date": "2026-09-19",
-      "latest_price": 241.49,
-      "return_pct": 0.0,
+      "latest_price": 249.4,
+      "return_pct": 0.03275497950225681,
       "position": {
         "sleeve": "satellite",
         "target_weight": 0.12,
         "shares": 49.69149861277899,
         "cost_basis": 241.49,
-        "market_value": 12000.0
+        "market_value": 12393.059754027081
       },
       "score": {
         "value": 0.0,
-        "n_signals": 2,
+        "n_signals": 4,
         "weights_used": "manual"
       },
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665437256815463,
+        "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9998155885223194
+        "recency": 0.9999009180472594
       },
       "range": {
         "floor": -0.4,
@@ -598,9 +620,13 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 2
         },
         "valuation": {
+          "value": -1.0,
+          "n_signals": 1
+        },
+        "risk": {
           "value": -1.0,
           "n_signals": 1
         }
@@ -631,6 +657,24 @@
           "rationale": "Stock nearly doubled off its 52-wk low ($133.85); already pricing in continued hypergrowth",
           "source": "https://www.heygotrade.com/en/us-stock/vrt/",
           "recorded_at": "2026-09-19T16:58:39+00:00"
+        },
+        {
+          "name": "q2_sales_miss",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Stock dropped sharply after Q2 sales came in below Wall Street expectations; ongoing project-delivery and supply-chain issues flagged",
+          "source": "https://finance.yahoo.com/quote/VRT/",
+          "recorded_at": "2026-09-19T17:47:36+00:00"
+        },
+        {
+          "name": "fy2025_realized_growth",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "FY2025 actual revenue $10.23B (+27.7% YoY), earnings $1.33B (+168.8% YoY) - realized results, not just projections, confirming the datacenter-capex growth thesis",
+          "source": "https://finance.yahoo.com/quote/VRT/",
+          "recorded_at": "2026-09-19T17:47:36+00:00"
         }
       ],
       "ipo": null
@@ -661,19 +705,19 @@
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.6664208073386604,
+        "value": 0.6664036823635042,
         "band": "high",
-        "coverage": 0.6665437256667964,
+        "coverage": 0.6665351615448877,
         "agreement": 1.0,
-        "recency": 0.9998155885001947
+        "recency": 0.9998027423173315
       },
       "range": {
-        "floor": 0.11656832293546415,
+        "floor": 0.11656147294540167,
         "base": 0.25,
-        "ceiling": 0.38343167706453585,
-        "floor_price": 243.40072871670185,
+        "ceiling": 0.38343852705459835,
+        "floor_price": 243.39923548736812,
         "base_price": 272.4875,
-        "ceiling_price": 301.5742712832982,
+        "ceiling_price": 301.5757645126319,
         "source": "default"
       },
       "category_scores": {
@@ -734,15 +778,15 @@
       },
       "score": {
         "value": 0.0,
-        "n_signals": 2,
+        "n_signals": 4,
         "weights_used": "manual"
       },
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6665437256506652,
+        "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9998155884759978
+        "recency": 0.999900917993848
       },
       "range": {
         "floor": -0.4,
@@ -756,11 +800,11 @@
       "category_scores": {
         "growth": {
           "value": 1.0,
-          "n_signals": 1
+          "n_signals": 2
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 1
+          "n_signals": 2
         }
       },
       "risk": {
@@ -789,6 +833,24 @@
           "rationale": "Down ~45% from 52-wk high of $153.20; capex/debt-funded buildout with heavy customer concentration risk (Microsoft/OpenAI-linked demand)",
           "source": "https://www.investing.com/equities/coreweave",
           "recorded_at": "2026-09-19T16:58:39+00:00"
+        },
+        {
+          "name": "customer_commitments_and_guidance_raise",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Secured >$25B in new customer commitments; raised FY2026 revenue guidance to $12.4-13.2B; Q2 revenue $2.6B, +112% YoY",
+          "source": "https://finance.yahoo.com/quote/CRWV/news/",
+          "recorded_at": "2026-09-19T17:47:36+00:00"
+        },
+        {
+          "name": "convertible_debt_offering",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Priced $3.7B of 2.875% convertible senior notes due 2033; raises debt-load and dilution concerns; stock trading near the bottom of its 52-week range, below its 200-day moving average",
+          "source": "https://finance.yahoo.com/quote/CRWV/news/",
+          "recorded_at": "2026-09-19T17:47:36+00:00"
         }
       ],
       "ipo": null
