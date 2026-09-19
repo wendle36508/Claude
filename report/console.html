@@ -274,7 +274,7 @@
     </div>
     <div style="text-align:right;">
       <div class="meta-line" id="generated-at">loading&hellip;</div>
-      <div class="meta-line">data snapshot, not live - redeployed on request</div>
+      <div class="meta-line" id="data-source-line">connecting&hellip;</div>
     </div>
   </header>
   <p class="disclaimer">Hypothetical paper portfolio and research tooling for educational/demonstration purposes. Not investment advice.</p>
@@ -334,7 +334,7 @@
   </div>
 
   <footer>
-    Built with a Python/SQLite research tracker (wealth_lab). Every stock's 0-100 score comes from sourced, dated signals (each bullish or bearish, with a link) averaged and decayed by age, then shrunk toward 50 by how much evidence backs it - a thin, one-signal read can't score as extreme as a well-supported one. Expected return range and risk metrics (volatility/Sharpe/drawdown/beta) are computed separately, not folded into the score. This page renders a JSON snapshot exported from that tracker, not a live feed - see the Score Detail and Recent News sections on any ticker for exactly how current its evidence is.
+    Built with a Python/SQLite research tracker (wealth_lab). Every stock's 0-100 score comes from sourced, dated signals (each bullish or bearish, with a link) averaged and decayed by age, then shrunk toward 50 by how much evidence backs it - a thin, one-signal read can't score as extreme as a well-supported one. Expected range and risk metrics (volatility/Sharpe/drawdown/beta) are computed separately, not folded into the score. This page connects live to the deployed API when it's reachable (see the line under the title) and falls back to a static snapshot otherwise - see the Score Detail and Recent News sections on any ticker for exactly how current its evidence is.
   </footer>
 </div>
 
@@ -779,9 +779,15 @@
     });
   }
 
-  fetch('data.json').then(function (r) { return r.json(); }).then(function (d) {
+  // Set this to your deployed wealth_lab API's base URL (see DEPLOYMENT.md)
+  // to have this page pull live data instead of the static data.json
+  // snapshot. '' disables it and goes straight to data.json.
+  var LIVE_API_BASE = 'https://wealth-lab-twendle1.fly.dev';
+
+  function renderApp(d, sourceLineText) {
     state.data = d;
     document.getElementById('generated-at').textContent = 'as of ' + d.generated_at.replace('T', ' ').slice(0, 16) + ' UTC';
+    document.getElementById('data-source-line').textContent = sourceLineText;
     renderKpis(d);
     renderPortfolio(d);
     attachSortHandlers();
@@ -790,8 +796,29 @@
     renderTable();
     document.getElementById('loading').hidden = true;
     document.getElementById('app').hidden = false;
-  }).catch(function (err) {
-    document.getElementById('loading').textContent = 'Could not load data.json - ' + err;
-  });
+  }
+
+  function loadStaticSnapshot() {
+    fetch('data.json').then(function (r) { return r.json(); }).then(function (d) {
+      renderApp(d, 'data snapshot, not live - redeployed on request');
+    }).catch(function (err) {
+      document.getElementById('loading').textContent = 'Could not load data.json - ' + err;
+    });
+  }
+
+  if (LIVE_API_BASE) {
+    fetch(LIVE_API_BASE + '/snapshot').then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (d) {
+      renderApp(d, 'connected live to ' + LIVE_API_BASE.replace(/^https?:\/\//, ''));
+    }).catch(function () {
+      // Live API unreachable (app asleep, redeployed elsewhere, offline) -
+      // fall back to the static snapshot rather than showing a dead page.
+      loadStaticSnapshot();
+    });
+  } else {
+    loadStaticSnapshot();
+  }
 })();
 </script>
