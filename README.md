@@ -197,6 +197,40 @@ wealth_lab portfolio` shows current vs. target weights and risk metrics.
 `wealth_lab/seed_portfolio.py` is a reviewable record of how the current
 portfolio was actually built and sized.
 
+## HTTP API (provider-ready, not live)
+
+```
+pip install -r requirements.txt
+uvicorn wealth_lab.api:app --reload
+```
+
+A thin FastAPI layer over the same engine the CLI uses - `GET /theses`,
+`GET /theses/{symbol}`, `GET /compare`, `GET /portfolio`, `GET /snapshot`
+(everything at once), and `POST /research/{symbol}`. This exists for a
+real frontend that needs to serve more than one person at once, which a
+static Claude Artifact can't do.
+
+**This is not a live product.** Every read endpoint reflects whatever is
+already in the tracker's local database - same data the CLI and console
+dashboard use. `POST /research/{symbol}` (the endpoint that would pull in
+a *new*, not-yet-researched ticker automatically) returns `503` because
+there's no live market-data/news provider wired up: this environment has
+no general outbound network access from Python, only an agent's own
+WebSearch tool calls can reach live data, and those can't be triggered by
+an arbitrary visitor's HTTP request. `wealth_lab/providers/` is the
+interface a real provider (Finnhub, Alpha Vantage, Marketaux, SEC's own
+`data.sec.gov`, etc.) would implement to make that endpoint real -
+`providers/README.md` walks through what that takes, including the parts
+that are a deliberate choice for later rather than an oversight now: a
+real API key (sign up yourself, this can't be done from a coding session),
+a cache in front of the provider so concurrent visitors don't multiply API
+costs, a database that isn't a single local SQLite file (concurrent writes
+from many users need something like Postgres), and real hosting.
+
+CORS is wide open for local development - restrict `allow_origins` in
+`wealth_lab/api.py` before this ever sits on the public internet; it also
+has no authentication yet.
+
 ## Tests
 
 ```

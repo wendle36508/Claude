@@ -24,7 +24,7 @@ DEFAULT_OUT = Path(__file__).resolve().parent.parent / "report" / "data.json"
 BENCHMARK_SYMBOL = "SPY"
 
 
-def _thesis_snapshot(conn, t) -> dict:
+def thesis_snapshot(conn, t) -> dict:
     snap = db.latest_snapshot(conn, t["id"])
     latest_price = snap["price"] if snap else t["entry_price"]
     return_pct = None
@@ -156,7 +156,7 @@ def build_snapshot(conn) -> dict:
             ),
         }
 
-    theses = [_thesis_snapshot(conn, t) for t in db.list_theses(conn)]
+    theses = [thesis_snapshot(conn, t) for t in db.list_theses(conn)]
 
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),

@@ -106,7 +106,13 @@ def _now() -> str:
 
 
 @contextmanager
-def connect(db_path: Path = DB_PATH) -> Iterator[sqlite3.Connection]:
+def connect(db_path: Optional[Path] = None) -> Iterator[sqlite3.Connection]:
+    # Read the module-level DB_PATH at call time, not as a bound default -
+    # a bound default is evaluated once at import time, which would make
+    # monkeypatching db.DB_PATH in tests (or any runtime override) silently
+    # no-op.
+    if db_path is None:
+        db_path = DB_PATH
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
