@@ -72,9 +72,32 @@ CREATE TABLE IF NOT EXISTS positions (
     UNIQUE(thesis_id)
 );
 
+CREATE TABLE IF NOT EXISTS ipo_details (
+    thesis_id INTEGER PRIMARY KEY REFERENCES theses(id) ON DELETE CASCADE,
+    expected_list_date TEXT,
+    actual_list_date TEXT,
+    lockup_days INTEGER NOT NULL DEFAULT 180,
+    disclosed_valuation REAL,
+    disclosed_revenue REAL,
+    notes TEXT,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS comparables (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ipo_thesis_id INTEGER NOT NULL REFERENCES theses(id) ON DELETE CASCADE,
+    peer_symbol TEXT NOT NULL,
+    peer_name TEXT,
+    metric TEXT NOT NULL DEFAULT 'ev_revenue',
+    peer_multiple REAL NOT NULL,
+    source TEXT,
+    recorded_at TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_signals_thesis ON signals(thesis_id);
 CREATE INDEX IF NOT EXISTS idx_snapshots_thesis ON snapshots(thesis_id);
 CREATE INDEX IF NOT EXISTS idx_positions_thesis ON positions(thesis_id);
+CREATE INDEX IF NOT EXISTS idx_comparables_thesis ON comparables(ipo_thesis_id);
 """
 
 
@@ -245,3 +268,68 @@ def list_positions(conn: sqlite3.Connection) -> list[sqlite3.Row]:
 
 def get_position_for_thesis(conn: sqlite3.Connection, thesis_id: int) -> Optional[sqlite3.Row]:
     return conn.execute("SELECT * FROM positions WHERE thesis_id = ?", (thesis_id,)).fetchone()
+
+
+def set_ipo_details(
+    conn: sqlite3.Connection,
+    thesis_id: int,
+    expected_list_date: Optional[str] = None,
+    actual_list_date: Optional[str] = None,
+    lockup_days: int = 180,
+    disclosed_valuation: Optional[float] = None,
+    disclosed_revenue: Optional[float] = None,
+    notes: Optional[str] = None,
+) -> None:
+    """Upsert - set_ipo_details is meant to be called again as new facts
+    come in (a filing gets an actual date, a valuation gets revised), not
+    just once at creation."""
+    conn.execute(
+        """INSERT INTO ipo_details
+               (thesis_id, expected_list_date, actual_list_date, lockup_days,
+                disclosed_valuation, disclosed_revenue, notes, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+           ON CONFLICT(thesis_id) DO UPDATE SET
+               expected_list_date=excluded.expected_list_date,
+               actual_list_date=excluded.actual_list_date,
+               lockup_days=excluded.lockup_days,
+               disclosed_valuation=excluded.disclosed_valuation,
+               disclosed_revenue=excluded.disclosed_revenue,
+               notes=excluded.notes,
+               updated_at=excluded.updated_at""",
+        (thesis_id, expected_list_date, actual_list_date, lockup_days,
+         disclosed_valuation, disclosed_revenue, notes, _now()),
+    )
+
+
+def get_ipo_details(conn: sqlite3.Connection, thesis_id: int) -> Optional[sqlite3.Row]:
+    return conn.execute("SELECT * FROM ipo_details WHERE thesis_id = ?", (thesis_id,)).fetchone()
+
+
+def add_comparable(
+    conn: sqlite3.Connection,
+    ipo_thesis_id: int,
+    peer_symbol: str,
+    peer_multiple: float,
+    peer_name: Optional[str] = None,
+    metric: str = "ev_revenue",
+    source: Optional[str] = None,
+) -> int:
+    cur = conn.execute(
+        """INSERT INTO comparables (ipo_thesis_id, peer_symbol, peer_name, metric, peer_multiple, source, recorded_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+        (ipo_thesis_id, peer_symbol.upper(), peer_name, metric, peer_multiple, source, _now()),
+    )
+    return cur.lastrowid
+
+
+def list_comparables(
+    conn: sqlite3.Connection, ipo_thesis_id: int, metric: Optional[str] = None
+) -> list[sqlite3.Row]:
+    if metric:
+        return conn.execute(
+            "SELECT * FROM comparables WHERE ipo_thesis_id = ? AND metric = ? ORDER BY peer_symbol",
+            (ipo_thesis_id, metric),
+        ).fetchall()
+    return conn.execute(
+        "SELECT * FROM comparables WHERE ipo_thesis_id = ? ORDER BY metric, peer_symbol", (ipo_thesis_id,)
+    ).fetchall()

@@ -18,7 +18,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from wealth_lab import db, portfolio, risk, scoring
+from wealth_lab import db, ipo, portfolio, risk, scoring
 
 DEFAULT_OUT = Path(__file__).resolve().parent.parent / "report" / "data.json"
 BENCHMARK_SYMBOL = "SPY"
@@ -80,6 +80,36 @@ def _thesis_snapshot(conn, t) -> dict:
         for s in db.list_signals(conn, t["id"])
     ]
 
+    ipo_block = None
+    if t["asset_type"] == "ipo":
+        details = db.get_ipo_details(conn, t["id"])
+        if details is not None:
+            lockup = ipo.lockup_status(conn, t["id"])
+            gap = ipo.valuation_gap(conn, t["id"])
+            ipo_block = {
+                "disclosed_valuation": details["disclosed_valuation"],
+                "disclosed_revenue": details["disclosed_revenue"],
+                "expected_list_date": details["expected_list_date"],
+                "actual_list_date": details["actual_list_date"],
+                "notes": details["notes"],
+                "lockup": {
+                    "expiry_date": lockup.expiry_date, "is_estimate": lockup.is_estimate,
+                    "days_until_expiry": lockup.days_until_expiry,
+                },
+                "valuation_gap": (
+                    {
+                        "ipo_multiple": gap.ipo_multiple, "peer_median": gap.peer_median,
+                        "premium_to_peers": gap.premium_to_peers, "n_comps": gap.n_comps, "metric": gap.metric,
+                    }
+                    if gap else None
+                ),
+                "comparables": [
+                    {"peer_symbol": c["peer_symbol"], "peer_name": c["peer_name"],
+                     "metric": c["metric"], "peer_multiple": c["peer_multiple"], "source": c["source"]}
+                    for c in db.list_comparables(conn, t["id"])
+                ],
+            }
+
     return {
         "id": t["id"], "symbol": t["symbol"], "name": t["name"], "sector": t["sector"],
         "asset_type": t["asset_type"], "status": t["status"], "conviction": t["conviction"],
@@ -90,6 +120,7 @@ def _thesis_snapshot(conn, t) -> dict:
         "score": score, "confidence": confidence, "range": rng, "category_scores": category_scores,
         "risk": risk_metrics,
         "signals": signals,
+        "ipo": ipo_block,
     }
 
 

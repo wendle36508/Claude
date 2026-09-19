@@ -348,6 +348,39 @@
     }).join('') + '</div>';
   }
 
+  function ipoHtml(info) {
+    var parts = [];
+    if (info.disclosed_valuation && info.disclosed_revenue) {
+      parts.push('Disclosed: $' + (info.disclosed_valuation / 1e9).toFixed(1) + 'B valuation on $' +
+        (info.disclosed_revenue / 1e9).toFixed(1) + 'B revenue');
+    }
+    if (info.lockup && info.lockup.expiry_date) {
+      var est = info.lockup.is_estimate ? ' (estimate)' : '';
+      parts.push('Lockup expiry: ' + info.lockup.expiry_date + est + ' (' +
+        (info.lockup.days_until_expiry >= 0 ? '+' : '') + info.lockup.days_until_expiry + ' days from today)');
+    } else {
+      parts.push('Lockup expiry: unknown - no list date set yet');
+    }
+    if (info.valuation_gap) {
+      var g = info.valuation_gap;
+      parts.push('Implied multiple (' + g.metric + '): ' + fmtNum(g.ipo_multiple, 1) + 'x');
+      if (g.n_comps > 0) {
+        var dir = g.premium_to_peers >= 0 ? 'premium' : 'discount';
+        parts.push('Peer median (' + g.n_comps + ' comps): ' + fmtNum(g.peer_median, 1) + 'x &rarr; ' +
+          dir + ' of ' + Math.abs(g.premium_to_peers * 100).toFixed(0) + '% to peers');
+      } else {
+        parts.push('No comparables logged yet');
+      }
+    }
+    if (info.comparables && info.comparables.length) {
+      parts.push(info.comparables.map(function (c) {
+        return c.peer_symbol + ' ' + fmtNum(c.peer_multiple, 1) + 'x';
+      }).join(' &middot; '));
+    }
+    if (info.notes) parts.push('<span class="dim">' + escapeHtml(info.notes) + '</span>');
+    return parts.join('<br>');
+  }
+
   function detailHtml(t) {
     var riskHtml;
     if (t.risk.sufficient) {
@@ -371,6 +404,11 @@
         t.position.shares.toFixed(4) + ' shares @ $' + t.position.cost_basis.toFixed(2)
       : 'Not funded - watchlist only';
 
+    var ipoSection = t.ipo ? (
+      '<h4 style="margin-top:14px;">IPO</h4>' +
+      '<div class="risk-box">' + ipoHtml(t.ipo) + '</div>'
+    ) : '';
+
     return (
       '<div class="detail">' +
         '<p class="thesis-text">' + escapeHtml(t.thesis) + '</p>' +
@@ -386,6 +424,7 @@
             '<div class="risk-box">' + riskHtml + '</div>' +
             '<h4 style="margin-top:14px;">Portfolio</h4>' +
             '<div class="risk-box">' + positionHtml + '</div>' +
+            ipoSection +
           '</div>' +
         '</div>' +
       '</div>'

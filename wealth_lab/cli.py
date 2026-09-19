@@ -16,7 +16,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from wealth_lab import compare, db, portfolio, report, risk, scoring
+from wealth_lab import compare, db, ipo, portfolio, report, risk, scoring
 
 BENCHMARK_SYMBOL = "SPY"
 
@@ -347,6 +347,66 @@ def cmd_compare(conn, args) -> None:
           "'—' means not enough data yet for that column, not zero")
 
 
+def cmd_ipo_set(conn, args) -> None:
+    if db.get_thesis(conn, args.thesis_id) is None:
+        sys.exit(f"no thesis #{args.thesis_id}")
+    db.set_ipo_details(
+        conn, args.thesis_id,
+        expected_list_date=args.expected_list_date, actual_list_date=args.actual_list_date,
+        lockup_days=args.lockup_days, disclosed_valuation=args.valuation,
+        disclosed_revenue=args.revenue, notes=args.notes,
+    )
+    print(f"set IPO details for thesis #{args.thesis_id}")
+
+
+def cmd_ipo_comp(conn, args) -> None:
+    if db.get_thesis(conn, args.thesis_id) is None:
+        sys.exit(f"no thesis #{args.thesis_id}")
+    comp_id = db.add_comparable(
+        conn, args.thesis_id, args.peer_symbol, args.multiple,
+        peer_name=args.peer_name, metric=args.metric, source=args.source,
+    )
+    print(f"added comparable #{comp_id}: {args.peer_symbol.upper()} {args.metric}={args.multiple} to thesis #{args.thesis_id}")
+
+
+def cmd_ipo_show(conn, args) -> None:
+    t = db.get_thesis(conn, args.thesis_id)
+    if t is None:
+        sys.exit(f"no thesis #{args.thesis_id}")
+    details = db.get_ipo_details(conn, args.thesis_id)
+
+    print(f"#{args.thesis_id} {t['symbol']} - IPO details")
+    if details is None:
+        print("  no IPO details set yet - use `ipo set` to add expected list date / valuation / revenue")
+        return
+
+    if details["disclosed_valuation"] and details["disclosed_revenue"]:
+        print(f"  disclosed: ${details['disclosed_valuation']:,.0f} valuation on "
+              f"${details['disclosed_revenue']:,.0f} revenue")
+    if details["notes"]:
+        print(f"  notes: {details['notes']}")
+
+    lockup = ipo.lockup_status(conn, args.thesis_id)
+    if lockup.expiry_date:
+        est = " (estimate, based on expected list date)" if lockup.is_estimate else ""
+        print(f"  lockup expiry: {lockup.expiry_date}{est} - {lockup.days_until_expiry:+d} days from today")
+    else:
+        print("  lockup expiry: unknown (no expected/actual list date set)")
+
+    gap = ipo.valuation_gap(conn, args.thesis_id)
+    if gap is None:
+        print("  valuation comp: n/a (need both disclosed valuation and revenue set)")
+    else:
+        print(f"  implied multiple ({gap.metric}): {gap.ipo_multiple:.1f}x")
+        if gap.n_comps == 0:
+            print("  no comparables logged yet - use `ipo comp` to add public peers")
+        else:
+            print(f"  peer median ({gap.n_comps} comps): {gap.peer_median:.1f}x  "
+                  f"-> {'premium' if gap.premium_to_peers >= 0 else 'discount'} of {abs(gap.premium_to_peers) * 100:.0f}% to peers")
+            for c in db.list_comparables(conn, args.thesis_id, metric=gap.metric):
+                print(f"    {c['peer_symbol']:<6} {c['peer_multiple']:.1f}x" + (f"  [{c['source']}]" if c["source"] else ""))
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="wealth_lab")
     sub = p.add_subparsers(dest="command", required=True)
@@ -420,6 +480,29 @@ def build_parser() -> argparse.ArgumentParser:
     cmp.add_argument("--sort", choices=compare.SORTABLE_COLUMNS, default="score")
     cmp.add_argument("--ascending", action="store_true", help="sort ascending instead of descending")
     cmp.set_defaults(func=cmd_compare)
+
+    ipo_set = sub.add_parser("ipo-set", help="set/update a pre-IPO thesis's list date, lockup, and disclosed valuation")
+    ipo_set.add_argument("thesis_id", type=int)
+    ipo_set.add_argument("--expected-list-date", help="YYYY-MM-DD, forecast")
+    ipo_set.add_argument("--actual-list-date", help="YYYY-MM-DD, once it actually lists")
+    ipo_set.add_argument("--lockup-days", type=int, default=180)
+    ipo_set.add_argument("--valuation", type=float, help="disclosed/rumored valuation in dollars")
+    ipo_set.add_argument("--revenue", type=float, help="disclosed revenue in dollars, same period basis as valuation")
+    ipo_set.add_argument("--notes")
+    ipo_set.set_defaults(func=cmd_ipo_set)
+
+    ipo_comp = sub.add_parser("ipo-comp", help="log a public comparable-company multiple for an IPO thesis")
+    ipo_comp.add_argument("thesis_id", type=int)
+    ipo_comp.add_argument("peer_symbol")
+    ipo_comp.add_argument("multiple", type=float)
+    ipo_comp.add_argument("--peer-name")
+    ipo_comp.add_argument("--metric", default="ev_revenue")
+    ipo_comp.add_argument("--source")
+    ipo_comp.set_defaults(func=cmd_ipo_comp)
+
+    ipo_show = sub.add_parser("ipo-show", help="lockup countdown and valuation-vs-comps for an IPO thesis")
+    ipo_show.add_argument("thesis_id", type=int)
+    ipo_show.set_defaults(func=cmd_ipo_show)
 
     return p
 

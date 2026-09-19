@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T17:16:21+00:00",
+  "generated_at": "2026-09-19T17:27:06+00:00",
   "portfolio": {
     "starting_capital": 100000.0,
     "total_value": 100000.0,
@@ -58,7 +58,8 @@
         "sharpe": null,
         "max_drawdown": null
       },
-      "signals": []
+      "signals": [],
+      "ipo": null
     },
     {
       "id": 9,
@@ -92,7 +93,8 @@
         "sharpe": null,
         "max_drawdown": null
       },
-      "signals": []
+      "signals": [],
+      "ipo": null
     },
     {
       "id": 8,
@@ -126,7 +128,8 @@
         "sharpe": null,
         "max_drawdown": null
       },
-      "signals": []
+      "signals": [],
+      "ipo": null
     },
     {
       "id": 7,
@@ -150,9 +153,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6666193484030506,
+        "coverage": 0.6665906095520745,
         "agreement": 0.0,
-        "recency": 0.999929022604576
+        "recency": 0.9998859143281118
       },
       "range": {
         "floor": -0.4,
@@ -200,7 +203,42 @@
           "source": "https://www.allocations.com/insights/databricks-ipo-2026-date-valuation-and-how-to-invest",
           "recorded_at": "2026-09-19T16:58:40+00:00"
         }
-      ]
+      ],
+      "ipo": {
+        "disclosed_valuation": 190000000000.0,
+        "disclosed_revenue": 7000000000.0,
+        "expected_list_date": null,
+        "actual_list_date": null,
+        "notes": "$190B valuation from the Aug 13 2026 $5B round; revenue is the ~$7B annualized run-rate crossed in Q2 2026. No confirmed listing date - CEO has said 2026 is unlikely, pointing to 2027 or later, so no expected date is set.",
+        "lockup": {
+          "expiry_date": null,
+          "is_estimate": false,
+          "days_until_expiry": null
+        },
+        "valuation_gap": {
+          "ipo_multiple": 27.142857142857142,
+          "peer_median": 62.25,
+          "premium_to_peers": -0.563970166379805,
+          "n_comps": 2,
+          "metric": "ev_revenue"
+        },
+        "comparables": [
+          {
+            "peer_symbol": "PLTR",
+            "peer_name": "Palantir Technologies Inc.",
+            "metric": "ev_revenue",
+            "peer_multiple": 110.0,
+            "source": "https://blog.mexc.com/finance/databricks-ipo-2026-valuation-snowflake-how-to-invest/"
+          },
+          {
+            "peer_symbol": "SNOW",
+            "peer_name": "Snowflake Inc.",
+            "metric": "ev_revenue",
+            "peer_multiple": 14.5,
+            "source": "https://blog.mexc.com/finance/databricks-ipo-2026-valuation-snowflake-how-to-invest/"
+          }
+        ]
+      }
     },
     {
       "id": 6,
@@ -224,9 +262,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6666193483833077,
+        "coverage": 0.6665906095209685,
         "agreement": 0.0,
-        "recency": 0.9999290225749615
+        "recency": 0.9998859142814527
       },
       "range": {
         "floor": -0.4,
@@ -274,7 +312,42 @@
           "source": "https://www.atlaspeakresearch.com/report/31f3bf",
           "recorded_at": "2026-09-19T16:58:40+00:00"
         }
-      ]
+      ],
+      "ipo": {
+        "disclosed_valuation": 24500000000.0,
+        "disclosed_revenue": 510000000.0,
+        "expected_list_date": null,
+        "actual_list_date": null,
+        "notes": "S-1 filed April 2026, targeting Nasdaq under CBRS. Valuation range disclosed as ~$23-26B; using midpoint. No confirmed listing date yet, so lockup expiry is not computable.",
+        "lockup": {
+          "expiry_date": null,
+          "is_estimate": false,
+          "days_until_expiry": null
+        },
+        "valuation_gap": {
+          "ipo_multiple": 48.03921568627451,
+          "peer_median": 23.45,
+          "premium_to_peers": 1.048580626280363,
+          "n_comps": 2,
+          "metric": "ev_revenue"
+        },
+        "comparables": [
+          {
+            "peer_symbol": "CRWV",
+            "peer_name": "CoreWeave, Inc.",
+            "metric": "ev_revenue",
+            "peer_multiple": 10.4,
+            "source": "https://www.trefis.com/stock/crwv/articles/590858/whats-happening-with-coreweave-stock-2/2026-05-08"
+          },
+          {
+            "peer_symbol": "NBIS",
+            "peer_name": "Nebius Group N.V.",
+            "metric": "ev_revenue",
+            "peer_multiple": 36.5,
+            "source": "https://www.gurufocus.com/term/ps-ratio/NBIS"
+          }
+        ]
+      }
     },
     {
       "id": 5,
@@ -291,21 +364,21 @@
       "return_pct": null,
       "position": null,
       "score": {
-        "value": 0.4999999832863817,
+        "value": 0.4999999832863816,
         "n_signals": 2,
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.3332859832899495,
+        "value": 0.3332572470872502,
         "band": "medium",
-        "coverage": 0.6666193260832641,
-        "agreement": 0.4999999832863817,
-        "recency": 0.9999289891248972
+        "coverage": 0.6665905872193907,
+        "agreement": 0.4999999832863816,
+        "recency": 0.9998858808290871
       },
       "range": {
-        "floor": -0.14168561086242476,
-        "base": 0.12499999582159542,
-        "ceiling": 0.3916856025056156,
+        "floor": -0.14169710534350458,
+        "base": 0.1249999958215954,
+        "ceiling": 0.3916970969866954,
         "floor_price": null,
         "base_price": null,
         "ceiling_price": null,
@@ -348,7 +421,27 @@
           "source": "self-disclosed",
           "recorded_at": "2026-09-19T16:58:40+00:00"
         }
-      ]
+      ],
+      "ipo": {
+        "disclosed_valuation": 965000000000.0,
+        "disclosed_revenue": 65000000000.0,
+        "expected_list_date": "2026-10-31",
+        "actual_list_date": null,
+        "notes": "Valuation/revenue from May 2026 $65B Series H at $965B (revenue = annualized run-rate as of July 2026). Reporting has floated a much higher ~$2T IPO valuation but that rests on projected 2028 revenue ($190-200B), not a current disclosed figure, so it is not used here. Expected list date is reported guidance (October 2026), not confirmed. No clean public comp exists for a frontier AI lab, so no comparables logged - flagging that gap rather than forcing an approximate one. Anthropic is Claude's developer; treat this entry with extra skepticism.",
+        "lockup": {
+          "expiry_date": "2027-04-29",
+          "is_estimate": true,
+          "days_until_expiry": 222
+        },
+        "valuation_gap": {
+          "ipo_multiple": 14.846153846153847,
+          "peer_median": null,
+          "premium_to_peers": null,
+          "n_comps": 0,
+          "metric": "ev_revenue"
+        },
+        "comparables": []
+      }
     },
     {
       "id": 4,
@@ -378,9 +471,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6666193037852706,
+        "coverage": 0.6665905649181249,
         "agreement": 0.0,
-        "recency": 0.9999289556779059
+        "recency": 0.9998858473771872
       },
       "range": {
         "floor": -0.4,
@@ -428,7 +521,8 @@
           "source": "https://www.morningstar.com/stocks/xnas/sndk/quote",
           "recorded_at": "2026-09-19T16:58:39+00:00"
         }
-      ]
+      ],
+      "ipo": null
     },
     {
       "id": 3,
@@ -458,9 +552,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6666193037694494,
+        "coverage": 0.6665905649027055,
         "agreement": 0.0,
-        "recency": 0.9999289556541742
+        "recency": 0.9998858473540583
       },
       "range": {
         "floor": -0.4,
@@ -508,7 +602,8 @@
           "source": "https://www.heygotrade.com/en/us-stock/vrt/",
           "recorded_at": "2026-09-19T16:58:39+00:00"
         }
-      ]
+      ],
+      "ipo": null
     },
     {
       "id": 2,
@@ -536,19 +631,19 @@
         "weights_used": "manual"
       },
       "confidence": {
-        "value": 0.6665719442059931,
+        "value": 0.6665144717970874,
         "band": "high",
-        "coverage": 0.6666193037538958,
+        "coverage": 0.6665905648882665,
         "agreement": 1.0,
-        "recency": 0.9999289556308436
+        "recency": 0.9998858473323998
       },
       "range": {
-        "floor": 0.11662877768239724,
+        "floor": 0.11660578871883498,
         "base": 0.25,
-        "ceiling": 0.3833712223176028,
-        "floor_price": 243.41390724698581,
+        "ceiling": 0.383394211281165,
+        "floor_price": 243.40889588281885,
         "base_price": 272.4875,
-        "ceiling_price": 301.5610927530143,
+        "ceiling_price": 301.56610411718117,
         "source": "default"
       },
       "category_scores": {
@@ -584,7 +679,8 @@
           "source": "https://www.tradingview.com/symbols/NASDAQ-NBIS/",
           "recorded_at": "2026-09-19T16:58:39+00:00"
         }
-      ]
+      ],
+      "ipo": null
     },
     {
       "id": 1,
@@ -614,9 +710,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6666193037392779,
+        "coverage": 0.6665905648720897,
         "agreement": 0.0,
-        "recency": 0.9999289556089169
+        "recency": 0.9998858473081345
       },
       "range": {
         "floor": -0.4,
@@ -664,7 +760,8 @@
           "source": "https://www.investing.com/equities/coreweave",
           "recorded_at": "2026-09-19T16:58:39+00:00"
         }
-      ]
+      ],
+      "ipo": null
     }
   ]
 }
