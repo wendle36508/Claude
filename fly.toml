@@ -1,0 +1,31 @@
+# Fly.io app config for the wealth_lab API - see DEPLOYMENT.md for the
+# full checklist. Run `fly launch --copy-config --name <your-app-name>`
+# from the repo root to create the app from this file, or `fly deploy`
+# once it already exists. `app` below is a placeholder - fly will ask you
+# to confirm or change the name on first launch.
+
+app = "wealth-lab-api"
+primary_region = "iad"
+
+[build]
+
+[env]
+  WEALTH_LAB_PROVIDER = "finnhub"
+  WEALTH_LAB_DB_PATH = "/data/tracker.db"
+  # FINNHUB_API_KEY is a secret, not set here - see DEPLOYMENT.md step 1:
+  #   fly secrets set FINNHUB_API_KEY=<your key>
+
+[mounts]
+  source = "wealth_lab_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false   # keep the volume-backed instance running - a stopped machine still bills for the volume
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
