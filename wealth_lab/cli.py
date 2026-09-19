@@ -473,7 +473,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     close = subparser("close", "close out a thesis")
     close.add_argument("thesis_id", type=int, help="thesis to close")
-    close.add_argument("status", choices=["closed_win", "closed_loss", "closed_flat"], help="how it turned out")
+    close.add_argument("status", choices=db.CLOSED_STATUSES, help="how it turned out")
     close.set_defaults(func=cmd_close)
 
     show = subparser("show", "show one thesis in full")
@@ -481,7 +481,7 @@ def build_parser() -> argparse.ArgumentParser:
     show.set_defaults(func=cmd_show)
 
     ls = subparser("list", "list theses")
-    ls.add_argument("--status", choices=["open", "closed_win", "closed_loss", "closed_flat"],
+    ls.add_argument("--status", choices=db.THESIS_STATUSES,
                      help="only show theses in this status (default: all)")
     ls.set_defaults(func=cmd_list)
 
@@ -508,7 +508,7 @@ def build_parser() -> argparse.ArgumentParser:
     rk.set_defaults(func=cmd_risk)
 
     cmp = subparser("compare", "every thesis side by side - one row each, every metric its own column")
-    cmp.add_argument("--status", choices=["open", "closed_win", "closed_loss", "closed_flat"],
+    cmp.add_argument("--status", choices=db.THESIS_STATUSES,
                       help="only include theses in this status (default: all)")
     cmp.add_argument("--sort", choices=compare.SORTABLE_COLUMNS, default="score",
                       help="column to sort by (default: score)")

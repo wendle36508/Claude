@@ -3,6 +3,7 @@ so a real frontend - not just this repo's CLI or the static console
 dashboard - can serve lookups to more than one person at once.
 
     uvicorn wealth_lab.api:app --reload
+    # interactive docs at http://127.0.0.1:8000/docs
 
 This is provider-ready, not live: every read endpoint reflects whatever is
 already in the tracker's database (same data the CLI and console dashboard
@@ -19,13 +20,26 @@ on the public internet as-is.
 
 from __future__ import annotations
 
+from typing import Literal
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from wealth_lab import compare, db, export, ipo, portfolio, risk, scoring
+from wealth_lab import compare, db, export, portfolio
 from wealth_lab.providers import get_provider
 
-app = FastAPI(title="Wealth Lab API", version="0.1.0")
+ThesisStatus = Literal["open", "closed_win", "closed_loss", "closed_flat"]
+
+app = FastAPI(
+    title="Wealth Lab API",
+    version="0.1.0",
+    description=(
+        "Read-only HTTP access to the wealth_lab research tracker - the same "
+        "scoring, risk, and portfolio engine the CLI and console dashboard use. "
+        "See the module docstring in wealth_lab/api.py for what this is and "
+        "isn't (not live data, no auth, CORS wide open for local dev)."
+    ),
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,8 +49,10 @@ app.add_middleware(
 )
 
 
-@app.get("/")
+@app.get("/", tags=["meta"], summary="API info and provider status")
 def root():
+    """Confirms the API is up and reports which data provider is active -
+    always MockProvider (`live_data: false`) until a real one is wired up."""
     provider = get_provider()
     return {
         "name": "Wealth Lab API",
@@ -45,14 +61,24 @@ def root():
     }
 
 
-@app.get("/theses")
-def list_theses(status: str | None = Query(default=None)):
+@app.get("/theses", tags=["research"], summary="List all theses")
+def list_theses(
+    status: ThesisStatus | None = Query(default=None, description="Only return theses in this status"),
+):
+    """Every logged thesis (funded positions and pre-IPO watchlist alike),
+    newest first. Raw thesis rows - use GET /theses/{symbol} for the full
+    computed view (score, confidence, risk, signals)."""
     with db.connect() as conn:
         return [dict(t) for t in db.list_theses(conn, status=status)]
 
 
-@app.get("/theses/{symbol}")
+@app.get("/theses/{symbol}", tags=["research"], summary="Full lookup for one ticker")
 def get_thesis(symbol: str):
+    """Everything known about one symbol: thesis, sector, price/return,
+    portfolio position, composite score/confidence/range, category
+    sub-scores, risk metrics, IPO details (if applicable), and every
+    signal with its source. 404 if it hasn't been researched yet - this
+    only reads what's already logged, it doesn't fetch anything live."""
     with db.connect() as conn:
         t = db.get_thesis_by_symbol(conn, symbol)
         if t is None:
@@ -60,12 +86,16 @@ def get_thesis(symbol: str):
         return export.thesis_snapshot(conn, t)
 
 
-@app.get("/compare")
+@app.get("/compare", tags=["research"], summary="Every thesis side by side")
 def compare_theses(
-    status: str | None = Query(default=None),
-    sort: str = Query(default="score"),
-    ascending: bool = Query(default=False),
+    status: ThesisStatus | None = Query(default=None, description="Only include theses in this status"),
+    sort: str = Query(default="score", description=f"Column to sort by, one of {compare.SORTABLE_COLUMNS}"),
+    ascending: bool = Query(default=False, description="Sort ascending instead of descending"),
 ):
+    """One row per thesis with score, confidence, expected range, and
+    volatility as separate columns - deliberately not blended into one
+    ranking number. Missing data always sorts last, regardless of
+    direction."""
     if sort not in compare.SORTABLE_COLUMNS:
         raise HTTPException(status_code=400, detail=f"sort must be one of {compare.SORTABLE_COLUMNS}")
     with db.connect() as conn:
@@ -74,8 +104,12 @@ def compare_theses(
         return [vars(r) for r in rows]
 
 
-@app.get("/portfolio")
+@app.get("/portfolio", tags=["portfolio"], summary="Current portfolio allocation and risk")
 def get_portfolio():
+    """Total value, return since inception, sleeve weights, concentration
+    (HHI), real + naive volatility, and confidence-driven sizing
+    suggestions (comparison only, never auto-applied). 404 if nothing's
+    funded yet."""
     with db.connect() as conn:
         values = portfolio.current_values(conn)
         if not values:
@@ -83,16 +117,29 @@ def get_portfolio():
         return export.build_snapshot(conn)["portfolio"]
 
 
-@app.get("/snapshot")
+@app.get("/snapshot", tags=["research"], summary="Everything at once")
 def get_snapshot():
-    """Everything at once - the same shape as report/data.json, for a
-    frontend that wants one call instead of several."""
+    """The full JSON snapshot - same shape as report/data.json and what
+    the console dashboard renders. One call instead of several for a
+    frontend that wants the whole picture at once."""
     with db.connect() as conn:
         return export.build_snapshot(conn)
 
 
-@app.post("/research/{symbol}")
+@app.post(
+    "/research/{symbol}",
+    tags=["research"],
+    summary="Research a new ticker (not implemented without a live provider)",
+    responses={
+        503: {"description": "No live data provider configured - see providers/README.md"},
+        501: {"description": "A live provider is configured but news-to-signal classification isn't implemented yet"},
+    },
+)
 def research_symbol(symbol: str):
+    """Would pull in a ticker with no existing thesis: fetch price/news/
+    fundamentals from the configured DataProvider, classify the news into
+    signals, and log a new thesis. Always 503 today - see the module
+    docstring and providers/README.md for what's missing and why."""
     provider = get_provider()
     if not provider.is_live:
         raise HTTPException(

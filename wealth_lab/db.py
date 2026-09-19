@@ -21,6 +21,8 @@ from typing import Iterator, Optional
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "tracker.db"
 
 SIGNAL_CATEGORIES = ("growth", "valuation", "risk", "catalyst", "macro", "other")
+THESIS_STATUSES = ("open", "closed_win", "closed_loss", "closed_flat")
+CLOSED_STATUSES = ("closed_win", "closed_loss", "closed_flat")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS theses (
