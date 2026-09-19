@@ -129,6 +129,29 @@ web). For a ticker that hasn't been researched yet, `lookup` says so and
 points at asking the agent to research it first; once it's logged, `lookup`
 is instant from then on.
 
+## Universe coverage (S&P 500)
+
+```
+python -m wealth_lab universe-status         # X/495 researched, overall and by sector
+python -m wealth_lab universe-next --n 10    # next unresearched names, round-robin across sectors
+```
+
+"Every publicly tradeable stock" isn't buildable by hand at real research
+depth - `wealth_lab/universe.py` treats the S&P 500 (`universe_sp500.csv`,
+495 symbol/name/sector rows) as the honest, bounded stand-in for "every
+stock that matters" for the lookup tool, and tracks how much of it has an
+actual thesis logged. A symbol counts as covered once *any* thesis exists
+for it (open or closed) - freshness of already-open theses is a separate
+question, handled by `scan.py`'s staleness check.
+
+`universe-next` doesn't just walk the CSV top to bottom - it round-robins
+across GICS sectors so coverage grows breadth-first across the market
+instead of exhausting one sector before touching the next (the CSV happens
+to already be grouped by sector). This is also baked into `scan.py`'s daily
+digest (see below) and exposed at `GET /universe` in the API, so both the
+scheduled research Routine and a frontend showing buildout progress read
+from the same coverage numbers.
+
 ## Risk metrics
 
 ```
@@ -225,8 +248,9 @@ uvicorn wealth_lab.api:app --reload
 ```
 
 A thin FastAPI layer over the same engine the CLI uses - `GET /theses`,
-`GET /theses/{symbol}`, `GET /compare`, `GET /portfolio`, `GET /snapshot`
-(everything at once), and `POST /research/{symbol}`. This exists for a
+`GET /theses/{symbol}`, `GET /compare`, `GET /portfolio`, `GET /universe`
+(S&P 500 coverage, see above), `GET /snapshot` (everything at once), and
+`POST /research/{symbol}`. This exists for a
 real frontend that needs to serve more than one person at once, which a
 static Claude Artifact can't do.
 
@@ -281,8 +305,8 @@ and signals are logged by hand or imported from data you pull yourself.
 ## Roadmap ideas (not yet built)
 
 - A live `fetch_price()` implementation once run with real network access.
-- An IPO-specific thesis helper (S-1 comparables, lockup calendar).
-- A scheduled scan (e.g. via a Claude Code Routine) that runs `scan.py`
-  daily and reports stale theses or notable signal changes.
-- Signal weighting informed by `report.py`'s calibration output, instead of
-  a flat weight of 1.0 for everything.
+- Incrementally research the full S&P 500 universe via the daily Routine
+  (`universe.py`'s `next_batch()` - currently 2/495 symbols covered).
+- A real `DataProvider` implementation (see `providers/README.md`) so
+  `POST /research/{symbol}` can actually research a new ticker instead of
+  always returning 503.

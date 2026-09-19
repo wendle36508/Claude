@@ -16,7 +16,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from wealth_lab import compare, db, ipo, portfolio, report, risk, scoring, sizing
+from wealth_lab import compare, db, ipo, portfolio, report, risk, scoring, sizing, universe
 
 BENCHMARK_SYMBOL = "SPY"
 
@@ -431,6 +431,24 @@ def cmd_sizing(conn, args) -> None:
               "evidence, which is a real reflection of thin day-one signal history, not something to act on yet.")
 
 
+def cmd_universe_status(conn, args) -> None:
+    report = universe.coverage(conn)
+    print(f"S&P 500 coverage: {report.researched}/{report.total} researched ({report.pct:.1f}%)")
+    print(f"{'SECTOR':<28} {'RESEARCHED':>10} {'TOTAL':>6}")
+    for sector, (have, total) in report.by_sector.items():
+        print(f"{sector:<28} {have:>10} {total:>6}")
+
+
+def cmd_universe_next(conn, args) -> None:
+    batch = universe.next_batch(conn, n=args.n)
+    if not batch:
+        print("every S&P 500 name already has a thesis logged - universe fully covered")
+        return
+    print(f"next {len(batch)} unresearched (round-robin across sectors):")
+    for e in batch:
+        print(f"  {e.symbol:<6} {e.name:<40} {e.sector}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="wealth_lab")
     sub = p.add_subparsers(dest="command", required=True)
@@ -540,6 +558,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     sz = subparser("sizing", "confidence-driven satellite weight suggestions vs. current weights (comparison only)")
     sz.set_defaults(func=cmd_sizing)
+
+    us = subparser("universe-status", "S&P 500 research coverage, overall and by sector")
+    us.set_defaults(func=cmd_universe_status)
+
+    un = subparser("universe-next", "next unresearched S&P 500 names to research, round-robin across sectors")
+    un.add_argument("--n", type=int, default=10, help="how many to list (default: 10)")
+    un.set_defaults(func=cmd_universe_next)
 
     return p
 

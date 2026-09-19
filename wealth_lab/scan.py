@@ -15,6 +15,11 @@ plugs in at fetch_price() below; nothing else here needs to change.
 This is deliberately the *only* place "is this thesis stale" gets decided -
 the daily Routine calls `python -m wealth_lab.scan` for that list instead of
 re-deriving its own notion of staleness from `list`/`portfolio` output.
+
+Also surfaces S&P 500 universe coverage and the next batch to research
+(see universe.py) - the daily Routine's other job besides refreshing
+already-tracked names is incrementally growing the researched universe,
+and this is where it finds out what's next without a separate command.
 """
 
 from __future__ import annotations
@@ -22,7 +27,9 @@ from __future__ import annotations
 import sqlite3
 from datetime import datetime, timedelta, timezone
 
-from wealth_lab import db, report
+from wealth_lab import db, report, universe
+
+UNIVERSE_BATCH_SIZE = 5
 
 STALE_AFTER_DAYS = 7
 
@@ -70,6 +77,17 @@ def run_scan(conn: sqlite3.Connection) -> str:
         lines.append(f"theses with tracked return: {len(returns)}")
         if hr:
             lines.append(f"hit rate on closed theses: {hr['wins']}/{hr['n_closed']} ({hr['hit_rate'] * 100:.0f}%)")
+
+    cov = universe.coverage(conn)
+    lines.append(f"\nS&P 500 universe coverage: {cov.researched}/{cov.total} ({cov.pct:.1f}%)")
+    nxt = universe.next_batch(conn, n=UNIVERSE_BATCH_SIZE)
+    if nxt:
+        lines.append(f"research these {len(nxt)} next (round-robin across sectors, full depth - "
+                      "sourced signals, not a lighter touch):")
+        for e in nxt:
+            lines.append(f"  {e.symbol:<6} {e.name} ({e.sector})")
+    else:
+        lines.append("full S&P 500 universe already covered")
 
     return "\n".join(lines)
 

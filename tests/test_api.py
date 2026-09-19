@@ -133,6 +133,25 @@ def test_snapshot_endpoint_matches_export_shape(client):
     assert "theses" in body
 
 
+def test_universe_endpoint_reports_coverage(client):
+    r = client.get("/universe")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["total"] > 400  # real S&P 500 list, not seeded
+    assert body["researched"] == 0
+    assert body["remaining"] == body["total"]
+    assert "Information Technology" in body["by_sector"]
+    assert len(body["next_up"]) == 10
+
+
+def test_universe_endpoint_reflects_researched_symbol(client):
+    seed_thesis(symbol="AAPL")
+
+    body = client.get("/universe").json()
+
+    assert body["researched"] == 1
+
+
 def test_research_endpoint_503_without_live_provider(client):
     r = client.post("/research/AAPL")
 

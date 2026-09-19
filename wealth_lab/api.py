@@ -25,7 +25,7 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-from wealth_lab import compare, db, export, portfolio
+from wealth_lab import compare, db, export, portfolio, universe
 from wealth_lab.providers import get_provider
 
 ThesisStatus = Literal["open", "closed_win", "closed_loss", "closed_flat"]
@@ -115,6 +115,27 @@ def get_portfolio():
         if not values:
             raise HTTPException(status_code=404, detail="no funded positions yet")
         return export.build_snapshot(conn)["portfolio"]
+
+
+@app.get("/universe", tags=["research"], summary="S&P 500 research coverage")
+def get_universe():
+    """How much of the S&P 500 - the lookup tool's bounded stand-in for
+    'every stock' - has been researched so far, overall and by sector, plus
+    the next unresearched names in round-robin sector order. Same numbers
+    `python -m wealth_lab universe-status`/`universe-next` print, for a
+    frontend that wants to show buildout progress rather than just the
+    theses that already exist."""
+    with db.connect() as conn:
+        report = universe.coverage(conn)
+        nxt = universe.next_batch(conn, n=10)
+        return {
+            "total": report.total,
+            "researched": report.researched,
+            "remaining": report.remaining,
+            "pct": report.pct,
+            "by_sector": {s: {"researched": r, "total": t} for s, (r, t) in report.by_sector.items()},
+            "next_up": [{"symbol": e.symbol, "name": e.name, "sector": e.sector} for e in nxt],
+        }
 
 
 @app.get("/snapshot", tags=["research"], summary="Everything at once")
