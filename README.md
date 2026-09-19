@@ -112,6 +112,32 @@ web). For a ticker that hasn't been researched yet, `lookup` says so and
 points at asking the agent to research it first; once it's logged, `lookup`
 is instant from then on.
 
+## Risk metrics
+
+```
+python -m wealth_lab risk 1          # volatility, Sharpe, max drawdown, beta vs SPY for thesis #1
+python -m wealth_lab lookup NVDA     # same section, folded into the full ticker view
+```
+
+`wealth_lab/risk.py` computes these from actual snapshot price history, not
+assumptions - which means most calls currently come back "insufficient
+data" rather than a number, honestly, since most positions have one
+snapshot (inception) so far. That's correct behavior: a volatility estimate
+from one data point isn't one. As the daily Routine logs more snapshots,
+real numbers start appearing with no code changes needed.
+
+Two things worth knowing about the math:
+- Returns are simple period-over-period returns (not log returns), and
+  Sharpe's annualized mean is `periods_per_year * mean(returns)`, not a
+  compounded growth rate - standard shortcuts for a quick estimate, but
+  they understate compounding over long horizons.
+- Snapshots are irregular (logged whenever the research Routine runs), so
+  `periods_per_year` is inferred from the average gap between the
+  snapshots actually taken, not assumed to be 252 or 365.
+- Beta is computed only over calendar dates where both the position and
+  the benchmark (SPY) have a snapshot, so a beta value reflects genuinely
+  paired, same-window returns rather than mismatched ones.
+
 ## Portfolio construction
 
 `wealth_lab/portfolio.py` sizes funded positions into sleeves

@@ -16,7 +16,9 @@ from __future__ import annotations
 import argparse
 import sys
 
-from wealth_lab import db, portfolio, report, scoring
+from wealth_lab import db, portfolio, report, risk, scoring
+
+BENCHMARK_SYMBOL = "SPY"
 
 
 def cmd_add(conn, args) -> None:
@@ -204,6 +206,35 @@ def cmd_score(conn, args) -> None:
               "- these are effectively manual weights until then")
 
 
+def _print_risk_metrics(m: risk.RiskMetrics) -> None:
+    if not m.sufficient:
+        print(f"Risk metrics: not enough price history yet ({m.n_snapshots} snapshot(s), "
+              f"need >= {risk.MIN_SNAPSHOTS_FOR_VOLATILITY}) - volatility/Sharpe/drawdown need a real return series")
+        return
+
+    print(f"Risk metrics ({m.n_returns} periods, ~{m.periods_per_year:.0f}/yr inferred from snapshot spacing):")
+    print(f"  volatility (annualized): {m.volatility * 100:.1f}%" if m.volatility is not None else "  volatility: n/a")
+    print(f"  sharpe ratio:            {m.sharpe:+.2f}" if m.sharpe is not None else "  sharpe ratio: n/a")
+    print(f"  max drawdown:            {m.max_drawdown * 100:.1f}%" if m.max_drawdown is not None else "  max drawdown: n/a")
+    if m.beta_vs_benchmark is not None:
+        print(f"  beta vs {BENCHMARK_SYMBOL}:              {m.beta_vs_benchmark:+.2f}  (n={m.n_aligned_returns} aligned periods)")
+    elif m.n_aligned_returns > 0:
+        print(f"  beta vs {BENCHMARK_SYMBOL}: not enough aligned history yet ({m.n_aligned_returns} paired periods, "
+              f"need >= {risk.MIN_ALIGNED_POINTS_FOR_BETA - 1})")
+
+
+def cmd_risk(conn, args) -> None:
+    thesis = db.get_thesis(conn, args.thesis_id)
+    if thesis is None:
+        sys.exit(f"no thesis #{args.thesis_id}")
+    benchmark = db.get_thesis_by_symbol(conn, BENCHMARK_SYMBOL)
+    benchmark_id = benchmark["id"] if benchmark else None
+
+    print(f"#{args.thesis_id} {thesis['symbol']} - risk metrics")
+    m = risk.compute_risk_metrics(conn, args.thesis_id, benchmark_thesis_id=benchmark_id)
+    _print_risk_metrics(m)
+
+
 def cmd_lookup(conn, args) -> None:
     """The 'search a ticker, see everything' view: thesis, sector, price/return,
     portfolio position, category sub-scores, and every signal with its source -
@@ -263,6 +294,11 @@ def cmd_lookup(conn, args) -> None:
     for s in db.list_signals(conn, t["id"]):
         source = f"  [{s['source']}]" if s["source"] else ""
         print(f"  [{s['category']:<9}] {s['direction']:<8} {s['name']:<28} {s['rationale'] or ''}{source}")
+
+    benchmark = db.get_thesis_by_symbol(conn, BENCHMARK_SYMBOL)
+    benchmark_id = benchmark["id"] if benchmark and benchmark["id"] != t["id"] else None
+    print()
+    _print_risk_metrics(risk.compute_risk_metrics(conn, t["id"], benchmark_thesis_id=benchmark_id))
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -328,6 +364,10 @@ def build_parser() -> argparse.ArgumentParser:
     lu = sub.add_parser("lookup", help="everything known about a ticker: thesis, scores, signals, portfolio position")
     lu.add_argument("symbol")
     lu.set_defaults(func=cmd_lookup)
+
+    rk = sub.add_parser("risk", help="volatility, Sharpe, max drawdown, beta vs SPY - from real snapshot history")
+    rk.add_argument("thesis_id", type=int)
+    rk.set_defaults(func=cmd_risk)
 
     return p
 
