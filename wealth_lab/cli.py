@@ -161,14 +161,18 @@ def cmd_score(conn, args) -> None:
         sys.exit(f"no thesis #{args.thesis_id}")
 
     signal_weights = scoring.learned_signal_weights(conn) if args.learned else None
-    result = scoring.composite_score(conn, args.thesis_id, signal_weights=signal_weights)
+    half_life = None if args.no_decay else scoring.DECAY_HALF_LIFE_DAYS
+    result = scoring.composite_score(conn, args.thesis_id, signal_weights=signal_weights, half_life_days=half_life)
     if result is None:
         print(f"#{args.thesis_id} {thesis['symbol']}: no signals logged yet - nothing to score")
         return
 
-    print(f"#{args.thesis_id} {thesis['symbol']} - composite score ({result.weights_used} weights)")
+    print(f"#{args.thesis_id} {thesis['symbol']} - composite score ({result.weights_used} weights"
+          f"{', no decay' if args.no_decay else ''})")
     for c in result.breakdown:
-        print(f"  {c.name:<30} {c.direction:<9} weight={c.weight:.2f}  contribution={c.contribution:+.2f}")
+        age_note = f"age={c.age_days:.0f}d decay={c.decay:.2f}" if c.decay < 0.99 else "fresh"
+        print(f"  {c.name:<30} {c.direction:<9} weight={c.base_weight:.2f}->{c.effective_weight:.2f} "
+              f"({age_note})  contribution={c.contribution:+.2f}")
     print(f"\n  composite score: {result.score:+.2f}  (range -1 bearish .. +1 bullish, n={result.n_signals})")
 
     cmp = scoring.compare_to_conviction(conn, args.thesis_id, result)
@@ -177,6 +181,18 @@ def cmd_score(conn, args) -> None:
         print("  -> signal score and conviction broadly agree")
     else:
         print(f"  -> DIVERGES from conviction by {cmp['delta']:+.2f} - worth a second look")
+
+    conf = scoring.confidence(result)
+    print(f"\n  confidence: {conf.confidence:.2f} ({conf.band})  "
+          f"[coverage={conf.coverage:.2f} agreement={conf.agreement:.2f} recency={conf.recency:.2f}]")
+
+    rng = scoring.expected_return_range(conn, result, conf, entry_price=thesis["entry_price"])
+    print(f"  expected return range ({rng.source} width): "
+          f"floor {rng.floor_return * 100:+.1f}%  base {rng.base_return * 100:+.1f}%  ceiling {rng.ceiling_return * 100:+.1f}%")
+    if rng.floor_price is not None:
+        print(f"    -> price: floor ${rng.floor_price:,.2f}  base ${rng.base_price:,.2f}  ceiling ${rng.ceiling_price:,.2f}")
+    print("  (heuristic band from the scoring engine's own inputs, not a valuation model - "
+          "widens automatically when confidence is low)")
 
     if args.learned and not signal_weights:
         print("\n  note: no signal name has enough return history yet to learn a weight "
@@ -238,6 +254,7 @@ def build_parser() -> argparse.ArgumentParser:
     sc = sub.add_parser("score", help="computed composite score from a thesis's signals, vs. its manual conviction")
     sc.add_argument("thesis_id", type=int)
     sc.add_argument("--learned", action="store_true", help="use historically-learned per-signal weights instead of manual weights")
+    sc.add_argument("--no-decay", action="store_true", help="don't discount older signals - score every signal at full weight regardless of age")
     sc.set_defaults(func=cmd_score)
 
     return p

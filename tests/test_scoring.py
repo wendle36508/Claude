@@ -1,3 +1,7 @@
+from datetime import datetime, timedelta, timezone
+
+import pytest
+
 from wealth_lab import db, scoring
 
 
@@ -7,6 +11,13 @@ def make_thesis(conn, symbol="TEST", conviction=3, entry_price=100.0):
         conviction=conviction, entry_price=entry_price, entry_date="2026-01-01",
     )
 
+
+def backdate_signal(conn, thesis_id, days_ago):
+    ts = (datetime.now(timezone.utc) - timedelta(days=days_ago)).isoformat(timespec="seconds")
+    conn.execute("UPDATE signals SET recorded_at=? WHERE thesis_id=?", (ts, thesis_id))
+
+
+# ---- composite score ----
 
 def test_composite_score_all_bullish_is_max(conn):
     tid = make_thesis(conn)
@@ -55,28 +66,134 @@ def test_composite_score_none_when_no_signals(conn):
     assert scoring.composite_score(conn, tid) is None
 
 
-def test_compare_to_conviction_flags_large_divergence(conn):
-    tid = make_thesis(conn, conviction=1)  # normalized -1.0
-    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)  # score +1.0
+# ---- decay ----
 
-    result = scoring.composite_score(conn, tid)
-    cmp = scoring.compare_to_conviction(conn, tid, result)
-
-    assert cmp["conviction_normalized"] == -1.0
-    assert cmp["signal_score"] == 1.0
-    assert cmp["agrees"] is False
-
-
-def test_compare_to_conviction_agrees_when_close(conn):
-    tid = make_thesis(conn, conviction=3)  # normalized 0.0
+def test_fresh_signal_has_negligible_decay(conn):
+    tid = make_thesis(conn)
     db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
-    db.add_signal(conn, tid, "valuation", "bearish", weight=1.0)  # score 0.0
 
     result = scoring.composite_score(conn, tid)
-    cmp = scoring.compare_to_conviction(conn, tid, result)
 
-    assert cmp["agrees"] is True
+    assert result.breakdown[0].decay == pytest.approx(1.0, abs=1e-4)
 
+
+def test_signal_two_half_lives_old_decays_to_quarter_weight(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
+    backdate_signal(conn, tid, days_ago=2 * scoring.DECAY_HALF_LIFE_DAYS)
+
+    result = scoring.composite_score(conn, tid)
+
+    assert result.breakdown[0].decay == pytest.approx(0.25, rel=0.01)
+
+
+def test_decay_lets_a_fresh_signal_dominate_an_old_one(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "old_news", "bullish", weight=1.0)
+    backdate_signal(conn, tid, days_ago=2 * scoring.DECAY_HALF_LIFE_DAYS)
+    db.add_signal(conn, tid, "fresh_news", "bearish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+
+    # old bullish (effective weight 0.25) vs fresh bearish (effective weight ~1.0)
+    assert result.score < -0.4
+
+
+def test_no_decay_flag_scores_every_signal_at_full_weight(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "old_news", "bullish", weight=1.0)
+    backdate_signal(conn, tid, days_ago=2 * scoring.DECAY_HALF_LIFE_DAYS)
+    db.add_signal(conn, tid, "fresh_news", "bearish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid, half_life_days=None)
+
+    assert result.score == 0.0  # decay disabled -> the two signals cancel exactly
+
+
+# ---- confidence ----
+
+def test_confidence_is_high_with_agreement_and_full_coverage(conn):
+    tid = make_thesis(conn)
+    for name in ("growth", "moat", "hiring"):
+        db.add_signal(conn, tid, name, "bullish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+
+    assert conf.coverage == pytest.approx(1.0, abs=1e-4)
+    assert conf.agreement == 1.0
+    assert conf.confidence > 0.9
+    assert conf.band == "high"
+
+
+def test_confidence_is_low_when_signals_disagree(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
+    db.add_signal(conn, tid, "valuation", "bearish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+
+    assert conf.agreement == 0.0
+    assert conf.confidence == 0.0
+    assert conf.band == "low"
+
+
+def test_confidence_is_low_with_thin_coverage_even_if_unanimous(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "growth", "bullish", weight=0.3)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+
+    assert conf.agreement == 1.0  # the one signal is unanimous...
+    assert conf.coverage < 0.15  # ...but there's barely any evidence
+    assert conf.band == "low"
+
+
+# ---- expected return range ----
+
+def test_range_has_zero_width_at_full_confidence(conn):
+    tid = make_thesis(conn, entry_price=100.0)
+    for name in ("growth", "moat", "hiring"):
+        db.add_signal(conn, tid, name, "bullish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+    rng = scoring.expected_return_range(conn, result, conf, entry_price=100.0)
+
+    assert rng.floor_return == pytest.approx(rng.ceiling_return, abs=1e-5)
+    assert rng.base_return == pytest.approx(scoring.DEFAULT_MAX_SWING)
+    assert rng.floor_price == pytest.approx(100.0 * (1 + scoring.DEFAULT_MAX_SWING))
+    assert rng.source == "default"
+
+
+def test_range_widens_as_confidence_drops(conn):
+    tid = make_thesis(conn, entry_price=100.0)
+    db.add_signal(conn, tid, "growth", "bullish", weight=0.3)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+    rng = scoring.expected_return_range(conn, result, conf, entry_price=100.0)
+
+    assert rng.floor_return < rng.base_return < rng.ceiling_return
+
+
+def test_range_has_no_price_fields_without_entry_price(conn):
+    tid = make_thesis(conn)
+    conn.execute("UPDATE theses SET entry_price = NULL WHERE id = ?", (tid,))
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+    conf = scoring.confidence(result)
+    rng = scoring.expected_return_range(conn, result, conf, entry_price=None)
+
+    assert rng.floor_price is None
+    assert rng.base_price is None
+    assert rng.ceiling_price is None
+
+
+# ---- learned weights ----
 
 def test_learned_weights_empty_below_observation_threshold(conn):
     tid = make_thesis(conn)
@@ -104,3 +221,53 @@ def test_learned_weights_reflect_historical_spread(conn):
     assert "growth" in weights
     assert weights["growth"] > scoring.DEFAULT_WEIGHT  # bullish clearly beat bearish historically
     assert weights["growth"] <= scoring.MAX_LEARNED_WEIGHT
+
+
+# ---- range calibration ----
+
+def test_calibrate_range_model_none_with_insufficient_history(conn):
+    tid = make_thesis(conn)
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
+    db.add_snapshot(conn, tid, price=110.0)
+
+    assert scoring.calibrate_range_model(conn, min_n=8) is None
+
+
+def test_calibrate_range_model_fits_swing_from_consistent_history(conn):
+    for i in range(8):
+        direction = "bullish" if i % 2 == 0 else "bearish"
+        exit_price = 110.0 if direction == "bullish" else 90.0
+        tid = make_thesis(conn, symbol=f"T{i}", entry_price=100.0)
+        db.add_signal(conn, tid, "growth", direction, weight=1.0)
+        db.add_snapshot(conn, tid, price=exit_price)
+
+    fitted = scoring.calibrate_range_model(conn, min_n=8)
+
+    assert fitted is not None
+    assert fitted["n"] == 8
+    assert fitted["max_swing"] == pytest.approx(0.10, rel=0.01)  # |+-10% return| / |+-1.0 score|
+
+
+# ---- conviction comparison ----
+
+def test_compare_to_conviction_flags_large_divergence(conn):
+    tid = make_thesis(conn, conviction=1)  # normalized -1.0
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)  # score +1.0
+
+    result = scoring.composite_score(conn, tid)
+    cmp = scoring.compare_to_conviction(conn, tid, result)
+
+    assert cmp["conviction_normalized"] == -1.0
+    assert cmp["signal_score"] == 1.0
+    assert cmp["agrees"] is False
+
+
+def test_compare_to_conviction_agrees_when_close(conn):
+    tid = make_thesis(conn, conviction=3)  # normalized 0.0
+    db.add_signal(conn, tid, "growth", "bullish", weight=1.0)
+    db.add_signal(conn, tid, "valuation", "bearish", weight=1.0)  # score 0.0
+
+    result = scoring.composite_score(conn, tid)
+    cmp = scoring.compare_to_conviction(conn, tid, result)
+
+    assert cmp["agrees"] is True

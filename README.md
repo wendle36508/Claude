@@ -49,6 +49,7 @@ extreme.
 ```
 python -m wealth_lab score 1              # composite score using manually-set signal weights
 python -m wealth_lab score 1 --learned    # same, but weights come from historical calibration
+python -m wealth_lab score 1 --no-decay   # disable age-based decay, score every signal at full weight
 ```
 
 The two numbers are meant to be compared, not merged - `score` flags when
@@ -62,6 +63,33 @@ weight until there's enough data. The machinery is real; the learning isn't,
 yet. `python -m wealth_lab report` shows both calibrations side by side
 (return by conviction level vs. return by composite score bucket) so which
 one is actually predictive is a question the data answers, not an assumption.
+
+**Decay.** Every signal's weight is discounted by its age (half-life 120
+days by default), so a six-month-old signal counts for less than one from
+this morning without ever being deleted. `--no-decay` shows the undiscounted
+score for comparison.
+
+**Confidence.** A separate [0,1] read on how much to trust the score itself,
+built from three factors: *coverage* (how much evidence has fired, relative
+to ~3 full-weight signals), *agreement* (how much the signals agree in
+direction - two signals that cancel out score the same as zero signals but
+should not be trusted the same amount, and confidence is what tells them
+apart), and *recency* (how fresh the contributing evidence is). All three
+multiply together, so thin evidence or real disagreement or stale signals
+each independently pull confidence down.
+
+**Expected return range.** `score` also prints a floor/base/ceiling return
+(and, with an entry price, a price range), centered on the composite score
+and widened automatically as confidence drops - a high-confidence thesis
+gets a tight band, a contested one gets a wide one. This is a heuristic
+derived from the scoring engine's own inputs, explicitly **not** a
+valuation model - it has no earnings, multiple, or discount-rate inputs.
+`scoring.calibrate_range_model()` is the honest fix: once enough theses
+have closed with a known outcome, the band's width gets fit from what
+actually happened (the realized-return-per-unit-of-score ratio) instead of
+from the assumed `DEFAULT_MAX_SWING` constant. Until there's enough history
+it correctly returns nothing and the default constant is used - the report
+says which one is in effect.
 
 ## Portfolio construction
 
