@@ -86,14 +86,16 @@ def max_drawdown(series: list[tuple[str, float]]) -> Optional[float]:
     return worst
 
 
-def aligned_returns(
-    conn: sqlite3.Connection, thesis_id: int, benchmark_thesis_id: int
+def aligned_returns_from_series(
+    series_a: list[tuple[str, float]], series_b: list[tuple[str, float]]
 ) -> tuple[list[float], list[float]]:
-    """Paired period-over-period returns for a thesis and a benchmark,
-    computed only over calendar dates where both have a snapshot - so a
-    return here reflects the same time window on both sides."""
-    a = dict(price_series(conn, thesis_id))
-    b = dict(price_series(conn, benchmark_thesis_id))
+    """Paired period-over-period returns for two (date, price) series,
+    computed only over calendar dates where both have a point - so a
+    return here reflects the same time window on both sides. Works for any
+    two series, not just single positions - a reconstructed portfolio value
+    series lines up with this exactly as well as one thesis's price_series does."""
+    a = dict(series_a)
+    b = dict(series_b)
     common_dates = sorted(set(a) & set(b))
     if len(common_dates) < 2:
         return [], []
@@ -102,6 +104,14 @@ def aligned_returns(
     returns_a = [(prices_a[i] - prices_a[i - 1]) / prices_a[i - 1] for i in range(1, len(prices_a))]
     returns_b = [(prices_b[i] - prices_b[i - 1]) / prices_b[i - 1] for i in range(1, len(prices_b))]
     return returns_a, returns_b
+
+
+def aligned_returns(
+    conn: sqlite3.Connection, thesis_id: int, benchmark_thesis_id: int
+) -> tuple[list[float], list[float]]:
+    """Paired period-over-period returns for a thesis and a benchmark thesis,
+    computed only over calendar dates where both have a snapshot."""
+    return aligned_returns_from_series(price_series(conn, thesis_id), price_series(conn, benchmark_thesis_id))
 
 
 def beta(returns_asset: list[float], returns_benchmark: list[float]) -> Optional[float]:
@@ -132,13 +142,14 @@ class RiskMetrics:
     sufficient: bool  # False when volatility/sharpe/drawdown are None for lack of history
 
 
-def compute_risk_metrics(
-    conn: sqlite3.Connection,
-    thesis_id: int,
-    benchmark_thesis_id: Optional[int] = None,
+def metrics_from_series(
+    series: list[tuple[str, float]],
+    benchmark_series: Optional[list[tuple[str, float]]] = None,
     risk_free_rate: float = 0.0,
 ) -> RiskMetrics:
-    series = price_series(conn, thesis_id)
+    """The generic engine behind compute_risk_metrics: works on any (date,
+    price) series, not just a single position's - a reconstructed portfolio
+    value series plugs in exactly the same way."""
     returns = periodic_returns(series)
     periods_per_year = inferred_periods_per_year(series)
 
@@ -151,8 +162,8 @@ def compute_risk_metrics(
 
     b = None
     n_aligned = 0
-    if benchmark_thesis_id is not None and benchmark_thesis_id != thesis_id:
-        ra, rb = aligned_returns(conn, thesis_id, benchmark_thesis_id)
+    if benchmark_series is not None:
+        ra, rb = aligned_returns_from_series(series, benchmark_series)
         n_aligned = len(ra)
         if n_aligned >= 2:
             b = beta(ra, rb)
@@ -168,3 +179,16 @@ def compute_risk_metrics(
         n_aligned_returns=n_aligned,
         sufficient=len(series) >= MIN_SNAPSHOTS_FOR_VOLATILITY,
     )
+
+
+def compute_risk_metrics(
+    conn: sqlite3.Connection,
+    thesis_id: int,
+    benchmark_thesis_id: Optional[int] = None,
+    risk_free_rate: float = 0.0,
+) -> RiskMetrics:
+    series = price_series(conn, thesis_id)
+    benchmark_series = None
+    if benchmark_thesis_id is not None and benchmark_thesis_id != thesis_id:
+        benchmark_series = price_series(conn, benchmark_thesis_id)
+    return metrics_from_series(series, benchmark_series, risk_free_rate)

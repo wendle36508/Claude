@@ -160,6 +160,24 @@ def cmd_portfolio(conn, args) -> None:
     ret = portfolio.portfolio_return(values, args.starting_capital)
     print(f"portfolio return since inception: {ret * 100:+.2f}%  (vs starting capital ${args.starting_capital:,.0f})")
 
+    print("\n== portfolio risk (whole account) ==")
+    benchmark = db.get_thesis_by_symbol(conn, BENCHMARK_SYMBOL)
+    benchmark_id = benchmark["id"] if benchmark else None
+    m = portfolio.portfolio_risk_metrics(conn, benchmark_thesis_id=benchmark_id)
+    _print_risk_metrics(m)
+
+    naive = portfolio.naive_volatility_upper_bound(conn)
+    if naive:
+        print(f"  naive volatility upper-bound: {naive.weighted_volatility * 100:.1f}%  "
+              f"(weighted avg of each position's own vol, ignoring correlation - "
+              f"coverage {naive.covered_weight * 100:.0f}% of portfolio, {naive.n_positions_included} positions)")
+        if m.volatility is not None:
+            gap = naive.weighted_volatility - m.volatility
+            print(f"  -> real portfolio vol is {gap * 100:.1f}pp below the naive estimate; "
+                  "that gap is the measured diversification benefit")
+    else:
+        print("  naive volatility upper-bound: not enough per-position history yet")
+
 
 def cmd_score(conn, args) -> None:
     thesis = db.get_thesis(conn, args.thesis_id)
@@ -227,11 +245,12 @@ def cmd_risk(conn, args) -> None:
     thesis = db.get_thesis(conn, args.thesis_id)
     if thesis is None:
         sys.exit(f"no thesis #{args.thesis_id}")
-    benchmark = db.get_thesis_by_symbol(conn, BENCHMARK_SYMBOL)
-    benchmark_id = benchmark["id"] if benchmark else None
 
+    # No per-stock beta vs SPY here on purpose: SPY is itself a holding in
+    # this portfolio (see `portfolio`), so "the whole account vs SPY" is
+    # the meaningful comparison - beta only appears at the portfolio level.
     print(f"#{args.thesis_id} {thesis['symbol']} - risk metrics")
-    m = risk.compute_risk_metrics(conn, args.thesis_id, benchmark_thesis_id=benchmark_id)
+    m = risk.compute_risk_metrics(conn, args.thesis_id)
     _print_risk_metrics(m)
 
 
@@ -295,10 +314,9 @@ def cmd_lookup(conn, args) -> None:
         source = f"  [{s['source']}]" if s["source"] else ""
         print(f"  [{s['category']:<9}] {s['direction']:<8} {s['name']:<28} {s['rationale'] or ''}{source}")
 
-    benchmark = db.get_thesis_by_symbol(conn, BENCHMARK_SYMBOL)
-    benchmark_id = benchmark["id"] if benchmark and benchmark["id"] != t["id"] else None
+    # No per-stock beta vs SPY here on purpose - see cmd_risk's comment.
     print()
-    _print_risk_metrics(risk.compute_risk_metrics(conn, t["id"], benchmark_thesis_id=benchmark_id))
+    _print_risk_metrics(risk.compute_risk_metrics(conn, t["id"]))
 
 
 def build_parser() -> argparse.ArgumentParser:

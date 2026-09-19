@@ -134,9 +134,41 @@ Two things worth knowing about the math:
 - Snapshots are irregular (logged whenever the research Routine runs), so
   `periods_per_year` is inferred from the average gap between the
   snapshots actually taken, not assumed to be 252 or 365.
-- Beta is computed only over calendar dates where both the position and
-  the benchmark (SPY) have a snapshot, so a beta value reflects genuinely
-  paired, same-window returns rather than mismatched ones.
+- Beta is computed only over calendar dates where both series have a data
+  point, so a beta value reflects genuinely paired, same-window returns
+  rather than mismatched ones.
+
+Beta vs SPY is deliberately **not** shown per individual stock: SPY is
+itself a 30% core holding in this portfolio (see below), so "does CRWV
+move more than SPY" would be circular in a way that's easy to gloss over.
+Beta only appears at the whole-portfolio level, per `python -m wealth_lab
+portfolio` - "does the whole account move more than the market" is the
+question that's actually well-posed here.
+
+## Portfolio-level risk
+
+`python -m wealth_lab portfolio` also shows two volatility reads, on
+purpose:
+
+- **Real** (`portfolio.portfolio_risk_metrics`) - built from
+  `portfolio.value_series()`, which reconstructs total portfolio value at
+  every date any position has a snapshot, forward-filling every other
+  position's price from its own most recent known point. This is
+  correlation-aware (it's computed from the actual combined value history,
+  not summed independently), but only as fresh as each position's last
+  snapshot - a date where only one position updates still understates that
+  day's true portfolio-wide movement.
+- **Naive upper bound** (`portfolio.naive_volatility_upper_bound`) - the
+  weighted average of each position's *own* volatility, ignoring how they
+  move together. This overstates true risk whenever positions aren't
+  perfectly correlated (the entire point of diversifying), so it's a quick
+  sanity check, not the real number. Cash counts at exactly 0% by
+  definition; any position without enough of its own history is excluded,
+  and the reported coverage says how much of the portfolio the estimate
+  actually rests on.
+
+The gap between the two is itself informative once there's enough
+history: it's the measured diversification benefit, not an assumption.
 
 ## Portfolio construction
 
