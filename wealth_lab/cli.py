@@ -16,7 +16,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from wealth_lab import db, portfolio, report, risk, scoring
+from wealth_lab import compare, db, portfolio, report, risk, scoring
 
 BENCHMARK_SYMBOL = "SPY"
 
@@ -319,6 +319,34 @@ def cmd_lookup(conn, args) -> None:
     _print_risk_metrics(risk.compute_risk_metrics(conn, t["id"]))
 
 
+def cmd_compare(conn, args) -> None:
+    rows = compare.build_comparison(conn, status=args.status)
+    if not rows:
+        print("no theses recorded yet")
+        return
+    rows = compare.sort_rows(rows, by=args.sort, descending=not args.ascending)
+
+    def fmt_pct(v):
+        return f"{v * 100:+.1f}%" if v is not None else "  —  "
+
+    def fmt(v, spec):
+        return format(v, spec) if v is not None else "  —  "
+
+    header = (f"{'SYMBOL':<10} {'SECTOR':<26} {'STATUS':<11} {'CONV':>4} {'SCORE':>6} "
+              f"{'CONF':>5} {'FLOOR':>7} {'BASE':>7} {'CEIL':>7} {'VOL':>7}")
+    print(header)
+    print("-" * len(header))
+    for r in rows:
+        print(
+            f"{r.symbol:<10} {(r.sector or '—')[:26]:<26} {r.status:<11} {r.conviction:>4} "
+            f"{fmt(r.score, '+.2f'):>6} {fmt(r.confidence, '.2f'):>5} "
+            f"{fmt_pct(r.floor_return):>7} {fmt_pct(r.base_return):>7} {fmt_pct(r.ceiling_return):>7} "
+            f"{fmt_pct(r.volatility):>7}"
+        )
+    print(f"\nsorted by {args.sort} ({'descending' if not args.ascending else 'ascending'}); "
+          "'—' means not enough data yet for that column, not zero")
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="wealth_lab")
     sub = p.add_subparsers(dest="command", required=True)
@@ -386,6 +414,12 @@ def build_parser() -> argparse.ArgumentParser:
     rk = sub.add_parser("risk", help="volatility, Sharpe, max drawdown, beta vs SPY - from real snapshot history")
     rk.add_argument("thesis_id", type=int)
     rk.set_defaults(func=cmd_risk)
+
+    cmp = sub.add_parser("compare", help="every thesis side by side - one row each, every metric its own column")
+    cmp.add_argument("--status", choices=["open", "closed_win", "closed_loss", "closed_flat"])
+    cmp.add_argument("--sort", choices=compare.SORTABLE_COLUMNS, default="score")
+    cmp.add_argument("--ascending", action="store_true", help="sort ascending instead of descending")
+    cmp.set_defaults(func=cmd_compare)
 
     return p
 

@@ -91,6 +91,23 @@ from the assumed `DEFAULT_MAX_SWING` constant. Until there's enough history
 it correctly returns nothing and the default constant is used - the report
 says which one is in effect.
 
+## Compare theses side by side
+
+```
+python -m wealth_lab compare                    # every thesis, one row each, sorted by score
+python -m wealth_lab compare --sort confidence
+python -m wealth_lab compare --sort volatility --ascending
+```
+
+Deliberately **not** a single blended ranking number. Composite score,
+confidence, expected floor/base/ceiling, and volatility each answer a
+different question (direction of the evidence / how much to trust it /
+plausible range / how bumpy the ride), and folding them into one score
+would hide which of those is actually driving a high or low rank. Every
+metric stays its own column; `--sort` picks which one orders the table.
+Missing data (`—`) always sorts last regardless of direction - a thesis
+with no signals yet reads as "no score," not as "worst score."
+
 ## Look up a ticker
 
 ```
