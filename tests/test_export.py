@@ -1,3 +1,5 @@
+import pytest
+
 from wealth_lab import db, export, portfolio, scoring
 from wealth_lab.providers.base import QuantMetrics
 
@@ -65,6 +67,69 @@ def test_thesis_snapshot_blends_in_live_quant_signals(conn, monkeypatch):
     assert snap["category_scores"]["valuation"]["n_signals"] == 1
     assert snap["category_scores"]["valuation"]["value"] > 0  # cheap P/E -> bullish valuation
     assert "growth" in snap["category_scores"]  # the logged signal is untouched
+
+
+def test_thesis_snapshot_uses_live_price_when_available(conn, monkeypatch):
+    export._LIVE_PRICE_CACHE.clear()
+
+    class FakeLiveProvider:
+        is_live = True
+        def get_price(self, symbol):
+            return 123.45
+        def get_quant_metrics(self, symbol):
+            return None
+
+    monkeypatch.setattr(export, "get_provider", lambda: FakeLiveProvider())
+
+    tid = db.add_thesis(
+        conn, symbol="AAA", asset_type="stock", thesis="t", conviction=3,
+        entry_price=100.0, entry_date="2026-01-01",
+    )
+
+    snap = export.thesis_snapshot(conn, db.get_thesis(conn, tid))
+
+    assert snap["latest_price"] == 123.45
+    assert snap["return_pct"] == pytest.approx(0.2345)
+
+
+def test_thesis_snapshot_falls_back_to_stored_price_without_live_provider(conn, monkeypatch):
+    export._LIVE_PRICE_CACHE.clear()
+
+    class FakeMockProvider:
+        is_live = False
+        def get_price(self, symbol):
+            raise AssertionError("get_price should not be called when is_live is False")
+
+    monkeypatch.setattr(export, "get_provider", lambda: FakeMockProvider())
+
+    tid = db.add_thesis(
+        conn, symbol="BBB", asset_type="stock", thesis="t", conviction=3,
+        entry_price=50.0, entry_date="2026-01-01",
+    )
+    db.add_snapshot(conn, tid, 55.0)
+
+    snap = export.thesis_snapshot(conn, db.get_thesis(conn, tid))
+
+    assert snap["latest_price"] == 55.0  # the stored snapshot, untouched
+
+
+def test_live_price_is_cached_per_symbol():
+    export._LIVE_PRICE_CACHE.clear()
+
+    class CountingProvider:
+        is_live = True
+        def __init__(self):
+            self.calls = 0
+        def get_price(self, symbol):
+            self.calls += 1
+            return 99.0
+
+    provider = CountingProvider()
+    export._live_price("ZZPRICE", provider)
+    export._live_price("ZZPRICE", provider)
+    export._live_price("ZZPRICE", provider)
+
+    assert provider.calls == 1
 
 
 def test_build_snapshot_is_json_serializable(conn):

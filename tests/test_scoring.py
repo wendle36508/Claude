@@ -262,6 +262,54 @@ def test_live_signals_default_to_get_provider_when_not_passed(conn, monkeypatch)
     assert scoring.live_quant_signals("AAA") == []
 
 
+class CountingQuantProvider:
+    is_live = True
+
+    def __init__(self):
+        self.calls = 0
+
+    def get_quant_metrics(self, symbol):
+        self.calls += 1
+        return make_metrics(pe_ttm=10.0)
+
+
+def test_live_quant_signals_caches_repeated_calls_for_same_symbol(monkeypatch):
+    scoring._LIVE_QUANT_CACHE.clear()
+    provider = CountingQuantProvider()
+    monkeypatch.setattr(scoring, "get_provider", lambda: provider)
+
+    scoring.live_quant_signals("ZZCACHE")
+    scoring.live_quant_signals("ZZCACHE")
+    scoring.live_quant_signals("ZZCACHE")
+
+    assert provider.calls == 1  # only the first call actually hit the provider
+
+
+def test_live_quant_signals_cache_expires_after_ttl(monkeypatch):
+    scoring._LIVE_QUANT_CACHE.clear()
+    provider = CountingQuantProvider()
+    monkeypatch.setattr(scoring, "get_provider", lambda: provider)
+
+    fake_time = {"t": 1000.0}
+    monkeypatch.setattr(scoring.time, "monotonic", lambda: fake_time["t"])
+
+    scoring.live_quant_signals("ZZTTL")
+    fake_time["t"] += scoring.LIVE_QUANT_CACHE_TTL_SECONDS + 1
+    scoring.live_quant_signals("ZZTTL")
+
+    assert provider.calls == 2  # cache expired - second call re-fetched
+
+
+def test_live_quant_signals_explicit_provider_bypasses_cache():
+    scoring._LIVE_QUANT_CACHE.clear()
+    provider = CountingQuantProvider()
+
+    scoring.live_quant_signals("ZZEXPLICIT", provider=provider)
+    scoring.live_quant_signals("ZZEXPLICIT", provider=provider)
+
+    assert provider.calls == 2  # an explicitly-passed provider is never cached
+
+
 # ---- confidence ----
 
 def test_confidence_is_high_with_agreement_and_full_coverage(conn):

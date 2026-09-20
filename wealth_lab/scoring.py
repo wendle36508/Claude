@@ -44,6 +44,7 @@ any symbol the provider has no data for.
 from __future__ import annotations
 
 import sqlite3
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Optional
@@ -54,6 +55,16 @@ from wealth_lab.providers import get_provider
 DEFAULT_WEIGHT = 1.0
 MIN_OBSERVATIONS_TO_LEARN = 3
 MAX_LEARNED_WEIGHT = 3.0
+
+# Process-local cache for live_quant_signals() - see that function's
+# docstring for why. Keyed by uppercased symbol -> (monotonic timestamp,
+# result list). Deliberately a plain module-level dict, not shared across
+# machines/workers: correct for this deployment's single-instance shape
+# (see DEPLOYMENT.md); a multi-instance deployment would need a shared
+# cache (Redis) instead, same as providers/README.md already flags for
+# scaling past a single SQLite file.
+_LIVE_QUANT_CACHE: dict[str, tuple[float, list]] = {}
+LIVE_QUANT_CACHE_TTL_SECONDS = 60.0
 
 # Decay: a signal's weight halves every DECAY_HALF_LIFE_DAYS. 120 days is an
 # assumption (roughly one earnings cycle), not a fitted value - a signal
@@ -215,8 +226,9 @@ def live_quant_signals(symbol: str, provider=None, as_of: Optional[datetime] = N
     have, so composite_score()/category_score() can blend them into the
     existing weighted-average engine instead of needing a second formula.
     Each one is timestamped as of right now, so it always decays as fresh -
-    that's the actual sense in which this is "live": every call re-derives
-    it from the provider, nothing is cached or stored in the database.
+    that's the actual sense in which this is "live": nothing is stored in
+    the database, every call re-derives it from the provider (or, for
+    LIVE_QUANT_CACHE_TTL_SECONDS, a recent cached reading - see below).
 
     Only valuation (P/E, P/B) and risk (beta) get a live signal. Finnhub's
     free tier has no reliable forward-looking or revenue-growth numbers to
@@ -229,14 +241,34 @@ def live_quant_signals(symbol: str, provider=None, as_of: Optional[datetime] = N
     configured (provider.is_live is False, the default MockProvider case),
     the provider has no data for this symbol, or a metric field is missing
     or non-positive (a P/E from negative earnings isn't "cheap," it's
-    undefined for this heuristic, so it's skipped rather than misread)."""
+    undefined for this heuristic, so it's skipped rather than misread).
+
+    Caching: when `provider` isn't passed explicitly (the real call path -
+    every test passes a fake provider explicitly, so this never touches
+    them), results are cached per symbol for LIVE_QUANT_CACHE_TTL_SECONDS.
+    A dashboard tracking 30+ stocks would otherwise burn through a free
+    Finnhub key's 60-calls/minute limit on a single page load; this keeps
+    repeated requests for the same symbol within that window from re-
+    hitting the API, at the cost of the reading being up to a minute
+    stale - a page reload sees fresh data at most once a minute, not on
+    every single request. See providers/README.md's caching note."""
+    explicit_provider = provider is not None
     if provider is None:
         provider = get_provider()
     if not provider.is_live:
         return []
 
+    cache_key = symbol.upper()
+    if not explicit_provider:
+        now = time.monotonic()
+        cached = _LIVE_QUANT_CACHE.get(cache_key)
+        if cached is not None and now - cached[0] < LIVE_QUANT_CACHE_TTL_SECONDS:
+            return cached[1]
+
     metrics = provider.get_quant_metrics(symbol)
     if metrics is None:
+        if not explicit_provider:
+            _LIVE_QUANT_CACHE[cache_key] = (time.monotonic(), [])
         return []
 
     as_of = as_of or datetime.now(timezone.utc)
@@ -258,6 +290,8 @@ def live_quant_signals(symbol: str, provider=None, as_of: Optional[datetime] = N
         deviation = (LIVE_BENCHMARK_BETA - metrics.beta) / LIVE_BENCHMARK_BETA
         out.append(_quant_reading_to_signal("live_beta", "risk", deviation, as_of))
 
+    if not explicit_provider:
+        _LIVE_QUANT_CACHE[cache_key] = (time.monotonic(), out)
     return out
 
 

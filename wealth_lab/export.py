@@ -1,32 +1,60 @@
 """Builds a single JSON snapshot of everything the CLI can show - every
 thesis with its full score/confidence/range/risk breakdown and signals,
-plus portfolio-level metrics - for the dashboard artifact to render.
+plus portfolio-level metrics - for the console dashboard to render.
 
     python -m wealth_lab.export                  # writes report/data.json
     python -m wealth_lab.export --out path.json
 
-The dashboard is a static page: it has no backend, so it reads this file
-instead of querying the database live. Re-run this and republish the
-artifact's data.json whenever the tracker data changes and you want the
-dashboard to reflect it - the HTML/JS itself doesn't need to change.
+This function (thesis_snapshot -> build_snapshot) backs two different
+things: this module's own CLI, which writes the static report/data.json
+that a published Claude Artifact falls back to (it can't reach a live
+API - see providers/README.md), and api.py's GET /snapshot, which the
+API's own GET /dashboard route calls live on every request. Re-run this
+CLI and republish data.json when you want the *static* fallback to
+reflect current data; the live route needs nothing re-run, it queries
+the database directly on each request.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
 from wealth_lab import db, ipo, portfolio, risk, scoring, sizing
+from wealth_lab.providers import get_provider
 
 DEFAULT_OUT = Path(__file__).resolve().parent.parent / "report" / "data.json"
 BENCHMARK_SYMBOL = "SPY"
 
+# Process-local cache for live prices, same reasoning and shape as
+# scoring.py's _LIVE_QUANT_CACHE - keeps a dashboard tracking 30+ stocks
+# from burning through a free Finnhub key's 60-calls/minute limit on a
+# single page load. A price is at most this many seconds stale.
+_LIVE_PRICE_CACHE: dict[str, tuple[float, "float | None"]] = {}
+LIVE_PRICE_CACHE_TTL_SECONDS = 60.0
+
+
+def _live_price(symbol: str, provider) -> "float | None":
+    if not provider.is_live:
+        return None
+    key = symbol.upper()
+    now = time.monotonic()
+    cached = _LIVE_PRICE_CACHE.get(key)
+    if cached is not None and now - cached[0] < LIVE_PRICE_CACHE_TTL_SECONDS:
+        return cached[1]
+    price = provider.get_price(symbol)
+    _LIVE_PRICE_CACHE[key] = (now, price)
+    return price
+
 
 def thesis_snapshot(conn, t) -> dict:
     snap = db.latest_snapshot(conn, t["id"])
-    latest_price = snap["price"] if snap else t["entry_price"]
+    stored_price = snap["price"] if snap else t["entry_price"]
+    live_price = _live_price(t["symbol"], get_provider())
+    latest_price = live_price if live_price is not None else stored_price
     return_pct = None
     if t["entry_price"] and latest_price is not None:
         return_pct = (latest_price - t["entry_price"]) / t["entry_price"]

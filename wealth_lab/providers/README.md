@@ -69,14 +69,28 @@ Other options by what they cover, none integrated yet - implement
 | News | Marketaux, Financial Modeling Prep, Benzinga |
 | Fundamentals incl. revenue | Financial Modeling Prep, Alpha Vantage, or SEC's own `data.sec.gov` (free, no key, but XBRL data takes more parsing) |
 
-## Cache before you scale
+## Caching is done - for price and P/E/P/B/beta, at least
 
-Every `/lookup/{symbol}` or `/research/{symbol}` call from every visitor
-would otherwise re-hit the paid API. Add a cache (even a simple
-time-bucketed in-memory dict, or Redis for multi-instance deployments)
-in front of the provider calls once this serves real traffic - not
-before, and not inside `DataProvider` itself, which should stay a thin,
-honest wrapper around the API.
+`scoring.py`'s `_LIVE_QUANT_CACHE` and `export.py`'s `_LIVE_PRICE_CACHE`
+are exactly the "simple time-bucketed in-memory dict" this section used to
+say to add later - added once real deployed traffic actually showed the
+need (a dashboard tracking 30+ stocks was burning through a free Finnhub
+key's 60-calls/minute limit on a single page load). Both are 60-second
+TTLs, process-local, and deliberately live at the call site rather than
+inside `DataProvider` itself - `FinnhubProvider` stays a thin, honest
+wrapper around the API with no caching logic of its own. They only apply
+to the *default* code path (no `provider=` passed explicitly), so nothing
+outside this file needed to change and no test needed a fake provider
+that knows about caching.
+
+**Still uncached:** `get_news()` and `get_fundamentals()` - these aren't
+called on every dashboard page load today (`get_news()` only from
+`POST /research/{symbol}`, `get_fundamentals()` only there too), so
+there's no current traffic pattern demanding it. Add the same pattern to
+them if that changes. If you outgrow a single Fly.io machine (multiple
+instances behind a load balancer), these in-memory dicts stop being
+shared across instances - that's when this needs to become Redis instead,
+same as `db.py`'s SQLite-to-Postgres note above.
 
 ## What's still missing: `/research/{symbol}`'s signal classification
 
