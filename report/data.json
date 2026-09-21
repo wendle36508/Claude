@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20T11:12:43+00:00",
+  "generated_at": "2026-09-21T11:26:15+00:00",
   "portfolio": {
     "starting_capital": 100000.0,
     "total_value": 100393.05975402708,
@@ -27,35 +27,3057 @@
     "sizing_suggestions": [
       {
         "symbol": "CRWV",
-        "conviction_magnitude": 0.04013564973708566,
+        "conviction_magnitude": 9.470331834954569e-07,
         "current_weight": 0.15,
-        "suggested_weight": 0.06118792840989908,
-        "delta": -0.0888120715901009
+        "suggested_weight": 1.126816622972514e-06,
+        "delta": -0.149998873183377
       },
       {
         "symbol": "NBIS",
-        "conviction_magnitude": 0.24836359210471995,
+        "conviction_magnitude": 0.24691971381815322,
         "current_weight": 0.15,
-        "suggested_weight": 0.37863729110848227,
-        "delta": 0.22863729110848227
+        "suggested_weight": 0.29379460289127846,
+        "delta": 0.14379460289127846
       },
       {
         "symbol": "VRT",
-        "conviction_magnitude": 0.0,
+        "conviction_magnitude": 0.06290705004525596,
         "current_weight": 0.12,
-        "suggested_weight": 0.0,
-        "delta": -0.12
+        "suggested_weight": 0.07484923541066003,
+        "delta": -0.04515076458933996
       },
       {
         "symbol": "SNDK",
-        "conviction_magnitude": 0.039471084823089704,
+        "conviction_magnitude": 0.11039735686874044,
         "current_weight": 0.08,
-        "suggested_weight": 0.06017478048161871,
-        "delta": -0.019825219518381294
+        "suggested_weight": 0.1313550348814386,
+        "delta": 0.051355034881438597
       }
     ]
   },
   "theses": [
+    {
+      "id": 91,
+      "symbol": "STZ",
+      "name": "Constellation Brands",
+      "sector": "Consumer Staples",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 2,
+      "thesis": "Beer/wine/spirits maker (Modelo, Corona) facing a real consumer-demand slowdown in high-end beer, with results swinging between beats and misses quarter to quarter",
+      "entry_price": 119.06,
+      "entry_date": "2026-09-21",
+      "latest_price": 119.06,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": -0.25,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 47,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.24999985206332842,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.25,
+        "recency": 0.9999994082533137
+      },
+      "range": {
+        "floor": -0.36250005917466865,
+        "base": -0.0625,
+        "ceiling": 0.23750005917466865,
+        "floor_price": 75.90074295466395,
+        "base_price": 111.61875,
+        "ceiling_price": 147.33675704533604,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "STZ",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Q1 FY26 comparable EPS $3.22 missed the $3.29 consensus and fell 10% YoY; revenue also missed and slid 5.5% YoY",
+          "source": "https://247wallst.com/companies/stz/earnings/2026/Q1",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        },
+        {
+          "name": "STZ",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 FY26 EPS $3.80, +31.03% YoY - a sharp rebound from the Q1 miss",
+          "source": "https://www.quiverquant.com/news/Constellation+Brands+Inc+(STZ)+Releases+Q3+2026+Earnings:+Revenue+Beat+and+Operating+Profit+Up,+EPS+Slightly+Misses",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        },
+        {
+          "name": "STZ",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Management cited a challenging macro environment dampening high-end beer demand, with both trip frequency and spend per trip declining",
+          "source": "https://ir.cbrands.com/news-events/press-releases/detail/326/constellation-brands-updates-fiscal-2026-outlook",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        },
+        {
+          "name": "STZ",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Maintained FY26 comparable EPS guidance of $12.60-12.90 despite the choppy quarter-to-quarter results - management still sees the full-year target as achievable",
+          "source": "https://ir.cbrands.com/news-events/press-releases/detail/326/constellation-brands-updates-fiscal-2026-outlook",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 90,
+      "symbol": "DRI",
+      "name": "Darden Restaurants",
+      "sector": "Consumer Discretionary",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Multi-brand casual-dining operator (Olive Garden, LongHorn) posting steady same-restaurant sales growth and raising the dividend, though revenue has occasionally missed on light traffic",
+      "entry_price": 219.93,
+      "entry_date": "2026-09-21",
+      "latest_price": 219.93,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.25,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 53,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.24999985203682065,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.25,
+        "recency": 0.9999994081472826
+      },
+      "range": {
+        "floor": -0.23750005918527178,
+        "base": 0.0625,
+        "ceiling": 0.3625000591852718,
+        "floor_price": 167.69661198338318,
+        "base_price": 233.675625,
+        "ceiling_price": 299.65463801661684,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "DRI",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "FY26 revenue $13.21B (+9.39%), earnings +14.97%; Q4 net income $404.9M ($3.51/share) up from $303.8M ($2.58/share) YoY",
+          "source": "https://investor.darden.com/news/news-details/2026/Darden-Restaurants-Reports-Fiscal-2026-Fourth-Quarter-and-Full-Year-Results-Increases-Quarterly-Dividend-Authorizes-New-1-5-Billion-Share-Repurchase-Program-and-Provides-Fiscal-2027-Outlook/default.aspx",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        },
+        {
+          "name": "DRI",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Q4 revenue missed Wall Street's estimates despite the EPS beat, even with a 13.7% total sales increase helped by an extra operating week",
+          "source": "https://www.cnbc.com/2026/06/25/darden-restaurants-dri-q4-2026-earnings.html",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        },
+        {
+          "name": "DRI",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Authorized a new $1.5B share buyback and increased the quarterly dividend; guided FY27 total sales to $13.60-13.75B and same-store sales growth of 2.5-3.5%",
+          "source": "https://investor.darden.com/news/news-details/2026/Darden-Restaurants-Reports-Fiscal-2026-Fourth-Quarter-and-Full-Year-Results-Increases-Quarterly-Dividend-Authorizes-New-1-5-Billion-Share-Repurchase-Program-and-Provides-Fiscal-2027-Outlook/default.aspx",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        },
+        {
+          "name": "DRI",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "28 analysts rate Buy but the 12-month target implies only +3.9% upside - a mature multi-brand operator priced for steady execution, not a re-rating",
+          "source": "https://stockanalysis.com/stocks/dri/",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 89,
+      "symbol": "LYV",
+      "name": "Live Nation Entertainment",
+      "sector": "Communication Services",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Live-events/ticketing giant posting record attendance and deferred revenue, benefiting from Ticketmaster's scale even as regulatory scrutiny of that dominance lingers in the background",
+      "entry_price": 181.89,
+      "entry_date": "2026-09-21",
+      "latest_price": 181.89,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.4999999916431909,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.4999996873109961,
+        "band": "medium",
+        "coverage": 1.0,
+        "agreement": 0.4999999916431909,
+        "recency": 0.9999993913356001
+      },
+      "range": {
+        "floor": -0.07500012716480385,
+        "base": 0.12499999791079773,
+        "ceiling": 0.3250001229863993,
+        "floor_price": 168.2482268699938,
+        "base_price": 204.62624961999498,
+        "ceiling_price": 241.00427236999613,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "LYV",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 revenue $7.7B (+9% YoY); EPS $1.05 beat the $0.67 estimate; record attendance (~49M fans, +10%) and record event-related deferred revenue of $6.4B (+25%)",
+          "source": "https://www.stocktitan.net/news/LYV/live-nation-entertainment-reports-second-quarter-2026-3gbt0rckaoqk.html",
+          "recorded_at": "2026-09-21T11:26:06+00:00"
+        },
+        {
+          "name": "LYV",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Ticketmaster AOI +14% on 90M fee-bearing tickets sold (+8%); Sponsorship & Advertising revenue +12%, AOI +13%",
+          "source": "https://www.stocktitan.net/news/LYV/live-nation-entertainment-reports-second-quarter-2026-3gbt0rckaoqk.html",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        },
+        {
+          "name": "LYV",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Ticketmaster's scale is also the company's biggest regulatory overhang - ongoing antitrust scrutiny of its ticketing dominance is a background risk to the same segment driving growth",
+          "source": "https://www.quiverquant.com/news/LIVE+NATION+ENTERTAINMENT+%28%24LYV%29+Releases+Q2+2026+Earnings%2C+Stock+Rises",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        },
+        {
+          "name": "LYV",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Guided to double-digit AOI growth in Concerts and Sponsorship for 2026, with $1.1B of capex largely funding venue expansion",
+          "source": "https://www.stocktitan.net/news/LYV/live-nation-entertainment-reports-second-quarter-2026-3gbt0rckaoqk.html",
+          "recorded_at": "2026-09-21T11:26:07+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 88,
+      "symbol": "ATO",
+      "name": "Atmos Energy",
+      "sector": "Utilities",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Regulated natural-gas utility compounding steady double-digit EPS growth on a large multi-year capital program, though shares dipped on mixed analyst reaction",
+      "entry_price": 181.86,
+      "entry_date": "2026-09-21",
+      "latest_price": 181.86,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.0,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.0,
+        "recency": 0.9999981377350774
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 109.116,
+        "base_price": 181.86,
+        "ceiling_price": 254.604,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "ATO",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q3 FY26 EPS $7.33 on net income $1.2B; Q2 FY26 EPS $5.92 beat expectations, prompting a guidance raise to $8.40-8.50 (from $8.15-8.35), reaffirmed in Q3",
+          "source": "https://www.stocktitan.net/news/ATO/atmos-energy-corporation-reports-earnings-for-fiscal-2026-third-bdsz6wyxc4rk.html",
+          "recorded_at": "2026-09-21T11:25:48+00:00"
+        },
+        {
+          "name": "ATO",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Stock fell 2.88% after-hours despite the Q2 beat; price target cut to $190 from $196 at Morgan Stanley, and Truist rates it Hold",
+          "source": "https://www.investing.com/news/transcripts/earnings-call-transcript-atmos-energy-q2-2026-delivers-strong-earnings-beat-93CH-4685810",
+          "recorded_at": "2026-09-21T11:25:48+00:00"
+        },
+        {
+          "name": "ATO",
+          "category": "catalyst",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "FY26 capex guidance of approximately $4.2B continues a large multi-year pipe-replacement program underpinning the steady EPS growth, but requires sustained rate-case support",
+          "source": "https://www.investors.atmosenergy.com/news/news-details/2026/Atmos-Energy-Corporation-Reports-Earnings-for-Fiscal-2026-First-Quarter-Affirms-Fiscal-2026-Guidance/default.aspx",
+          "recorded_at": "2026-09-21T11:25:48+00:00"
+        },
+        {
+          "name": "ATO",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "A classic regulated-gas-utility profile - steady guided EPS growth, but analyst sentiment has cooled slightly even after in-line-to-good results",
+          "source": "https://www.morningstar.com/stocks/xnys/ato/quote",
+          "recorded_at": "2026-09-21T11:25:48+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 87,
+      "symbol": "CSGP",
+      "name": "CoStar Group",
+      "sector": "Real Estate",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 2,
+      "thesis": "Commercial real-estate data/marketplace platform still growing revenue at a healthy clip but guiding conservatively as its Homes.com investment phase weighs on near-term margins",
+      "entry_price": 40.46,
+      "entry_date": "2026-09-21",
+      "latest_price": 40.46,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": -0.25,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 47,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.2499995344123258,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.25,
+        "recency": 0.9999981376493032
+      },
+      "range": {
+        "floor": -0.3625001862350697,
+        "base": -0.0625,
+        "ceiling": 0.2375001862350697,
+        "floor_price": 25.793242464929083,
+        "base_price": 37.93125,
+        "ceiling_price": 50.06925753507092,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "CSGP",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 revenue +23% YoY to $897M with annualized net new bookings +20% YoY; adjusted EPS $0.23, +53% YoY",
+          "source": "https://investors.costargroup.com/news-releases/news-release-details/costar-group-q1-2026-revenue-grows-23-year-over-year-897-million",
+          "recorded_at": "2026-09-21T11:25:48+00:00"
+        },
+        {
+          "name": "CSGP",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 revenue of $925M missed the $947.3M estimate, and next-quarter guidance of $940M came in 2.9% below analyst estimates",
+          "source": "https://stockstory.org/us/stocks/nasdaq/csgp/news/earnings/costars-nasdaqcsgp-q2-cy2026-earnings-results-revenue-in-line-with-expectations-but-stock-drops-12percent",
+          "recorded_at": "2026-09-21T11:25:48+00:00"
+        },
+        {
+          "name": "CSGP",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Cut full-year 2026 revenue guidance to $3.74B at the midpoint (from $3.8B), a 1.7% reduction; stock dropped about 12% on the Q2 report",
+          "source": "https://stockstory.org/us/stocks/nasdaq/csgp/news/earnings/costars-nasdaqcsgp-q2-cy2026-earnings-results-revenue-in-line-with-expectations-but-stock-drops-12percent",
+          "recorded_at": "2026-09-21T11:25:48+00:00"
+        },
+        {
+          "name": "CSGP",
+          "category": "catalyst",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Continued heavy investment in Homes.com is the swing factor - the same residential-marketplace push pressuring near-term guidance is also the biggest long-term growth bet",
+          "source": "https://www.marketbeat.com/earnings/reports/2026-7-28-costar-group-inc-stock/",
+          "recorded_at": "2026-09-21T11:25:48+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 86,
+      "symbol": "CF",
+      "name": "CF Industries",
+      "sector": "Materials",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Nitrogen fertilizer producer benefiting from a tight global nitrogen market, returning capital aggressively while building new capacity",
+      "entry_price": 121.48,
+      "entry_date": "2026-09-21",
+      "latest_price": 121.48,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.75,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 78,
+        "label": "Bullish",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.7499979011998046,
+        "band": "high",
+        "coverage": 1.0,
+        "agreement": 0.75,
+        "recency": 0.9999972015997395
+      },
+      "range": {
+        "floor": 0.08749916047992183,
+        "base": 0.1875,
+        "ceiling": 0.28750083952007816,
+        "floor_price": 132.1093980151009,
+        "base_price": 144.2575,
+        "ceiling_price": 156.4056019848991,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "CF",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 net earnings $727M ($4.73/diluted share); H1 2026 net earnings $1.34B ($8.71/diluted share)",
+          "source": "https://ir.cfindustries.com/Investors/news/news-details/2026/CF-Industries-Holdings-Inc--Reports-First-Half-2026-Net-Earnings-of-1-34-Billion-Adjusted-EBITDA-of-2-18-Billion/default.aspx",
+          "recorded_at": "2026-09-21T11:25:34+00:00"
+        },
+        {
+          "name": "CF",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 EPS $3.98 beat the $2.50 estimate; revenue $1.99B beat the $1.8B estimate",
+          "source": "https://www.investing.com/news/company-news/cf-industries-q1-2026-slides-earnings-beat-amid-tight-nitrogen-markets-93CH-4670512",
+          "recorded_at": "2026-09-21T11:25:34+00:00"
+        },
+        {
+          "name": "CF",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Received permits to begin construction at the Blue Point Complex in August 2026, adding new nitrogen capacity; raised the quarterly dividend 20% to $0.60/share",
+          "source": "https://www.cfindustries.com/newsroom/2026/1h-2026-earnings",
+          "recorded_at": "2026-09-21T11:25:34+00:00"
+        },
+        {
+          "name": "CF",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Management's own framing - a tight nitrogen market driven by global production disruptions - means today's pricing tailwind could reverse once supply comes back online",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/expect-cf-industries-q2-2026-132144055.html",
+          "recorded_at": "2026-09-21T11:25:34+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 85,
+      "symbol": "ADI",
+      "name": "Analog Devices",
+      "sector": "Information Technology",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 4,
+      "thesis": "Analog/mixed-signal chipmaker posting a blowout record quarter and expanding via bolt-on M&A into AI-adjacent processing",
+      "entry_price": 362.65,
+      "entry_date": "2026-09-21",
+      "latest_price": 362.65,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.7499999999999999,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 78,
+        "label": "Bullish",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.7499979011381315,
+        "band": "high",
+        "coverage": 1.0,
+        "agreement": 0.7499999999999999,
+        "recency": 0.9999972015175087
+      },
+      "range": {
+        "floor": 0.08749916045525255,
+        "base": 0.18749999999999997,
+        "ceiling": 0.28750083954474737,
+        "floor_price": 394.38157053909737,
+        "base_price": 430.64687499999997,
+        "ceiling_price": 466.9121794609026,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "ADI",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q3 FY26 record quarter: revenue $4.02B (+40% YoY), net income +158% YoY, beating both revenue and EPS estimates",
+          "source": "https://www.analog.com/en/newsroom/press-releases/2026/8-19-2026-adi-reports-record-fiscal-3q2026-financial-results.html",
+          "recorded_at": "2026-09-21T11:25:34+00:00"
+        },
+        {
+          "name": "ADI",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Agreed to acquire Empower for $1.5B all-cash, and separately announced plans to acquire Alif Semiconductor (Sept 2026), adding an AI-native processing platform",
+          "source": "https://investor.analog.com/news-releases/news-release-details/analog-devices-reports-record-fiscal-third-quarter-2026/",
+          "recorded_at": "2026-09-21T11:25:34+00:00"
+        },
+        {
+          "name": "ADI",
+          "category": "valuation",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "34 analysts rate Strong Buy; 12-month price target of $470.72 implies +29.8% upside",
+          "source": "https://stockanalysis.com/stocks/adi/",
+          "recorded_at": "2026-09-21T11:25:34+00:00"
+        },
+        {
+          "name": "ADI",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Two acquisitions announced within weeks of each other raises integration-execution risk even though each deal individually looks strategically sound",
+          "source": "https://investor.analog.com/",
+          "recorded_at": "2026-09-21T11:25:34+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 84,
+      "symbol": "AXON",
+      "name": "Axon Enterprise",
+      "sector": "Industrials",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Public-safety technology (Taser/body cameras/software) maker raising growth guidance sharply, though a widening margin gap and a $1B convertible-debt raise are testing the growth-at-any-cost narrative",
+      "entry_price": 447.76,
+      "entry_date": "2026-09-21",
+      "latest_price": 447.76,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.0,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.0,
+        "recency": 0.9999963991807541
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 268.656,
+        "base_price": 447.76,
+        "ceiling_price": 626.8639999999999,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 17,
+            "label": "Strongly Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "AXON",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 revenue $904.4M (+35% YoY), ahead of estimates; raised FY26 revenue guidance to $3.67-3.73B and growth outlook to 32-34% (from 30-32%)",
+          "source": "https://investor.axon.com/press-releases",
+          "recorded_at": "2026-09-21T11:25:22+00:00"
+        },
+        {
+          "name": "AXON",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Q2 net income fell 19% YoY and profit margin compressed to 3.3% (from 5.4%) on a heavier mix of lower-margin professional services and new-product investment",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/axon-enterprise-stock-analyst-estimates-153237096.html",
+          "recorded_at": "2026-09-21T11:25:22+00:00"
+        },
+        {
+          "name": "AXON",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "A $1B convertible-notes offering has raised fresh dilution concerns and added to stock volatility",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/axon-enterprise-stock-analyst-estimates-153237096.html",
+          "recorded_at": "2026-09-21T11:25:22+00:00"
+        },
+        {
+          "name": "AXON",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Argus raised its price target to $600 from $460 (Buy) despite the margin softness, betting the revenue growth and software mix shift pay off",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/axon-enterprise-stock-analyst-estimates-153237096.html",
+          "recorded_at": "2026-09-21T11:25:22+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 83,
+      "symbol": "BAX",
+      "name": "Baxter International",
+      "sector": "Health Care",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 2,
+      "thesis": "Medical-device/hospital-supply maker beating estimates and raising guidance on a real turnaround, though a product shipment hold remains an execution risk",
+      "entry_price": 25.98,
+      "entry_date": "2026-09-21",
+      "latest_price": 25.98,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.25,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 53,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.24999909977374504,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.25,
+        "recency": 0.9999963990949802
+      },
+      "range": {
+        "floor": -0.23750036009050202,
+        "base": 0.0625,
+        "ceiling": 0.362500360090502,
+        "floor_price": 19.80974064484876,
+        "base_price": 27.60375,
+        "ceiling_price": 35.397759355151244,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "BAX",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 sales +5% reported and organic to $2.96B across all segments/divisions; adjusted diluted EPS $0.56",
+          "source": "https://www.sec.gov/Archives/edgar/data/0000010456/000162828026051118/bax-20260630.htm",
+          "recorded_at": "2026-09-21T11:25:22+00:00"
+        },
+        {
+          "name": "BAX",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Raised FY26 sales outlook and adjusted EPS guidance to $1.85-2.05 following strong Q2 results; stock jumped sharply on the news",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/baxter-international-bax-16-8-210944961.html",
+          "recorded_at": "2026-09-21T11:25:22+00:00"
+        },
+        {
+          "name": "BAX",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Still working through a Novum IQ infusion-pump shipment hold - a real execution/quality risk layered on top of margin compression",
+          "source": "https://www.barchart.com/story/news/3181225/baxter-international-s-q2-2026-earnings-what-to-expect",
+          "recorded_at": "2026-09-21T11:25:22+00:00"
+        },
+        {
+          "name": "BAX",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Analyst consensus remains cautious overall (Hold, with 11 of 14 rating Hold) despite the raised guidance - the turnaround isn't yet fully priced in either direction",
+          "source": "https://finance.yahoo.com/quote/BAX/news/",
+          "recorded_at": "2026-09-21T11:25:22+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 82,
+      "symbol": "APO",
+      "name": "Apollo Global Management",
+      "sector": "Financials",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 4,
+      "thesis": "Alternative-asset manager compounding record fee-related earnings past $1 trillion in AUM with strong organic inflows",
+      "entry_price": 135.49,
+      "entry_date": "2026-09-21",
+      "latest_price": 135.49,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.5,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.4999977983797021,
+        "band": "medium",
+        "coverage": 1.0,
+        "agreement": 0.5,
+        "recency": 0.9999955967594042
+      },
+      "range": {
+        "floor": -0.07500088064811916,
+        "base": 0.125,
+        "ceiling": 0.32500088064811916,
+        "floor_price": 125.32813068098635,
+        "base_price": 152.42625,
+        "ceiling_price": 179.52436931901366,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "APO",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 record fee-related earnings of $728M (+30% YoY) with AUM surpassing $1 trillion",
+          "source": "https://ir.apollo.com/news-events/press-releases/detail/622/apollo-reports-first-quarter-2026-results",
+          "recorded_at": "2026-09-21T11:25:10+00:00"
+        },
+        {
+          "name": "APO",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 record fee-related earnings of $785M (+25% YoY), FRE margin expanded to 58.5%, with record $60B in organic inflows and FGAUM +34% YoY",
+          "source": "https://ir.apollo.com/news-events/press-releases/detail/640/apollo-reports-second-quarter-2026-results",
+          "recorded_at": "2026-09-21T11:25:10+00:00"
+        },
+        {
+          "name": "APO",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Analysts expect FY26 EPS of $8.23, +11.7% YoY - consistent compounding rather than a re-rating catalyst",
+          "source": "https://247wallst.com/companies/apo/earnings",
+          "recorded_at": "2026-09-21T11:25:10+00:00"
+        },
+        {
+          "name": "APO",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "An alternative-asset manager's fee-related earnings are still ultimately tied to fundraising conditions and credit-market health, which can turn quickly",
+          "source": "https://simplywall.st/stocks/us/diversified-financials/nyse-apo/apollo-global-management",
+          "recorded_at": "2026-09-21T11:25:10+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 81,
+      "symbol": "EOG",
+      "name": "EOG Resources",
+      "sector": "Energy",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Premier US shale E&P posting record adjusted earnings and free cash flow, though shares have pulled back as crude prices retreated",
+      "entry_price": 143.25,
+      "entry_date": "2026-09-21",
+      "latest_price": 143.25,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.4999999832863816,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.49999776491179976,
+        "band": "medium",
+        "coverage": 1.0,
+        "agreement": 0.4999999832863816,
+        "recency": 0.999995563250688
+      },
+      "range": {
+        "floor": -0.07500089821368472,
+        "base": 0.1249999958215954,
+        "ceiling": 0.32500088985687553,
+        "floor_price": 132.50612133088967,
+        "base_price": 161.15624940144355,
+        "ceiling_price": 189.80637747199742,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "EOG",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 record adjusted EPS $5.07, adjusted net income $2.68B, record free cash flow of $2.8B",
+          "source": "https://investors.eogresources.com/2026-08-04-EOG-Resources-Reports-Second-Quarter-2026-Results",
+          "recorded_at": "2026-09-21T11:25:09+00:00"
+        },
+        {
+          "name": "EOG",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 adjusted EPS $3.41 beat the $3.19 estimate; net income +35.3% YoY",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/bullish-2026-earnings-forecasts-eog-111023638.html",
+          "recorded_at": "2026-09-21T11:25:09+00:00"
+        },
+        {
+          "name": "EOG",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Stock pulled back roughly 6% recently as crude oil prices retreated, underscoring the direct commodity-price sensitivity behind the record results",
+          "source": "https://www.tikr.com/blog/eog-resources-is-up-29-in-2026-heres-what-could-drive-the-next-move",
+          "recorded_at": "2026-09-21T11:25:10+00:00"
+        },
+        {
+          "name": "EOG",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Declared a regular dividend of $1.02/share (indicated annual rate $4.08), payable October 30, 2026",
+          "source": "https://investors.eogresources.com/2026-08-04-EOG-Resources-Reports-Second-Quarter-2026-Results",
+          "recorded_at": "2026-09-21T11:25:10+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 80,
+      "symbol": "CL",
+      "name": "Colgate-Palmolive",
+      "sector": "Consumer Staples",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 2,
+      "thesis": "Household/personal-care staples maker beating EPS estimates each quarter this year, now exploring a sale of certain personal-care brands to sharpen its focus on premium segments",
+      "entry_price": 92.72,
+      "entry_date": "2026-09-21",
+      "latest_price": 92.72,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.0,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 50,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.0,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.0,
+        "recency": 0.9999947943461859
+      },
+      "range": {
+        "floor": -0.4,
+        "base": 0.0,
+        "ceiling": 0.4,
+        "floor_price": 55.632,
+        "base_price": 92.72,
+        "ceiling_price": 129.808,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "CL",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 net sales +8.4%, base-business EPS +7% to $0.97, beating estimates; Q2 EPS $0.99 beat the $0.98 estimate",
+          "source": "https://qz.com/colgate-palmolive-q1-2026-earnings-international-sales-050126",
+          "recorded_at": "2026-09-21T11:24:58+00:00"
+        },
+        {
+          "name": "CL",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 revenue of $5.361B missed estimates despite the EPS beat",
+          "source": "https://www.quiverquant.com/news/COLGATE-PALMOLIVE+%28%24CL%29+Releases+Q2+2026+Earnings",
+          "recorded_at": "2026-09-21T11:24:58+00:00"
+        },
+        {
+          "name": "CL",
+          "category": "catalyst",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Exploring the sale of certain personal-care brands (Sept 2026) as part of a restructuring to focus on premium segments - a real strategic pivot with an uncertain outcome",
+          "source": "https://finance.yahoo.com/quote/CL/",
+          "recorded_at": "2026-09-21T11:24:58+00:00"
+        },
+        {
+          "name": "CL",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Reaffirmed modest FY26 guidance (2-6% net sales growth, 1-4% organic) - a slow-and-steady staples name, not a growth story",
+          "source": "https://www.marketbeat.com/stocks/NYSE/CL/earnings/",
+          "recorded_at": "2026-09-21T11:24:58+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 79,
+      "symbol": "CMG",
+      "name": "Chipotle Mexican Grill",
+      "sector": "Consumer Discretionary",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Fast-casual leader that beat estimates and raised same-store sales guidance, rallying over 12% on the print even after absorbing a cyclospora outbreak hit and margin pressure from wage/beef inflation",
+      "entry_price": 33.43,
+      "entry_date": "2026-09-21",
+      "latest_price": 33.43,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.25,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 53,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.24999869856428406,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.25,
+        "recency": 0.9999947942571362
+      },
+      "range": {
+        "floor": -0.2375005205742864,
+        "base": 0.0625,
+        "ceiling": 0.3625005205742864,
+        "floor_price": 25.490357597201605,
+        "base_price": 35.519375,
+        "ceiling_price": 45.54839240279839,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 0.5,
+          "n_signals": 2,
+          "public_score": {
+            "value": 58,
+            "label": "Neutral / Mixed"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "CMG",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 adjusted EPS $0.33 beat the $0.32 estimate; revenue +9.3% to $3.35B; stock rallied more than 12% on the print",
+          "source": "https://www.cnbc.com/2026/07/29/chipotle-mexican-grill-cmg-q2-2026-earnings.html",
+          "recorded_at": "2026-09-21T11:24:58+00:00"
+        },
+        {
+          "name": "CMG",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Raised same-store sales guidance to low-single-digit growth for FY26, up from a prior outlook of flat same-store sales",
+          "source": "https://www.cnbc.com/2026/07/29/chipotle-mexican-grill-cmg-q2-2026-earnings.html",
+          "recorded_at": "2026-09-21T11:24:58+00:00"
+        },
+        {
+          "name": "CMG",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "A cyclospora outbreak cut about 2 percentage points off sales in the second half of July; wage inflation and rising beef prices are pressuring margins",
+          "source": "https://www.cnbc.com/2026/07/29/chipotle-mexican-grill-cmg-q2-2026-earnings.html",
+          "recorded_at": "2026-09-21T11:24:58+00:00"
+        },
+        {
+          "name": "CMG",
+          "category": "catalyst",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Opened its first Mexico restaurant (July 16, 2026) under a development agreement with Alsea - an early data point on international expansion",
+          "source": "https://simplywall.st/stocks/us/consumer-services/nyse-cmg/chipotle-mexican-grill",
+          "recorded_at": "2026-09-21T11:24:58+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 78,
+      "symbol": "FOX",
+      "name": "Fox Corporation (Class B)",
+      "sector": "Communication Services",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Non-voting share class of Fox Corporation, trading near parity with FOXA on the same record FY26 results and Roku-acquisition catalyst",
+      "entry_price": 65.94,
+      "entry_date": "2026-09-21",
+      "latest_price": 65.94,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.7499999999999999,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 78,
+        "label": "Bullish",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.7499954939431888,
+        "band": "high",
+        "coverage": 1.0,
+        "agreement": 0.7499999999999999,
+        "recency": 0.9999939919242518
+      },
+      "range": {
+        "floor": 0.08749819757727548,
+        "base": 0.18749999999999997,
+        "ceiling": 0.2875018024227245,
+        "floor_price": 71.70963114824555,
+        "base_price": 78.30375,
+        "ceiling_price": 84.89786885175445,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "FOX",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Same underlying business, FY26 record results, and Roku-acquisition catalyst as Fox Corp Class A (FOXA) - this is the non-voting share class, trading near parity",
+          "source": "https://simplywall.st/stocks/us/media/nasdaq-foxa/fox",
+          "recorded_at": "2026-09-21T11:24:46+00:00"
+        },
+        {
+          "name": "FOX",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Citizens JMP initiated coverage with an Outperform rating and a $95 price target on Sept 14, 2026",
+          "source": "https://www.ad-hoc-news.de/boerse/news/corporate-news/fox-corp-stock-heads-into-the-open-after-a-1-2-percent-gain/70102844",
+          "recorded_at": "2026-09-21T11:24:46+00:00"
+        },
+        {
+          "name": "FOX",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Shares rose from roughly $58 in early September to about $66 by mid-September, echoing FOXA's rally on record FY26 results",
+          "source": "https://www.ad-hoc-news.de/boerse/news/corporate-news/fox-corp-stock-heads-into-the-open-after-a-1-2-percent-gain/70102844",
+          "recorded_at": "2026-09-21T11:24:46+00:00"
+        },
+        {
+          "name": "FOX",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "As the non-voting class, FOX carries no incremental governance influence over FOXA; the Murdoch family's concentrated voting control is a structural feature of both classes to be aware of",
+          "source": "https://en.wikipedia.org/wiki/Fox_Corporation",
+          "recorded_at": "2026-09-21T11:24:46+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 77,
+      "symbol": "AWK",
+      "name": "American Water Works",
+      "sector": "Utilities",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Largest US regulated water utility compounding steady EPS growth while pursuing a major merger with Essential Utilities",
+      "entry_price": 127.49,
+      "entry_date": "2026-09-21",
+      "latest_price": 127.49,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.5,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.49999699592127805,
+        "band": "medium",
+        "coverage": 1.0,
+        "agreement": 0.5,
+        "recency": 0.9999939918425561
+      },
+      "range": {
+        "floor": -0.07500120163148882,
+        "base": 0.125,
+        "ceiling": 0.3250012016314888,
+        "floor_price": 117.92809680400148,
+        "base_price": 143.42624999999998,
+        "ceiling_price": 168.92440319599848,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "AWK",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "H1 2026 adjusted EPS $2.62 (up from $2.51 YoY), net income $511M for the six months; reaffirmed FY26 EPS guidance of $6.02-6.12 (8% growth at midpoint)",
+          "source": "https://ir.amwater.com/news-and-events/financial-releases/financial-release-details/2026/AMERICAN-WATER-REPORTS-FIRST-QUARTER-2026-RESULTS-ON-TRACK-AFFIRMS-2026-EPS-GUIDANCE-AND-LONG-TERM-TARGETS/default.aspx",
+          "recorded_at": "2026-09-21T11:24:46+00:00"
+        },
+        {
+          "name": "AWK",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Pursuing a merger with Essential Utilities, with three state regulatory approvals received so far; also acquired Nexus Regulated Utilities assets for $319M cash on June 1, 2026",
+          "source": "https://www.sec.gov/Archives/edgar/data/0001410636/000141063626000121/ex991-6302026q2pressrelease.htm",
+          "recorded_at": "2026-09-21T11:24:46+00:00"
+        },
+        {
+          "name": "AWK",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Analysts nudged fair-value estimates up only modestly (from $141.11 to $143.78) - a steady regulated-utility compounder, not a fast mover",
+          "source": "https://simplywall.st/stocks/us/utilities/nyse-awk/american-water-works",
+          "recorded_at": "2026-09-21T11:24:46+00:00"
+        },
+        {
+          "name": "AWK",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "A multi-state merger integration with Essential Utilities and continued rate-case execution are the main things that could slow the steady growth story",
+          "source": "https://webull.com/news/13837706337993728",
+          "recorded_at": "2026-09-21T11:24:46+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 76,
+      "symbol": "CBRE",
+      "name": "CBRE Group",
+      "sector": "Real Estate",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Commercial real-estate services giant beating estimates and raising guidance on a leasing recovery and AI-driven data-center infrastructure services growth, though shares sold off post-earnings",
+      "entry_price": 136.82,
+      "entry_date": "2026-09-21",
+      "latest_price": 136.82,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.25,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 53,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.2499982639530791,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.25,
+        "recency": 0.9999930558123163
+      },
+      "range": {
+        "floor": -0.23750069441876837,
+        "base": 0.0625,
+        "ceiling": 0.36250069441876837,
+        "floor_price": 104.32515498962411,
+        "base_price": 145.37125,
+        "ceiling_price": 186.41734501037587,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "CBRE",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 revenue $11.23B (+15.5% YoY); Core EPS +30% on a 16% revenue increase; EPS $1.56 beat the $1.47 estimate",
+          "source": "https://finance.yahoo.com/real-estate/articles/cbre-group-inc-q2-2026-230416302.html",
+          "recorded_at": "2026-09-21T11:24:32+00:00"
+        },
+        {
+          "name": "CBRE",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Infrastructure services revenue reached nearly $1.2B, driven by a 30% increase in data-center services as AI investment stays elevated; global leasing revenue +24%",
+          "source": "https://finance.yahoo.com/real-estate/articles/cbre-group-inc-q2-2026-230416302.html",
+          "recorded_at": "2026-09-21T11:24:32+00:00"
+        },
+        {
+          "name": "CBRE",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Stock fell 5.8% post-earnings despite the beat, even after the company raised FY26 guidance to $7.80-7.90 EPS",
+          "source": "https://www.ad-hoc-news.de/boerse/news/corporate-news/cbre-group-inc-stock-holds-gains-as-q2-2026-results-beat-expectations/70068495",
+          "recorded_at": "2026-09-21T11:24:32+00:00"
+        },
+        {
+          "name": "CBRE",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Analyst views are split - one framing implies +31.5% upside (Strong Buy) while consensus around a $181 target reads more like Moderate Buy - real disagreement on how durable the AI-datacenter tailwind is",
+          "source": "https://www.ad-hoc-news.de/boerse/news/corporate-news/cbre-group-inc-stock-edges-higher-as-investors-weigh-q2-2026-earnings-and/70112996",
+          "recorded_at": "2026-09-21T11:24:32+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 75,
+      "symbol": "BALL",
+      "name": "Ball Corporation",
+      "sector": "Materials",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Aluminum-packaging maker compounding double-digit EPS growth with disciplined free-cash-flow generation",
+      "entry_price": 62.49,
+      "entry_date": "2026-09-21",
+      "latest_price": 62.49,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.5,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.49999652786761684,
+        "band": "medium",
+        "coverage": 1.0,
+        "agreement": 0.5,
+        "recency": 0.9999930557352337
+      },
+      "range": {
+        "floor": -0.07500138885295327,
+        "base": 0.125,
+        "ceiling": 0.32500138885295327,
+        "floor_price": 57.80316321057895,
+        "base_price": 70.30125,
+        "ceiling_price": 82.79933678942105,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "BALL",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 comparable diluted EPS $0.94 vs $0.77 in 2025 (+22.1%), beating estimates; Q2 comparable EPS $0.83 also up YoY from $0.76",
+          "source": "https://investors.ball.com/news-presentations/press-releases/detail/723/ball-reports-strong-first-quarter-2026-results",
+          "recorded_at": "2026-09-21T11:24:32+00:00"
+        },
+        {
+          "name": "BALL",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "FY26 guidance calls for comparable diluted EPS growth of 10%+ and free cash flow above $900M",
+          "source": "https://investors.ball.com/news-presentations/press-releases/detail/725/ball-to-announce-second-quarter-earnings-on-august-4-2026",
+          "recorded_at": "2026-09-21T11:24:32+00:00"
+        },
+        {
+          "name": "BALL",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Analysts expect FY26 EPS of $3.99, up 11.8% YoY - a steady industrial-packaging compounder rather than a re-rating story",
+          "source": "https://stockanalysis.com/stocks/ball/",
+          "recorded_at": "2026-09-21T11:24:32+00:00"
+        },
+        {
+          "name": "BALL",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Aluminum-can packaging demand is tied to beverage volumes and aluminum input-cost swings outside the company's control",
+          "source": "https://finance.yahoo.com/quote/BALL/press-releases/",
+          "recorded_at": "2026-09-21T11:24:32+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 74,
+      "symbol": "APH",
+      "name": "Amphenol",
+      "sector": "Information Technology",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 4,
+      "thesis": "Connector/interconnect maker riding the AI/datacom capex wave to record sales and EPS, with the CommScope acquisition adding further scale",
+      "entry_price": 167.27,
+      "entry_date": "2026-09-21",
+      "latest_price": 167.27,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.7500000000000001,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 78,
+        "label": "Bullish",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.7499941900563181,
+        "band": "high",
+        "coverage": 1.0,
+        "agreement": 0.7500000000000001,
+        "recency": 0.999992253408424
+      },
+      "range": {
+        "floor": 0.08749767602252725,
+        "base": 0.18750000000000003,
+        "ceiling": 0.2875023239774728,
+        "floor_price": 181.90573626828814,
+        "base_price": 198.633125,
+        "ceiling_price": 215.36051373171188,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "APH",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 EPS $1.35 beat the $1.19 estimate; revenue $8.758B beat estimates - record sales and EPS on strong organic growth plus the CommScope acquisition",
+          "source": "https://www.quiverquant.com/news/AMPHENOL+%28%24APH%29+Releases+Q2+2026+Earnings",
+          "recorded_at": "2026-09-21T11:24:20+00:00"
+        },
+        {
+          "name": "APH",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Raised Q3 and full-year guidance, citing continued momentum in AI, IT datacom, and industrial markets",
+          "source": "https://www.quiverquant.com/news/AMPHENOL+%28%24APH%29+Releases+Q2+2026+Earnings",
+          "recorded_at": "2026-09-21T11:24:20+00:00"
+        },
+        {
+          "name": "APH",
+          "category": "valuation",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Citi raised its price target to $210 from $195 (Buy); shares have hit an all-time high of $167.27",
+          "source": "https://stockanalysis.com/stocks/aph/",
+          "recorded_at": "2026-09-21T11:24:20+00:00"
+        },
+        {
+          "name": "APH",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Growth is partly acquisition-driven (CommScope), making organic growth durability worth tracking each quarter - the same dynamic flagged for Ametek (AME) in this coverage",
+          "source": "https://www.tipranks.com/stocks/aph/earnings",
+          "recorded_at": "2026-09-21T11:24:20+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 73,
+      "symbol": "ADP",
+      "name": "Automatic Data Processing",
+      "sector": "Industrials",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Payroll/HR-services leader compounding steady mid-single-digit revenue growth and raising guidance on AI-enabled productivity tools and record client retention",
+      "entry_price": 271.22,
+      "entry_date": "2026-09-21",
+      "latest_price": 271.22,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.7499999916431909,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 78,
+        "label": "Bullish",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.7499941565692237,
+        "band": "high",
+        "coverage": 1.0,
+        "agreement": 0.7499999916431909,
+        "recency": 0.9999922199012905
+      },
+      "range": {
+        "floor": 0.0874976605384872,
+        "base": 0.18749999791079772,
+        "ceiling": 0.2875023352831082,
+        "floor_price": 294.9511154912485,
+        "base_price": 322.0737494333666,
+        "ceiling_price": 349.1963833754847,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "valuation": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "ADP",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "FY26 revenue $21.95B (+6.74%), earnings +8.18%; Q4 adjusted EPS $2.64 beat the $2.59 estimate, +17% YoY",
+          "source": "https://tickeron.com/earnings/ADP/",
+          "recorded_at": "2026-09-21T11:24:19+00:00"
+        },
+        {
+          "name": "ADP",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Raised FY26 guidance to 6-7% revenue growth and 10-11% adjusted EPS growth after a Q3 beat on both lines",
+          "source": "https://www.gurufocus.com/news/8830912/automatic-data-processing-inc-adp-q3-2026-earnings-call-highlights-strong-revenue-growth-and-aidriven-efficiency-gains",
+          "recorded_at": "2026-09-21T11:24:19+00:00"
+        },
+        {
+          "name": "ADP",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Employer Services retention rate and client satisfaction reached record highs for a third quarter, driven partly by AI-enabled HCM tools",
+          "source": "https://www.gurufocus.com/news/8830912/automatic-data-processing-inc-adp-q3-2026-earnings-call-highlights-strong-revenue-growth-and-aidriven-efficiency-gains",
+          "recorded_at": "2026-09-21T11:24:20+00:00"
+        },
+        {
+          "name": "ADP",
+          "category": "valuation",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "18 analysts average only a Hold rating despite the beats, with a 12-month target implying just +6% upside - a mature, fairly-valued compounder rather than a re-rating story",
+          "source": "https://stockanalysis.com/stocks/adp/",
+          "recorded_at": "2026-09-21T11:24:20+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 72,
+      "symbol": "AMGN",
+      "name": "Amgen",
+      "sector": "Health Care",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Biotech giant beating estimates and raising revenue guidance, though the stock dipped on the print and a long-tenured CFO is departing",
+      "entry_price": 329.82,
+      "entry_date": "2026-09-21",
+      "latest_price": 329.82,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.25,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 53,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.24999804660031036,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.25,
+        "recency": 0.9999921864012414
+      },
+      "range": {
+        "floor": -0.2375007813598759,
+        "base": 0.0625,
+        "ceiling": 0.3625007813598759,
+        "floor_price": 251.4874922918857,
+        "base_price": 350.43375,
+        "ceiling_price": 449.3800077081143,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "other": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "AMGN",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 EPS $5.15 beat the $4.80 estimate (+7.3% surprise); raised FY26 revenue guidance to $37.1-38.5B",
+          "source": "https://investors.amgen.com/news-releases/news-release-details/amgen-reports-first-quarter-2026-financial-results",
+          "recorded_at": "2026-09-21T11:24:19+00:00"
+        },
+        {
+          "name": "AMGN",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Stock fell 2.43% after-hours despite the beat, closing at $329.82 - a 'sell the news' reaction",
+          "source": "https://www.investing.com/news/transcripts/earnings-call-transcript-amgen-q1-2026-beats-eps-forecast-stock-dips-93CH-4674655",
+          "recorded_at": "2026-09-21T11:24:19+00:00"
+        },
+        {
+          "name": "AMGN",
+          "category": "other",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "CFO Peter Griffith is retiring after serving since 2020; Thomas Dittrich returned to Amgen as CFO effective September 1, 2026 - a leadership transition to watch",
+          "source": "https://investors.amgen.com/news-releases/news-release-details/amgen-reports-first-quarter-2026-financial-results",
+          "recorded_at": "2026-09-21T11:24:19+00:00"
+        },
+        {
+          "name": "AMGN",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Sixteen products delivered at least double-digit sales growth in Q1 2026, showing breadth beyond any single blockbuster drug",
+          "source": "https://www.google.com/finance/quote/AMGN:NASDAQ",
+          "recorded_at": "2026-09-21T11:24:19+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 71,
+      "symbol": "AON",
+      "name": "Aon plc",
+      "sector": "Financials",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Global insurance broker executing steady organic growth and margin expansion while pursuing a transformative $17B acquisition of USI",
+      "entry_price": 296.04,
+      "entry_date": "2026-09-21",
+      "latest_price": 296.04,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.4999999832863816,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 62,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.4999955583332646,
+        "band": "medium",
+        "coverage": 1.0,
+        "agreement": 0.4999999832863816,
+        "recency": 0.9999911500934701
+      },
+      "range": {
+        "floor": -0.07500178084509876,
+        "base": 0.1249999958215954,
+        "ceiling": 0.32500177248828954,
+        "floor_price": 273.83647279861697,
+        "base_price": 333.04499876302515,
+        "ceiling_price": 392.2535247274333,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "AON",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 total revenue +2%, organic revenue +5%, with operating-margin expansion; returned $775M to shareholders in the quarter ($600M buybacks, $175M dividends)",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/expect-aon-plc-q2-2026-061821664.html",
+          "recorded_at": "2026-09-21T11:24:03+00:00"
+        },
+        {
+          "name": "AON",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 EPS $5.66 (up from $4.46 YoY), net income +26% YoY, revenue +6.4% YoY to $5.03B",
+          "source": "https://www.sec.gov/Archives/edgar/data/0000315293/000162828026029322/aon-20260331.htm",
+          "recorded_at": "2026-09-21T11:24:03+00:00"
+        },
+        {
+          "name": "AON",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Signed a definitive agreement to acquire USI from KKR and other shareholders for a total purchase price of $17B",
+          "source": "https://simplywall.st/stocks/us/insurance/nyse-aon/aon",
+          "recorded_at": "2026-09-21T11:24:04+00:00"
+        },
+        {
+          "name": "AON",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "A $17B acquisition of this size carries real integration and leverage risk regardless of the strategic logic behind combining the two brokers",
+          "source": "https://simplywall.st/stocks/us/insurance/nyse-aon/aon",
+          "recorded_at": "2026-09-21T11:24:04+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 70,
+      "symbol": "FANG",
+      "name": "Diamondback Energy",
+      "sector": "Energy",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 4,
+      "thesis": "Permian-focused E&P beating estimates on both lines with rising production and disciplined capital returns via buybacks and a growing dividend",
+      "entry_price": 194.54,
+      "entry_date": "2026-09-21",
+      "latest_price": 194.54,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.75,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 78,
+        "label": "Bullish",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.7499933374445411,
+        "band": "high",
+        "coverage": 1.0,
+        "agreement": 0.75,
+        "recency": 0.9999911165927214
+      },
+      "range": {
+        "floor": 0.08749733497781643,
+        "base": 0.1875,
+        "ceiling": 0.2875026650221836,
+        "floor_price": 211.5617315465844,
+        "base_price": 231.01624999999999,
+        "ceiling_price": 250.47076845341556,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "FANG",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 EPS $6.48 beat the $6.08 estimate; revenue +51.2% YoY to $5.56B, beating estimates by 13.5%",
+          "source": "https://stockstory.org/us/stocks/nasdaq/fang/news/earnings/diamondback-energys-nasdaqfang-q2-cy2026-beats-on-revenue",
+          "recorded_at": "2026-09-21T11:24:03+00:00"
+        },
+        {
+          "name": "FANG",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q1 2026 adjusted EPS $4.23 beat expectations on strong production",
+          "source": "https://stockanalysis.com/stocks/fang/",
+          "recorded_at": "2026-09-21T11:24:03+00:00"
+        },
+        {
+          "name": "FANG",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Raised the base quarterly dividend 5% to $1.10/share, repurchased ~3.3M shares for ~$548M, and raised 2026 oil production guidance to 520+ MBO/d",
+          "source": "https://public.com/stocks/fang/earnings",
+          "recorded_at": "2026-09-21T11:24:03+00:00"
+        },
+        {
+          "name": "FANG",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "~$3.9B of 2026 capex and direct oil-price sensitivity mean realized-price swings can move results quickly, the same dynamic underlying every E&P in this batch",
+          "source": "https://www.cnbc.com/quotes/FANG",
+          "recorded_at": "2026-09-21T11:24:03+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 69,
+      "symbol": "KO",
+      "name": "Coca-Cola Company (The)",
+      "sector": "Consumer Staples",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Global beverage leader delivering broad-based volume growth and raising full-year guidance, up nearly 30% YTD",
+      "entry_price": 88.25,
+      "entry_date": "2026-09-21",
+      "latest_price": 88.25,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.7499999958215955,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 78,
+        "label": "Bullish",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.749992769127064,
+        "band": "high",
+        "coverage": 1.0,
+        "agreement": 0.7499999958215955,
+        "recency": 0.9999903644072377
+      },
+      "range": {
+        "floor": 0.08749710660622448,
+        "base": 0.18749999895539887,
+        "ceiling": 0.2875028913045733,
+        "floor_price": 95.97161965799931,
+        "base_price": 104.79687490781396,
+        "ceiling_price": 113.62213015762859,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "valuation": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "KO",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 net sales +7% to $13.38B; global unit case volume +5% with every reporting segment contributing growth",
+          "source": "https://www.cnbc.com/2026/07/28/coca-cola-ko-q2-2026-earnings.html",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        },
+        {
+          "name": "KO",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Raised FY26 guidance - comparable EPS growth to 9-10% (from 8-9%), organic revenue to the high end of the 4-5% range",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/coca-colas-raised-2026-outlook-164200770.html",
+          "recorded_at": "2026-09-21T11:23:52+00:00"
+        },
+        {
+          "name": "KO",
+          "category": "valuation",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Stock up 29% in 2026; 24 analysts average a Buy rating with a 12-month target implying +7.3% upside",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/coca-cola-stock-29-2026-191559013.html",
+          "recorded_at": "2026-09-21T11:23:52+00:00"
+        },
+        {
+          "name": "KO",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "A staples volume story still depends on pricing/mix holding up against ongoing input-cost inflation",
+          "source": "https://stockanalysis.com/stocks/ko/",
+          "recorded_at": "2026-09-21T11:23:52+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 68,
+      "symbol": "CVNA",
+      "name": "Carvana",
+      "sector": "Consumer Discretionary",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 2,
+      "thesis": "Online used-car retailer posting record profitability and its 10th straight quarter of fastest-growing/most-profitable claim, though guidance came in below Street hopes and the stock sold off sharply",
+      "entry_price": 66.5,
+      "entry_date": "2026-09-21",
+      "latest_price": 66.5,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.25,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 53,
+        "label": "Neutral / Mixed",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.24999757854779683,
+        "band": "low",
+        "coverage": 1.0,
+        "agreement": 0.25,
+        "recency": 0.9999903141911873
+      },
+      "range": {
+        "floor": -0.23750096858088132,
+        "base": 0.0625,
+        "ceiling": 0.3625009685808813,
+        "floor_price": 50.706185589371394,
+        "base_price": 70.65625,
+        "ceiling_price": 90.60631441062861,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 0.6666666666666667,
+          "n_signals": 3,
+          "public_score": {
+            "value": 72,
+            "label": "Bullish"
+          }
+        },
+        "risk": {
+          "value": -1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 33,
+            "label": "Bearish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "CVNA",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 2026 net income $513M (+$205M YoY), vehicle sales +38% YoY to 197,325 units - 10th straight quarter of what the company calls the fastest-growing and most-profitable auto retailer",
+          "source": "https://www.cnbc.com/2026/07/29/carvana-cvna-earnings-q2-2026.html",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        },
+        {
+          "name": "CVNA",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Stock fell more than 20% after Q2 results as FY26 earnings guidance of $2.7-3.0B came in well below analyst expectations (Deutsche Bank $3.0-3.2B, Morgan Stanley $4.45B)",
+          "source": "https://www.quiverquant.com/news/CARVANA+%28%24CVNA%29+Releases+Q2+2026+Earnings",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        },
+        {
+          "name": "CVNA",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q2 EPS $0.42 beat the $0.41 estimate; revenue $7.376B beat estimates by roughly $336M",
+          "source": "https://www.quiverquant.com/news/CARVANA+%28%24CVNA%29+Releases+Q2+2026+Earnings",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        },
+        {
+          "name": "CVNA",
+          "category": "growth",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "Guided to a sequential increase in Q3 retail units versus Q2, suggesting the growth trajectory continues even after the guidance disappointment",
+          "source": "https://www.cnbc.com/2026/07/29/carvana-cvna-earnings-q2-2026.html",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
+    {
+      "id": 67,
+      "symbol": "FOXA",
+      "name": "Fox Corporation (Class A)",
+      "sector": "Communication Services",
+      "asset_type": "stock",
+      "status": "open",
+      "conviction": 3,
+      "thesis": "Legacy broadcast/cable-news conglomerate posting record annual results and pursuing a bold Roku acquisition to combine content with a leading connected-TV platform",
+      "entry_price": 64.63,
+      "entry_date": "2026-09-21",
+      "latest_price": 64.63,
+      "return_pct": 0.0,
+      "position": null,
+      "score": {
+        "value": 0.75,
+        "n_signals": 4,
+        "weights_used": "manual"
+      },
+      "public_score": {
+        "value": 78,
+        "label": "Bullish",
+        "n_signals": 4
+      },
+      "confidence": {
+        "value": 0.7499927355721911,
+        "band": "high",
+        "coverage": 1.0,
+        "agreement": 0.75,
+        "recency": 0.9999903140962548
+      },
+      "range": {
+        "floor": 0.08749709422887646,
+        "base": 0.1875,
+        "ceiling": 0.28750290577112353,
+        "floor_price": 70.28493720001228,
+        "base_price": 76.74812499999999,
+        "ceiling_price": 83.21131279998771,
+        "source": "default"
+      },
+      "category_scores": {
+        "growth": {
+          "value": 1.0,
+          "n_signals": 2,
+          "public_score": {
+            "value": 83,
+            "label": "Strongly Bullish"
+          }
+        },
+        "risk": {
+          "value": 0.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 50,
+            "label": "Neutral / Mixed"
+          }
+        },
+        "catalyst": {
+          "value": 1.0,
+          "n_signals": 1,
+          "public_score": {
+            "value": 67,
+            "label": "Bullish"
+          }
+        }
+      },
+      "risk": {
+        "sufficient": false,
+        "n_snapshots": 0,
+        "n_returns": 0,
+        "volatility": null,
+        "sharpe": null,
+        "max_drawdown": null
+      },
+      "signals": [
+        {
+          "name": "FOXA",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "FY2026 delivered record annual revenue and Adjusted EBITDA; returned approximately $2.3B in capital to stockholders in fiscal 2026",
+          "source": "https://simplywall.st/stocks/us/media/nasdaq-foxa/fox",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        },
+        {
+          "name": "FOXA",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Announced a proposed acquisition of Roku, Inc., combining FOX's sports/news/entertainment content and Tubi with Roku's leading connected-TV platform",
+          "source": "https://simplywall.st/stocks/us/media/nasdaq-foxa/fox",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        },
+        {
+          "name": "FOXA",
+          "category": "growth",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "Q4 FY26 EPS $1.79 beat the $1.45 estimate by $0.34; revenue $4.212B beat the $3.71B estimate",
+          "source": "https://www.quiverquant.com/news/FOX+%28%24FOXA%29+Releases+Q4+2026+Earnings",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        },
+        {
+          "name": "FOXA",
+          "category": "risk",
+          "direction": "neutral",
+          "weight": 1.0,
+          "rationale": "The FOX One streaming launch adds a new capital-intensive direct-to-consumer business layered on top of linear TV's structural decline",
+          "source": "https://finance.yahoo.com/markets/stocks/articles/foxa-gears-report-q4-earnings-134200724.html",
+          "recorded_at": "2026-09-21T11:23:51+00:00"
+        }
+      ],
+      "ipo": null,
+      "news": {
+        "live": false,
+        "items": []
+      }
+    },
     {
       "id": 66,
       "symbol": "CLX",
@@ -81,19 +3103,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.499999680122339,
+        "value": 0.4970928976298261,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.999999360244678
+        "recency": 0.9941857952596522
       },
       "range": {
-        "floor": -0.3250001279510644,
+        "floor": -0.3261628409480696,
         "base": -0.125,
-        "ceiling": 0.07500012795106442,
-        "floor_price": 56.92948920860724,
+        "ceiling": 0.07616284094806958,
+        "floor_price": 56.83142599443981,
         "base_price": 73.7975,
-        "ceiling_price": 90.66551079139278,
+        "ceiling_price": 90.76357400556019,
         "source": "default"
       },
       "category_scores": {
@@ -109,7 +3131,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -199,19 +3221,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.24999984004219955,
+        "value": 0.24854644879533888,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.25,
-        "recency": 0.9999993601687982
+        "recency": 0.9941857951813555
       },
       "range": {
-        "floor": -0.23750006398312018,
+        "floor": -0.23808142048186448,
         "base": 0.0625,
-        "ceiling": 0.3625000639831202,
-        "floor_price": 17.125748562939123,
+        "ceiling": 0.3630814204818645,
+        "floor_price": 17.112691295977324,
         "base_price": 23.86375,
-        "ceiling_price": 30.60175143706088,
+        "ceiling_price": 30.614808704022675,
         "source": "default"
       },
       "category_scores": {
@@ -235,7 +3257,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -321,7 +3343,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999985578509027
+        "recency": 0.9941849975135002
       },
       "range": {
         "floor": -0.4,
@@ -337,7 +3359,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -345,7 +3367,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -353,7 +3375,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -361,7 +3383,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -443,19 +3465,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999992788915896,
+        "value": 0.4970924987076984,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999985577831793
+        "recency": 0.9941849974153968
       },
       "range": {
-        "floor": -0.07500028844336415,
+        "floor": -0.07616300051692068,
         "base": 0.125,
-        "ceiling": 0.32500028844336415,
-        "floor_price": 115.41221401092145,
+        "ceiling": 0.3261630005169207,
+        "floor_price": 115.2671424255038,
         "base_price": 140.36625,
-        "ceiling_price": 165.3202859890785,
+        "ceiling_price": 165.46535757449618,
         "source": "default"
       },
       "category_scores": {
@@ -463,7 +3485,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -471,7 +3493,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -479,7 +3501,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -487,7 +3509,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -559,7 +3581,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.24999998746478644,
+        "value": 0.24999998746478647,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -569,19 +3591,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.24999962271645712,
+        "value": 0.24854623271768103,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 0.24999998746478644,
-        "recency": 0.9999985410066096
+        "agreement": 0.24999998746478647,
+        "recency": 0.9941849807200083
       },
       "range": {
-        "floor": -0.23750015404722052,
-        "base": 0.06249999686619661,
-        "ceiling": 0.36250014777961376,
-        "floor_price": 78.53748413313627,
+        "floor": -0.238081510046731,
+        "base": 0.06249999686619662,
+        "ceiling": 0.36308150377912424,
+        "floor_price": 78.4776044651867,
         "base_price": 109.43749967721824,
-        "ceiling_price": 140.3375152213002,
+        "ceiling_price": 140.3973948892498,
         "source": "default"
       },
       "category_scores": {
@@ -589,7 +3611,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -605,7 +3627,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -613,7 +3635,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -695,19 +3717,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.7499981159892698,
+        "value": 0.7456379503496744,
         "band": "high",
         "coverage": 1.0,
         "agreement": 0.75,
-        "recency": 0.9999974879856931
+        "recency": 0.9941839337995658
       },
       "range": {
-        "floor": 0.08749924639570791,
+        "floor": 0.08575518013986975,
         "base": 0.1875,
-        "ceiling": 0.28750075360429206,
-        "floor_price": 194.00986555699427,
+        "ceiling": 0.28924481986013023,
+        "floor_price": 193.69872413695276,
         "base_price": 211.85,
-        "ceiling_price": 229.6901344430057,
+        "ceiling_price": 230.00127586304725,
         "source": "default"
       },
       "category_scores": {
@@ -715,7 +3737,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -723,7 +3745,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -739,7 +3761,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -821,19 +3843,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.2499993719801777,
+        "value": 0.24854598342759224,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.25,
-        "recency": 0.9999974879207107
+        "recency": 0.994183933710369
       },
       "range": {
-        "floor": -0.36250025120792895,
+        "floor": -0.3630816066289631,
         "base": -0.0625,
-        "ceiling": 0.23750025120792895,
-        "floor_price": 66.60597375379558,
+        "ceiling": 0.2380816066289631,
+        "floor_price": 66.54523373940594,
         "base_price": 97.95,
-        "ceiling_price": 129.29402624620442,
+        "ceiling_price": 129.35476626059406,
         "source": "default"
       },
       "category_scores": {
@@ -857,7 +3879,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -929,7 +3951,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.7499999916431909,
+        "value": 0.7499999916431908,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -939,19 +3961,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.7499967788049242,
+        "value": 0.7456366209107277,
         "band": "high",
         "coverage": 1.0,
-        "agreement": 0.7499999916431909,
-        "recency": 0.9999957162155968
+        "agreement": 0.7499999916431908,
+        "recency": 0.9941821722918913
       },
       "range": {
-        "floor": 0.0874987094327674,
-        "base": 0.18749999791079772,
-        "ceiling": 0.28750128638882805,
-        "floor_price": 259.99919145118605,
+        "floor": 0.08575464627508876,
+        "base": 0.1874999979107977,
+        "ceiling": 0.2892453495465066,
+        "floor_price": 259.58222083144824,
         "base_price": 283.9074995005135,
-        "ceiling_price": 307.815807549841,
+        "ceiling_price": 308.2327781695788,
         "source": "default"
       },
       "category_scores": {
@@ -959,7 +3981,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -967,7 +3989,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -983,7 +4005,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -1065,19 +4087,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.24999892068084653,
+        "value": 0.24854553474475913,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.25,
-        "recency": 0.9999956827233861
+        "recency": 0.9941821389790365
       },
       "range": {
-        "floor": -0.23750043172766144,
+        "floor": -0.23808178610209635,
         "base": 0.0625,
-        "ceiling": 0.36250043172766144,
-        "floor_price": 120.95530651504106,
+        "ceiling": 0.36308178610209635,
+        "floor_price": 120.86308627062446,
         "base_price": 168.544375,
-        "ceiling_price": 216.13344348495892,
+        "ceiling_price": 216.22566372937553,
         "source": "default"
       },
       "category_scores": {
@@ -1093,7 +4115,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -1101,7 +4123,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -1183,19 +4205,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.7499967619950063,
+        "value": 0.7456366041710687,
         "band": "high",
         "coverage": 1.0,
         "agreement": 0.75,
-        "recency": 0.9999956826600084
+        "recency": 0.9941821388947583
       },
       "range": {
-        "floor": 0.08749870479800252,
+        "floor": 0.08575464166842747,
         "base": 0.1875,
-        "ceiling": 0.28750129520199746,
-        "floor_price": 593.44804320827,
+        "ceiling": 0.2892453583315725,
+        "floor_price": 592.4963079584609,
         "base_price": 648.0187500000001,
-        "ceiling_price": 702.5894567917301,
+        "ceiling_price": 703.5411920415393,
         "source": "default"
       },
       "category_scores": {
@@ -1211,7 +4233,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -1301,19 +4323,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49999730646498924,
+        "value": 0.49709053768220135,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999946129299785
+        "recency": 0.9941810753644027
       },
       "range": {
-        "floor": -0.07500107741400433,
+        "floor": -0.07616378492711948,
         "base": 0.125,
-        "ceiling": 0.3250010774140043,
-        "floor_price": 47.480194696339154,
+        "ceiling": 0.3261637849271195,
+        "floor_price": 47.42051291969096,
         "base_price": 57.746249999999996,
-        "ceiling_price": 68.01230530366084,
+        "ceiling_price": 68.07198708030904,
         "source": "default"
       },
       "category_scores": {
@@ -1321,7 +4343,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -1329,7 +4351,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -1337,7 +4359,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -1345,7 +4367,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -1431,7 +4453,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999946128621884
+        "recency": 0.9941810752792605
       },
       "range": {
         "floor": -0.4,
@@ -1447,7 +4469,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -1545,19 +4567,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999972729704779,
+        "value": 0.4970905043658295,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999945459409558
+        "recency": 0.994181008731659
       },
       "range": {
-        "floor": -0.07500109081180883,
+        "floor": -0.07616379825366817,
         "base": 0.125,
-        "ceiling": 0.32500109081180883,
-        "floor_price": 155.3073168526973,
+        "ceiling": 0.32616379825366815,
+        "floor_price": 155.1120982732091,
         "base_price": 188.88750000000002,
-        "ceiling_price": 222.46768314730272,
+        "ceiling_price": 222.66290172679092,
         "source": "default"
       },
       "category_scores": {
@@ -1573,7 +4595,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -1581,7 +4603,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -1663,19 +4685,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.2499983523393596,
+        "value": 0.2485449696836032,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.25,
-        "recency": 0.9999934093574384
+        "recency": 0.9941798787344128
       },
       "range": {
-        "floor": -0.36250065906425616,
+        "floor": -0.3630820121265588,
         "base": -0.0625,
-        "ceiling": 0.23750065906425616,
-        "floor_price": 14.509484999697532,
+        "ceiling": 0.23808201212655877,
+        "floor_price": 14.496253403999523,
         "base_price": 21.337500000000002,
-        "ceiling_price": 28.16551500030247,
+        "ceiling_price": 28.17874659600048,
         "source": "default"
       },
       "category_scores": {
@@ -1683,7 +4705,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -1771,7 +4793,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.49999997492957204,
+        "value": 0.499999974929572,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -1781,19 +4803,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999963536636146,
+        "value": 0.4970895903789274,
         "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.49999997492957204,
-        "recency": 0.999992757467722
+        "agreement": 0.499999974929572,
+        "recency": 0.9941792306068525
       },
       "range": {
-        "floor": -0.07500146480216116,
-        "base": 0.12499999373239301,
-        "ceiling": 0.3250014522669472,
-        "floor_price": 100.73234048304465,
-        "base_price": 122.51249931745761,
-        "ceiling_price": 144.29265815187057,
+        "floor": -0.07616417011603606,
+        "base": 0.124999993732393,
+        "ceiling": 0.32616415758082207,
+        "floor_price": 100.60572187436368,
+        "base_price": 122.5124993174576,
+        "ceiling_price": 144.41927676055153,
         "source": "default"
       },
       "category_scores": {
@@ -1801,7 +4823,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -1809,7 +4831,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -1817,7 +4839,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -1825,7 +4847,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -1907,19 +4929,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999963703451557,
+        "value": 0.49708960695182464,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5000000000000001,
-        "recency": 0.9999927406903112
+        "recency": 0.994179213903649
       },
       "range": {
-        "floor": -0.07500145186193768,
+        "floor": -0.07616415721927011,
         "base": 0.12500000000000003,
-        "ceiling": 0.32500145186193774,
-        "floor_price": 64.48164879070431,
+        "ceiling": 0.32616415721927017,
+        "floor_price": 64.40059660024467,
         "base_price": 78.42375,
-        "ceiling_price": 92.36585120929567,
+        "ceiling_price": 92.44690339975531,
         "source": "default"
       },
       "category_scores": {
@@ -1935,7 +4957,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -1943,7 +4965,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -2025,19 +5047,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999963703121297,
+        "value": 0.49708960691177917,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999927406242594
+        "recency": 0.9941792138235583
       },
       "range": {
-        "floor": -0.07500145187514812,
+        "floor": -0.07616415723528835,
         "base": 0.125,
-        "ceiling": 0.3250014518751481,
-        "floor_price": 38.7574391664313,
+        "ceiling": 0.32616415723528835,
+        "floor_price": 38.708721811841414,
         "base_price": 47.137499999999996,
-        "ceiling_price": 55.5175608335687,
+        "ceiling_price": 55.56627818815858,
         "source": "default"
       },
       "category_scores": {
@@ -2045,7 +5067,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2053,7 +5075,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2061,7 +5083,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -2069,7 +5091,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -2155,7 +5177,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999927405636897
+        "recency": 0.9941792137476549
       },
       "range": {
         "floor": -0.4,
@@ -2171,7 +5193,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2179,7 +5201,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -2187,7 +5209,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -2195,7 +5217,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -2277,19 +5299,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.7499935024258612,
+        "value": 0.7456333634191549,
         "band": "high",
         "coverage": 1.0,
         "agreement": 0.75,
-        "recency": 0.9999913365678149
+        "recency": 0.9941778178922065
       },
       "range": {
-        "floor": 0.08749740097034446,
+        "floor": 0.08575334536766194,
         "base": 0.1875,
-        "ceiling": 0.2875025990296555,
-        "floor_price": 166.3544774264336,
+        "ceiling": 0.28924665463233806,
+        "floor_price": 166.08768924089125,
         "base_price": 181.651875,
-        "ceiling_price": 196.94927257356642,
+        "ceiling_price": 197.21606075910876,
         "source": "default"
       },
       "category_scores": {
@@ -2297,7 +5319,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2305,7 +5327,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2321,7 +5343,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -2403,19 +5425,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.7499935023782278,
+        "value": 0.7456333633590371,
         "band": "high",
         "coverage": 1.0,
         "agreement": 0.75,
-        "recency": 0.9999913365043037
+        "recency": 0.9941778178120494
       },
       "range": {
-        "floor": 0.08749740095129112,
+        "floor": 0.08575334534361483,
         "base": 0.1875,
-        "ceiling": 0.2875025990487089,
-        "floor_price": 151.4231381084578,
+        "ceiling": 0.28924665465638516,
+        "floor_price": 151.18029580564493,
         "base_price": 165.34750000000003,
-        "ceiling_price": 179.27186189154222,
+        "ceiling_price": 179.5147041943551,
         "source": "default"
       },
       "category_scores": {
@@ -2423,7 +5445,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2431,7 +5453,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2447,7 +5469,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -2529,19 +5551,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999956682188252,
+        "value": 0.4970889088685051,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9999913364376504
+        "recency": 0.9941778177370102
       },
       "range": {
-        "floor": -0.07500173271246996,
+        "floor": -0.07616443645259796,
         "base": 0.125,
-        "ceiling": 0.32500173271246996,
-        "floor_price": 71.83536543754958,
+        "ceiling": 0.32616443645259796,
+        "floor_price": 71.74506986509124,
         "base_price": 87.36749999999999,
-        "ceiling_price": 102.8996345624504,
+        "ceiling_price": 102.98993013490875,
         "source": "default"
       },
       "category_scores": {
@@ -2557,7 +5579,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -2565,7 +5587,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -2647,19 +5669,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.24999753325150303,
+        "value": 0.24854415532136345,
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.2499999289671018,
-        "recency": 0.9999904171348821
+        "recency": 0.994176903762521
       },
       "range": {
-        "floor": -0.2375010044576234,
+        "floor": -0.23808235562967922,
         "base": 0.06249998224177545,
-        "ceiling": 0.3625009689411743,
-        "floor_price": 100.29911787364422,
+        "ceiling": 0.3630823201132301,
+        "floor_price": 100.222646940472,
         "base_price": 139.76124766408316,
-        "ceiling_price": 179.22337745452205,
+        "ceiling_price": 179.29984838769428,
         "source": "default"
       },
       "category_scores": {
@@ -2667,7 +5689,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2675,7 +5697,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2683,7 +5705,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -2763,7 +5785,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.5,
+        "value": 0.49999999999999994,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -2773,19 +5795,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4999950664702937,
+        "value": 0.49708831060183006,
         "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.5,
-        "recency": 0.9999901329405874
+        "agreement": 0.49999999999999994,
+        "recency": 0.9941766212036602
       },
       "range": {
-        "floor": -0.07500197341188253,
-        "base": 0.125,
-        "ceiling": 0.3250019734118825,
-        "floor_price": 564.2487962187516,
+        "floor": -0.07616467575926801,
+        "base": 0.12499999999999999,
+        "ceiling": 0.326164675759268,
+        "floor_price": 563.5395477868465,
         "base_price": 686.25,
-        "ceiling_price": 808.2512037812484,
+        "ceiling_price": 808.9604522131535,
         "source": "default"
       },
       "category_scores": {
@@ -2801,7 +5823,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -2809,7 +5831,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -2895,7 +5917,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9999901328754048
+        "recency": 0.9941766211241014
       },
       "range": {
         "floor": -0.4,
@@ -2911,7 +5933,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -2919,7 +5941,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -2927,7 +5949,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -2935,7 +5957,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -3017,19 +6039,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49999504969139125,
+        "value": 0.49708829390585063,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5000000083568092,
-        "recency": 0.9999900826693298
+        "recency": 0.9941765711954134
       },
       "range": {
-        "floor": -0.07500197803424122,
+        "floor": -0.07616468034845744,
         "base": 0.1250000020892023,
-        "ceiling": 0.32500198221264587,
-        "floor_price": 118.67724621820686,
+        "ceiling": 0.3261646845268621,
+        "floor_price": 118.52807151129292,
         "base_price": 144.33750026804466,
-        "ceiling_price": 169.99775431788245,
+        "ceiling_price": 170.14692902479644,
         "source": "default"
       },
       "category_scores": {
@@ -3037,7 +6059,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -3045,7 +6067,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3137,9 +6159,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6641230126868486,
+        "coverage": 0.660262087630204,
         "agreement": 0.0,
-        "recency": 0.9961845190302728
+        "recency": 0.990393131445306
       },
       "range": {
         "floor": -0.4,
@@ -3155,7 +6177,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3163,7 +6185,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -3217,29 +6239,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.3333333333333333,
+        "value": 0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 56,
+        "value": 55,
         "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3307939569521071,
-        "band": "medium",
-        "coverage": 0.9961836531766227,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9961836531766225
+        "value": 0.326958949891701,
+        "band": "low",
+        "coverage": 0.9903922706054923,
+        "agreement": 0.33333333333333337,
+        "recency": 0.9903922706054925
       },
       "range": {
-        "floor": -0.18434908388582383,
-        "base": 0.08333333333333333,
-        "ceiling": 0.35101575055249046,
-        "floor_price": 94.27293288447648,
+        "floor": -0.1858830867099863,
+        "base": 0.08333333333333334,
+        "ceiling": 0.35254975337665295,
+        "floor_price": 94.09563283805979,
         "base_price": 125.21166666666666,
-        "ceiling_price": 156.15040044885686,
+        "ceiling_price": 156.32770049527355,
         "source": "default"
       },
       "category_scores": {
@@ -3247,7 +6269,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3255,7 +6277,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -3263,7 +6285,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -3326,29 +6348,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -0.33333333333333337,
+        "value": -0.3333333333333333,
         "n_signals": 3,
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 44,
-        "label": "Bearish",
+        "value": 45,
+        "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3307935588400313,
-        "band": "medium",
-        "coverage": 0.996183053720597,
-        "agreement": 0.33333333333333337,
-        "recency": 0.996183053720597
+        "value": 0.32695855638178395,
+        "band": "low",
+        "coverage": 0.9903916746143174,
+        "agreement": 0.3333333333333333,
+        "recency": 0.9903916746143173
       },
       "range": {
-        "floor": -0.3510159097973209,
-        "base": -0.08333333333333334,
-        "ceiling": 0.18434924313065418,
-        "floor_price": 1853.0507625966115,
+        "floor": -0.35254991078061976,
+        "base": -0.08333333333333333,
+        "ceiling": 0.18588324411395313,
+        "floor_price": 1848.6707142489884,
         "base_price": 2617.3675,
-        "ceiling_price": 3381.684237403388,
+        "ceiling_price": 3386.064285751011,
         "source": "default"
       },
       "category_scores": {
@@ -3356,7 +6378,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3364,7 +6386,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -3372,7 +6394,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -3440,24 +6462,24 @@
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 56,
+        "value": 55,
         "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.33079316072666526,
-        "band": "medium",
-        "coverage": 0.9961824542622683,
+        "value": 0.3269581628667448,
+        "band": "low",
+        "coverage": 0.9903910786150258,
         "agreement": 0.3333333333333333,
-        "recency": 0.996182454262268
+        "recency": 0.990391078615026
       },
       "range": {
-        "floor": -0.18434940237600062,
+        "floor": -0.18588340151996874,
         "base": 0.08333333333333333,
-        "ceiling": 0.35101606904266724,
-        "floor_price": 21.25585457408142,
+        "ceiling": 0.35255006818663537,
+        "floor_price": 21.215878556389615,
         "base_price": 28.231666666666662,
-        "ceiling_price": 35.207478759251906,
+        "ceiling_price": 35.24745477694372,
         "source": "default"
       },
       "category_scores": {
@@ -3465,7 +6487,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3473,7 +6495,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3481,7 +6503,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -3549,24 +6571,24 @@
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 56,
+        "value": 55,
         "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3307927183837411,
-        "band": "medium",
-        "coverage": 0.9961817882049558,
+        "value": 0.32695772563968084,
+        "band": "low",
+        "coverage": 0.9903904164111457,
         "agreement": 0.3333333333333333,
-        "recency": 0.9961817882049556
+        "recency": 0.9903904164111457
       },
       "range": {
-        "floor": -0.18434957931317025,
+        "floor": -0.18588357641079434,
         "base": 0.08333333333333333,
-        "ceiling": 0.3510162459798369,
-        "floor_price": 55.17875095946404,
+        "ceiling": 0.35255024307746097,
+        "floor_price": 55.07497605580977,
         "base_price": 73.2875,
-        "ceiling_price": 91.39624904053598,
+        "ceiling_price": 91.50002394419025,
         "source": "default"
       },
       "category_scores": {
@@ -3574,7 +6596,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3582,7 +6604,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -3590,7 +6612,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -3663,19 +6685,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49809002828207993,
+        "value": 0.4951943474089486,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9961800565641599
+        "recency": 0.9903886948178972
       },
       "range": {
-        "floor": -0.07576398868716805,
+        "floor": -0.07692226103642055,
         "base": 0.125,
-        "ceiling": 0.32576398868716805,
-        "floor_price": 164.1258308889327,
+        "ceiling": 0.3269222610364205,
+        "floor_price": 163.92014488515247,
         "base_price": 199.7775,
-        "ceiling_price": 235.4291691110673,
+        "ceiling_price": 235.6348551148476,
         "source": "default"
       },
       "category_scores": {
@@ -3683,7 +6705,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3691,7 +6713,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -3699,7 +6721,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -3707,7 +6729,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -3793,7 +6815,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.996179390509383
+        "recency": 0.9903880326129624
       },
       "range": {
         "floor": -0.4,
@@ -3817,7 +6839,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -3825,7 +6847,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -3911,7 +6933,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961786578531191
+        "recency": 0.9903873042001557
       },
       "range": {
         "floor": -0.4,
@@ -3935,7 +6957,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -3943,7 +6965,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -4015,29 +7037,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -0.33333333333333337,
+        "value": -0.3333333333333333,
         "n_signals": 3,
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 44,
-        "label": "Bearish",
+        "value": 45,
+        "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3307901971146823,
-        "band": "medium",
-        "coverage": 0.9961779917986778,
-        "agreement": 0.33333333333333337,
-        "recency": 0.9961779917986779
+        "value": 0.32695523355709916,
+        "band": "low",
+        "coverage": 0.9903866420097241,
+        "agreement": 0.3333333333333333,
+        "recency": 0.9903866420097241
       },
       "range": {
-        "floor": -0.35101725448746046,
-        "base": -0.08333333333333334,
-        "ceiling": 0.18435058782079375,
-        "floor_price": 36.80381149801612,
+        "floor": -0.3525512399104937,
+        "base": -0.08333333333333333,
+        "ceiling": 0.18588457324382707,
+        "floor_price": 36.7168191846759,
         "base_price": 51.98416666666667,
-        "ceiling_price": 67.16452183531722,
+        "ceiling_price": 67.25151414865744,
         "source": "default"
       },
       "category_scores": {
@@ -4045,7 +7067,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -4130,7 +7152,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961765265595413
+        "recency": 0.9903851852721051
       },
       "range": {
         "floor": -0.4,
@@ -4154,7 +7176,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4162,7 +7184,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -4239,24 +7261,24 @@
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 56,
+        "value": 55,
         "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3307888259151701,
-        "band": "medium",
-        "coverage": 0.9961759271060059,
+        "value": 0.32695387823347394,
+        "band": "low",
+        "coverage": 0.9903845892886368,
         "agreement": 0.3333333333333333,
-        "recency": 0.9961759271060059
+        "recency": 0.9903845892886368
       },
       "range": {
-        "floor": -0.18435113630059863,
+        "floor": -0.18588511537327712,
         "base": 0.08333333333333333,
-        "ceiling": 0.35101780296726526,
-        "floor_price": 254.28668974692536,
+        "ceiling": 0.35255178203994375,
+        "floor_price": 253.8084564312271,
         "base_price": 337.73999999999995,
-        "ceiling_price": 421.1933102530746,
+        "ceiling_price": 421.67154356877285,
         "source": "default"
       },
       "category_scores": {
@@ -4264,7 +7286,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -4272,7 +7294,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4280,7 +7302,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -4343,7 +7365,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.4999999749295721,
+        "value": 0.499999974929572,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -4353,19 +7375,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4980876471775539,
+        "value": 0.495191980104134,
         "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.4999999749295721,
-        "recency": 0.9961753443041921
+        "agreement": 0.499999974929572,
+        "recency": 0.9903840098669701
       },
       "range": {
-        "floor": -0.07576494739658542,
-        "base": 0.12499999373239302,
-        "ceiling": 0.3257649348613715,
-        "floor_price": 193.63648587094139,
-        "base_price": 235.69874868687367,
-        "ceiling_price": 277.7610115028059,
+        "floor": -0.0769232142259534,
+        "base": 0.124999993732393,
+        "ceiling": 0.3269232016907394,
+        "floor_price": 193.3938173875205,
+        "base_price": 235.6987486868736,
+        "ceiling_price": 278.0036799862268,
         "source": "default"
       },
       "category_scores": {
@@ -4373,7 +7395,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -4381,7 +7403,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -4389,7 +7411,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4397,7 +7419,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -4479,19 +7501,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49808736409894316,
+        "value": 0.4951916986189465,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9961747281978863
+        "recency": 0.990383397237893
       },
       "range": {
-        "floor": -0.32576505436042275,
+        "floor": -0.3269233205524214,
         "base": -0.125,
-        "ceiling": 0.07576505436042275,
-        "floor_price": 17.8672260594488,
+        "ceiling": 0.0769233205524214,
+        "floor_price": 17.836532005360834,
         "base_price": 23.1875,
-        "ceiling_price": 28.5077739405512,
+        "ceiling_price": 28.538467994639166,
         "source": "default"
       },
       "category_scores": {
@@ -4507,7 +7529,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4515,7 +7537,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -4587,29 +7609,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -0.3333333333333333,
+        "value": -0.33333333333333337,
         "n_signals": 3,
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 44,
-        "label": "Bearish",
+        "value": 45,
+        "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.3307870566154108,
-        "band": "medium",
-        "coverage": 0.9961732629649486,
-        "agreement": 0.3333333333333333,
-        "recency": 0.9961732629649483
+        "value": 0.3269521293665523,
+        "band": "low",
+        "coverage": 0.9903819405157067,
+        "agreement": 0.33333333333333337,
+        "recency": 0.9903819405157068
       },
       "range": {
-        "floor": -0.35101851068716905,
-        "base": -0.08333333333333333,
-        "ceiling": 0.18435184402050242,
-        "floor_price": 30.197108697726026,
+        "floor": -0.3525524815867125,
+        "base": -0.08333333333333334,
+        "ceiling": 0.18588581492004577,
+        "floor_price": 30.12573303177027,
         "base_price": 42.652499999999996,
-        "ceiling_price": 55.10789130227398,
+        "ceiling_price": 55.17926696822973,
         "source": "default"
       },
       "category_scores": {
@@ -4617,7 +7639,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -4625,7 +7647,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4633,7 +7655,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -4696,29 +7718,29 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.33333333333333337,
+        "value": 0.3333333333333333,
         "n_signals": 3,
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 56,
+        "value": 55,
         "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.33078670274263583,
-        "band": "medium",
-        "coverage": 0.9961727301165734,
-        "agreement": 0.33333333333333337,
-        "recency": 0.9961727301165735
+        "value": 0.3269517795892631,
+        "band": "low",
+        "coverage": 0.9903814107543565,
+        "agreement": 0.3333333333333333,
+        "recency": 0.9903814107543565
       },
       "range": {
-        "floor": -0.18435198556961233,
-        "base": 0.08333333333333334,
-        "ceiling": 0.35101865223627904,
-        "floor_price": 266.3580155923874,
+        "floor": -0.18588595483096143,
+        "base": 0.08333333333333333,
+        "ceiling": 0.35255262149762806,
+        "floor_price": 265.8570825904012,
         "base_price": 353.7733333333333,
-        "ceiling_price": 441.1886510742793,
+        "ceiling_price": 441.6895840762654,
         "source": "default"
       },
       "category_scores": {
@@ -4726,7 +7748,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -4734,7 +7756,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4742,7 +7764,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -4810,24 +7832,24 @@
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 44,
-        "label": "Bearish",
+        "value": 45,
+        "label": "Neutral / Mixed",
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.33078639309946933,
-        "band": "medium",
-        "coverage": 0.9961722638672531,
+        "value": 0.3269514735264528,
+        "band": "low",
+        "coverage": 0.9903809472013073,
         "agreement": 0.3333333333333333,
-        "recency": 0.996172263867253
+        "recency": 0.9903809472013072
       },
       "range": {
-        "floor": -0.3510187760935456,
+        "floor": -0.3525527439227522,
         "base": -0.08333333333333333,
-        "ceiling": 0.18435210942687896,
-        "floor_price": 9.591942489337395,
+        "ceiling": 0.18588607725608558,
+        "floor_price": 9.56927044482172,
         "base_price": 13.548333333333332,
-        "ceiling_price": 17.50472417732927,
+        "ceiling_price": 17.527396221844942,
         "source": "default"
       },
       "category_scores": {
@@ -4835,7 +7857,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -4843,7 +7865,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4851,7 +7873,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -4928,7 +7950,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961716644178813
+        "recency": 0.990380351221515
       },
       "range": {
         "floor": -0.4,
@@ -4944,7 +7966,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -4952,7 +7974,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4960,7 +7982,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -4968,7 +7990,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -5054,7 +8076,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961699993941009
+        "recency": 0.9903786958377393
       },
       "range": {
         "floor": -0.4,
@@ -5070,7 +8092,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -5078,7 +8100,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -5086,7 +8108,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -5094,7 +8116,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -5180,7 +8202,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961693999472904
+        "recency": 0.9903780998532103
       },
       "range": {
         "floor": -0.4,
@@ -5196,7 +8218,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -5204,7 +8226,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -5212,7 +8234,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -5220,7 +8242,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -5306,7 +8328,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961688005013735
+        "recency": 0.9903775038689077
       },
       "range": {
         "floor": -0.4,
@@ -5322,7 +8344,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -5330,7 +8352,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -5424,7 +8446,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.996168201050556
+        "recency": 0.9903769078908564
       },
       "range": {
         "floor": -0.4,
@@ -5440,7 +8462,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -5456,7 +8478,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -5528,7 +8550,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -1.6713618054917405e-08,
+        "value": -1.671361804139591e-08,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -5538,19 +8560,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 1.6649553402636754e-08,
+        "value": 1.6552760051524742e-08,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 1.6713618054917405e-08,
-        "recency": 0.9961669189716944
+        "agreement": 1.671361804139591e-08,
+        "recency": 0.990375633242739
       },
       "range": {
-        "floor": -0.3999999975185832,
-        "base": -4.178404513729351e-09,
-        "ceiling": 0.39999998916177415,
-        "floor_price": 149.98800062030458,
+        "floor": -0.39999999755730054,
+        "base": -4.1784045103489776e-09,
+        "ceiling": 0.3999999892004915,
+        "floor_price": 149.98800061062602,
         "base_price": 249.97999895548244,
-        "ceiling_price": 349.9719972906603,
+        "ceiling_price": 349.97199730033884,
         "source": "default"
       },
       "category_scores": {
@@ -5638,7 +8660,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": 0.5,
+        "value": 0.49999999999999994,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -5648,19 +8670,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.4980831014900686,
+        "value": 0.49518746069851477,
         "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.5,
-        "recency": 0.9961662029801372
+        "agreement": 0.49999999999999994,
+        "recency": 0.9903749213970297
       },
       "range": {
-        "floor": -0.07576675940397257,
-        "base": 0.125,
-        "ceiling": 0.3257667594039726,
-        "floor_price": 56.008534380119265,
+        "floor": -0.07692501572059414,
+        "base": 0.12499999999999999,
+        "ceiling": 0.3269250157205941,
+        "floor_price": 55.938344047331995,
         "base_price": 68.175,
-        "ceiling_price": 80.34146561988074,
+        "ceiling_price": 80.411655952668,
         "source": "default"
       },
       "category_scores": {
@@ -5676,7 +8698,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -5684,7 +8706,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -5770,7 +8792,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961656701300109
+        "recency": 0.9903743916391029
       },
       "range": {
         "floor": -0.4,
@@ -5794,7 +8816,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -5802,7 +8824,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -5888,7 +8910,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961650706832749
+        "recency": 0.9903737956663674
       },
       "range": {
         "floor": -0.4,
@@ -5912,7 +8934,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -5920,7 +8942,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -6006,7 +9028,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961044349036894
+        "recency": 0.9903135123811536
       },
       "range": {
         "floor": -0.4,
@@ -6030,7 +9052,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -6038,7 +9060,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -6120,19 +9142,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49805163472289105,
+        "value": 0.49515617684495583,
         "band": "medium",
         "coverage": 1.0,
         "agreement": 0.5,
-        "recency": 0.9961032694457821
+        "recency": 0.9903123536899117
       },
       "range": {
-        "floor": -0.07577934611084358,
+        "floor": -0.07693752926201769,
         "base": 0.125,
-        "ceiling": 0.3257793461108436,
-        "floor_price": 41.57144501193425,
+        "ceiling": 0.3269375292620177,
+        "floor_price": 41.519349933794444,
         "base_price": 50.6025,
-        "ceiling_price": 59.63355498806574,
+        "ceiling_price": 59.685650066205554,
         "source": "default"
       },
       "category_scores": {
@@ -6140,7 +9162,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -6148,7 +9170,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -6156,7 +9178,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -6164,7 +9186,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -6250,7 +9272,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9961022038769378
+        "recency": 0.9903112943075503
       },
       "range": {
         "floor": -0.4,
@@ -6266,7 +9288,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -6274,7 +9296,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -6282,7 +9304,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -6290,7 +9312,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -6362,7 +9384,7 @@
       "return_pct": 0.0,
       "position": null,
       "score": {
-        "value": -1.6713618087507246e-08,
+        "value": -1.6713618072309334e-08,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -6372,19 +9394,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 1.6648454836953888e-08,
+        "value": 1.6551667869624267e-08,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 1.6713618087507246e-08,
-        "recency": 0.9961011882518684
+        "agreement": 1.6713618072309334e-08,
+        "recency": 0.9903102845844383
       },
       "range": {
-        "floor": -0.3999999975190226,
-        "base": -4.1784045218768114e-09,
-        "ceiling": 0.3999999891622136,
-        "floor_price": 99.73200041238806,
+        "floor": -0.39999999755773735,
+        "base": -4.1784045180773335e-09,
+        "ceiling": 0.39999998920092833,
+        "floor_price": 99.7320004059529,
         "base_price": 166.2199993054656,
-        "ceiling_price": 232.70799819854315,
+        "ceiling_price": 232.7079982049783,
         "source": "default"
       },
       "category_scores": {
@@ -6486,7 +9508,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.996100006150124
+        "recency": 0.9903091093440668
       },
       "range": {
         "floor": -0.4,
@@ -6510,7 +9532,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -6518,7 +9540,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -6681,24 +9703,24 @@
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 33,
+        "value": 34,
         "label": "Bearish",
         "n_signals": 1
       },
       "confidence": {
-        "value": 0.3333154782147681,
-        "band": "medium",
-        "coverage": 0.33332440565449556,
+        "value": 0.3294512379462707,
+        "band": "low",
+        "coverage": 0.3313866009895747,
         "agreement": 1.0,
-        "recency": 0.9999732169634866
+        "recency": 0.994159802968724
       },
       "range": {
-        "floor": -0.5166738087140927,
+        "floor": -0.5182195048214917,
         "base": -0.25,
-        "ceiling": 0.016673808714092797,
-        "floor_price": 368.14472664056274,
+        "ceiling": 0.01821950482149176,
+        "floor_price": 366.967385372518,
         "base_price": 571.2675,
-        "ceiling_price": 774.3902733594374,
+        "ceiling_price": 775.567614627482,
         "source": "default"
       },
       "category_scores": {
@@ -6706,7 +9728,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -6763,9 +9785,9 @@
       "confidence": {
         "value": 0.0,
         "band": "low",
-        "coverage": 0.6637473638904527,
+        "coverage": 0.6598886223235708,
         "agreement": 0.0,
-        "recency": 0.9956210458356791
+        "recency": 0.9898329334853563
       },
       "range": {
         "floor": -0.4,
@@ -6781,7 +9803,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         },
@@ -6789,7 +9811,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         }
@@ -6891,7 +9913,7 @@
         "band": "low",
         "coverage": 1.0,
         "agreement": 0.0,
-        "recency": 0.9978021792406557
+        "recency": 0.9920013867144709
       },
       "range": {
         "floor": -0.4,
@@ -7031,16 +10053,16 @@
         "n_signals": 3
       },
       "confidence": {
-        "value": 0.6632533395646046,
-        "band": "high",
-        "coverage": 0.9970719477476684,
+        "value": 0.6555640168752216,
+        "band": "medium",
+        "coverage": 0.9912754004691965,
         "agreement": 0.6671517209509193,
-        "recency": 0.9970761705389488
+        "recency": 0.9912795987109854
       },
       "range": {
-        "floor": 0.03208926606357168,
+        "floor": 0.029013536987818472,
         "base": 0.16678793023772984,
-        "ceiling": 0.30148659441188796,
+        "ceiling": 0.30456232348764123,
         "floor_price": null,
         "base_price": null,
         "ceiling_price": null,
@@ -7110,7 +10132,7 @@
         "lockup": {
           "expiry_date": "2027-04-29",
           "is_estimate": true,
-          "days_until_expiry": 221
+          "days_until_expiry": 220
         },
         "valuation_gap": {
           "ipo_multiple": 14.846153846153847,
@@ -7147,29 +10169,29 @@
         "market_value": 8000.000000000001
       },
       "score": {
-        "value": 0.19901466243462346,
-        "n_signals": 5,
+        "value": 0.33354364852619317,
+        "n_signals": 6,
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 52,
+        "value": 56,
         "label": "Neutral / Mixed",
-        "n_signals": 5
+        "n_signals": 6
       },
       "confidence": {
-        "value": 0.19833254589766935,
-        "band": "low",
+        "value": 0.33098323589065376,
+        "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.19901466243462346,
-        "recency": 0.9965725312466452
+        "agreement": 0.33354364852619317,
+        "recency": 0.9923236054805633
       },
       "range": {
-        "floor": -0.2709133160322764,
-        "base": 0.049753665608655864,
-        "ceiling": 0.3704206472495881,
-        "floor_price": 1306.3921020670464,
-        "base_price": 1880.9696131109017,
-        "ceiling_price": 2455.547124154757,
+        "floor": -0.18422079351219023,
+        "base": 0.08338591213154829,
+        "ceiling": 0.3509926177752868,
+        "floor_price": 1461.7294977689874,
+        "base_price": 1941.232545075551,
+        "ceiling_price": 2420.735592382114,
         "source": "default"
       },
       "category_scores": {
@@ -7191,10 +10213,10 @@
         },
         "catalyst": {
           "value": 1.0,
-          "n_signals": 1,
+          "n_signals": 2,
           "public_score": {
-            "value": 67,
-            "label": "Bullish"
+            "value": 83,
+            "label": "Strongly Bullish"
           }
         }
       },
@@ -7251,6 +10273,15 @@
           "rationale": "China's CXMT is preparing to enter the NAND flash market with a focus on AI customers, a new direct competitive threat to the supply-squeeze thesis",
           "source": "https://www.stocktitan.net/overview/SNDK/",
           "recorded_at": "2026-09-20T11:06:02+00:00"
+        },
+        {
+          "name": "SNDK",
+          "category": "catalyst",
+          "direction": "bullish",
+          "weight": 1.0,
+          "rationale": "S&P 100 inclusion became effective today (Sept 21, 2026), replacing Nike and Colgate-Palmolive; shares climbed 11% same-day to $1,791.82 as the passive-fund-flow catalyst actually materialized rather than just being announced",
+          "source": "https://www.timothysykes.com/news/sandisk-corporation-sndk-news-2026_09_18-2/",
+          "recorded_at": "2026-09-21T11:20:19+00:00"
         }
       ],
       "ipo": null,
@@ -7280,29 +10311,29 @@
         "market_value": 12393.059754027081
       },
       "score": {
-        "value": 0.0,
-        "n_signals": 6,
+        "value": -0.2516298769086131,
+        "n_signals": 8,
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 50,
+        "value": 47,
         "label": "Neutral / Mixed",
-        "n_signals": 6
+        "n_signals": 8
       },
       "confidence": {
-        "value": 0.0,
+        "value": 0.24999833237100494,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 0.0,
-        "recency": 0.997140935491513
+        "agreement": 0.2516298769086131,
+        "recency": 0.9935160937260216
       },
       "range": {
-        "floor": -0.4,
-        "base": 0.0,
-        "ceiling": 0.4,
-        "floor_price": 144.894,
-        "base_price": 241.49,
-        "ceiling_price": 338.086,
+        "floor": -0.36290813627875135,
+        "base": -0.06290746922715328,
+        "ceiling": 0.23709319782444477,
+        "floor_price": 153.85131417004433,
+        "base_price": 226.29847525633477,
+        "ceiling_price": 298.7456363426252,
         "source": "default"
       },
       "category_scores": {
@@ -7316,17 +10347,17 @@
         },
         "valuation": {
           "value": -1.0,
-          "n_signals": 1,
+          "n_signals": 2,
           "public_score": {
-            "value": 33,
-            "label": "Bearish"
+            "value": 17,
+            "label": "Strongly Bearish"
           }
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 2,
+          "n_signals": 3,
           "public_score": {
-            "value": 17,
+            "value": 1,
             "label": "Strongly Bearish"
           }
         },
@@ -7334,7 +10365,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -7401,6 +10432,24 @@
           "rationale": "US grid interconnection queues for new AI datacenter capacity now running 4-7 years in Northern Virginia, Phoenix, and Dallas - power/cooling efficiency becomes more valuable, not less, as raw grid capacity becomes the binding constraint",
           "source": "https://moderndiplomacy.eu/2026/09/19/ai-power-nuclear-geopolitics-grid-capacity-chip-export-controls/",
           "recorded_at": "2026-09-20T11:06:03+00:00"
+        },
+        {
+          "name": "VRT",
+          "category": "valuation",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Trading at a P/E of ~56x with a token 0.09% dividend yield - a rich multiple for a power/cooling hardware supplier that leaves little room for a miss",
+          "source": "https://www.macrotrends.net/stocks/charts/VRT/vertiv-holdings/stock-price-history",
+          "recorded_at": "2026-09-21T11:20:19+00:00"
+        },
+        {
+          "name": "VRT",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "30-50% of planned 2026 AI datacenter capacity is projected to slip to 2028 on power-grid interconnection queues and construction bottlenecks - a timing risk for near-term power/cooling equipment demand even if the multi-year buildout thesis holds",
+          "source": "https://futurumgroup.com/insights/ai-capex-2026-the-690b-infrastructure-sprint/",
+          "recorded_at": "2026-09-21T11:20:19+00:00"
         }
       ],
       "ipo": null,
@@ -7430,7 +10479,7 @@
         "market_value": 15000.000000000002
       },
       "score": {
-        "value": 0.4989095551262677,
+        "value": 0.49890955512626767,
         "n_signals": 4,
         "weights_used": "manual"
       },
@@ -7440,19 +10489,19 @@
         "n_signals": 4
       },
       "confidence": {
-        "value": 0.49781285718907464,
+        "value": 0.49491878742467094,
         "band": "medium",
         "coverage": 1.0,
-        "agreement": 0.4989095551262677,
-        "recency": 0.9978018101158325
+        "agreement": 0.49890955512626767,
+        "recency": 0.992001019702686
       },
       "range": {
-        "floor": -0.07614746834280321,
-        "base": 0.12472738878156693,
-        "ceiling": 0.32560224590593706,
-        "floor_price": 201.39061337595234,
+        "floor": -0.07730509624856469,
+        "base": 0.12472738878156692,
+        "ceiling": 0.3267598738116985,
+        "floor_price": 201.13826206877542,
         "base_price": 245.1793234804938,
-        "ceiling_price": 288.96803358503524,
+        "ceiling_price": 289.22038489221217,
         "source": "default"
       },
       "category_scores": {
@@ -7468,7 +10517,7 @@
           "value": -1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 33,
+            "value": 34,
             "label": "Bearish"
           }
         },
@@ -7476,7 +10525,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -7554,29 +10603,29 @@
         "market_value": 15000.0
       },
       "score": {
-        "value": 0.2006830495689856,
-        "n_signals": 5,
+        "value": -0.0009769131050074214,
+        "n_signals": 6,
         "weights_used": "manual"
       },
       "public_score": {
-        "value": 52,
+        "value": 50,
         "label": "Neutral / Mixed",
-        "n_signals": 5
+        "n_signals": 6
       },
       "confidence": {
-        "value": 0.19999521464546358,
+        "value": 0.0009694139343719079,
         "band": "low",
         "coverage": 1.0,
-        "agreement": 0.2006830495689856,
-        "recency": 0.9965725310383746
+        "agreement": 0.0009769131050074214,
+        "recency": 0.9923236052448527
       },
       "range": {
-        "floor": -0.26983115174956823,
-        "base": 0.0501707623922464,
-        "ceiling": 0.370172676534061,
-        "floor_price": 59.40653749365513,
-        "base_price": 85.44189322823317,
-        "ceiling_price": 111.4772489628112,
+        "floor": -0.39985646270250313,
+        "base": -0.00024422827625185536,
+        "ceiling": 0.3993680061499994,
+        "floor_price": 48.82767819452434,
+        "base_price": 81.34012958744415,
+        "ceiling_price": 113.85258098036394,
         "source": "default"
       },
       "category_scores": {
@@ -7590,9 +10639,9 @@
         },
         "risk": {
           "value": -1.0,
-          "n_signals": 2,
+          "n_signals": 3,
           "public_score": {
-            "value": 17,
+            "value": 1,
             "label": "Strongly Bearish"
           }
         },
@@ -7600,7 +10649,7 @@
           "value": 1.0,
           "n_signals": 1,
           "public_score": {
-            "value": 67,
+            "value": 66,
             "label": "Bullish"
           }
         }
@@ -7658,6 +10707,15 @@
           "rationale": "Truist raised price target to $165 from $155 on expected margin expansion from better pricing/contract structures; separate reporting notes AI compute capacity shortage letting CoreWeave command higher prices",
           "source": "https://www.benzinga.com/markets/tech/26/09/61841973/ai-compute-crunch-pays-off-for-coreweave-as-capacity-fetches-higher-prices",
           "recorded_at": "2026-09-20T11:06:02+00:00"
+        },
+        {
+          "name": "CRWV",
+          "category": "risk",
+          "direction": "bearish",
+          "weight": 1.0,
+          "rationale": "Established an at-the-market equity program to sell up to 35 million Class A shares alongside the $3.7B convertible note pricing; shares fell ~2.2% in premarket trading on the combined dilution overhang",
+          "source": "https://www.benzinga.com/markets/tech/26/09/61841973/ai-compute-crunch-pays-off-for-coreweave-as-capacity-fetches-higher-prices",
+          "recorded_at": "2026-09-21T11:20:19+00:00"
         }
       ],
       "ipo": null,
