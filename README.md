@@ -61,6 +61,13 @@ Then open http://localhost:3000.
   that's an acceptable amount of trust for now and where it stops being
   one.
 
+**Real locations live in `prisma/directory.ts`.** The build runs
+`npm run db:sync-directory`, which upserts every entry by `slug` — so to
+add a store, add an entry and push. It never deletes, so removing an entry
+won't wipe that store's check-ins or hauls. Only list confirmed
+pay-by-the-pound thrift bins. Pilot region is MA/RI/CT; as of Sept 2026
+only Hamden CT and Providence RI are confirmed (no confirmed MA bins).
+
 ⚠️ **The seed data in `prisma/seed.ts` is placeholder** — approximate city
 coordinates and `"Address TBD"` placeholders, not a verified directory. See
 cold-start step 1 below before this goes anywhere near real users.

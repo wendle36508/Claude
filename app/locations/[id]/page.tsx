@@ -52,8 +52,11 @@ export default async function LocationDetailPage({ params }: { params: { id: str
             </span>
           )}
         </div>
+        {location.hours && (
+          <p className="mt-2 text-sm text-gray-500">🕒 {location.hours}</p>
+        )}
         {location.scheduleNote && (
-          <p className="mt-2 text-sm text-gray-500">📅 {location.scheduleNote}</p>
+          <p className="mt-1 text-sm text-gray-500">📅 {location.scheduleNote}</p>
         )}
       </div>
 

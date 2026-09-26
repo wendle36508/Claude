@@ -13,6 +13,9 @@ datasource db {
 
 model Location {
   id           String    @id @default(cuid())
+  // Stable key for locations defined in prisma/directory.ts, so the
+  // deploy-time sync can upsert them. Null for ad-hoc/demo rows.
+  slug         String?   @unique
   name         String
   chain        String
   address      String
@@ -24,6 +27,8 @@ model Location {
   // e.g. "New bins ~10am Mon/Wed/Fri". Used as a fallback signal when
   // there are no recent crowdsourced check-ins yet (cold-start).
   scheduleNote String?
+  // Store opening hours, e.g. "Mon–Sat 8am–7pm, Sun 9am–7pm".
+  hours        String?
   checkIns     CheckIn[]
   hauls        Haul[]
   createdAt    DateTime  @default(now())
