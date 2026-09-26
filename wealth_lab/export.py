@@ -23,7 +23,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from wealth_lab import db, ipo, portfolio, risk, scoring, sizing
+from wealth_lab import db, ipo, portfolio, risk, scoring, sizing, universe
 from wealth_lab.providers import get_provider
 
 DEFAULT_OUT = Path(__file__).resolve().parent.parent / "report" / "data.json"
@@ -85,7 +85,10 @@ def thesis_snapshot(conn, t) -> dict:
         pub = scoring.public_score(result, conf)
         range_result = scoring.expected_return_range(conn, result, conf, entry_price=t["entry_price"])
         score = {"value": result.score, "n_signals": result.n_signals, "weights_used": result.weights_used}
-        public_score = {"value": pub.score_100, "label": pub.label, "n_signals": pub.n_signals}
+        public_score = {
+            "value": pub.score_100, "label": pub.label, "n_signals": pub.n_signals,
+            "evidence_strength": scoring.evidence_strength(conf),
+        }
         confidence = {
             "value": conf.confidence, "band": conf.band,
             "coverage": conf.coverage, "agreement": conf.agreement, "recency": conf.recency,
@@ -214,10 +217,12 @@ def build_snapshot(conn) -> dict:
         }
 
     theses = [thesis_snapshot(conn, t) for t in db.list_theses(conn)]
+    cov = universe.coverage(conn)
 
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "portfolio": portfolio_block,
+        "universe": {"name": "S&P 500", "researched": cov.researched, "total": cov.total},
         "theses": theses,
     }
 

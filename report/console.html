@@ -31,12 +31,16 @@
 
     --row-hover: rgba(11,14,20,0.035);
 
-    /* 0-100 public score bands, strongest to weakest */
-    --score-strong-bull: #0ca30c;
-    --score-bull:        #4f9e52;
-    --score-neutral:     #6b6f76;
-    --score-bear:        #c1762c;
-    --score-strong-bear: #d03b3b;
+    /* evidence polarity: blue = bullish, red = bearish (validated for
+       color-vision deficiency; green/red failed deuteranopia) */
+    --bull:         #2a78d6;
+    --bull-strong:  #1c5cab;
+    --bull-ink:     #1c5cab;
+    --bear:         #e34948;
+    --bear-strong:  #b8322f;
+    --bear-ink:     #b8322f;
+    --neutral-mark: #c9c7bf;
+    --on-solid:     #ffffff;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -66,11 +70,14 @@
 
       --row-hover: rgba(255,255,255,0.045);
 
-      --score-strong-bull: #2fbf3a;
-      --score-bull:        #6bb26e;
-      --score-neutral:     #a9adb5;
-      --score-bear:        #d99a4e;
-      --score-strong-bear: #e66767;
+      --bull:         #3987e5;
+      --bull-strong:  #3987e5;
+      --bull-ink:     #86b6ef;
+      --bear:         #e66767;
+      --bear-strong:  #e66767;
+      --bear-ink:     #f08c8a;
+      --neutral-mark: #4a4944;
+      --on-solid:     #0d0d0d;
     }
   }
   :root[data-theme="dark"] {
@@ -100,11 +107,14 @@
 
     --row-hover: rgba(255,255,255,0.045);
 
-    --score-strong-bull: #2fbf3a;
-    --score-bull:        #6bb26e;
-    --score-neutral:     #a9adb5;
-    --score-bear:        #d99a4e;
-    --score-strong-bear: #e66767;
+    --bull:         #3987e5;
+    --bull-strong:  #3987e5;
+    --bull-ink:     #86b6ef;
+    --bear:         #e66767;
+    --bear-strong:  #e66767;
+    --bear-ink:     #f08c8a;
+    --neutral-mark: #4a4944;
+    --on-solid:     #0d0d0d;
   }
 
   * { box-sizing: border-box; }
@@ -160,11 +170,12 @@
     font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600;
     cursor: pointer; user-select: none; white-space: nowrap;
   }
-  thead th:first-child, thead th:nth-child(2) { text-align: left; }
+  thead th:first-child, thead th:nth-child(2), thead th:nth-child(3), thead th:nth-child(4) { text-align: left; }
   thead th.sorted { color: var(--accent); }
   thead th .arrow { font-size: 9px; margin-left: 3px; opacity: 0.7; }
   tbody td { padding: 9px 10px; border-bottom: 1px solid var(--grid); text-align: right; white-space: nowrap; }
-  tbody td:first-child, tbody td:nth-child(2) { text-align: left; }
+  tbody td:first-child, tbody td:nth-child(2), tbody td:nth-child(3), tbody td:nth-child(4) { text-align: left; }
+  tbody td { vertical-align: middle; }
   tbody tr.row { cursor: pointer; }
   tbody tr.row:hover { background: var(--row-hover); }
   tbody tr.row.open { background: var(--row-hover); }
@@ -173,31 +184,31 @@
   .dim { color: var(--muted); }
 
   .status-pill { display: inline-block; padding: 5px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
-  .status-pill.good { background: var(--good-bg); color: var(--good); }
-  .status-pill.critical { background: var(--critical-bg); color: var(--critical); }
+  .status-pill.bull { background: color-mix(in srgb, var(--bull) 14%, transparent); color: var(--bull-ink); }
+  .status-pill.bear { background: color-mix(in srgb, var(--bear) 14%, transparent); color: var(--bear-ink); }
   .status-pill.neutral { background: var(--neutral-bg); color: var(--neutral-ink); }
 
-  /* Score badge: the 0-100 public score, the one number this whole page is
-     built around. Color is the fast read; the number and label are the
-     precise one. band-* classes set --band-color, everything else derives
-     from it so the small (table) and large (hero) sizes stay one system. */
+  /* Score badge: the 0-100 public score. Strong bands get a solid fill,
+     regular bands a tint, neutral a gray tint - so strength reads from the
+     fill even where the two blues (or reds) are hard to tell apart. */
   .score-badge { display: inline-flex; align-items: center; gap: 8px; }
-  .score-badge.band-strong-bull { --band-color: var(--score-strong-bull); }
-  .score-badge.band-bull        { --band-color: var(--score-bull); }
-  .score-badge.band-neutral     { --band-color: var(--score-neutral); }
-  .score-badge.band-bear        { --band-color: var(--score-bear); }
-  .score-badge.band-strong-bear { --band-color: var(--score-strong-bear); }
   .score-badge .score-chip {
     display: inline-flex; align-items: center; justify-content: center;
     font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-variant-numeric: tabular-nums;
-    color: var(--band-color); background: color-mix(in srgb, var(--band-color) 14%, transparent);
-    border: 1px solid color-mix(in srgb, var(--band-color) 35%, transparent);
-    border-radius: 999px; line-height: 1;
+    border: 1px solid transparent; border-radius: 999px; line-height: 1;
   }
-  .score-badge.size-sm .score-chip { font-size: 13px; padding: 5px 9px; min-width: 34px; }
+  .band-strong-bull .score-chip { background: var(--bull-strong); color: var(--on-solid); }
+  .band-bull .score-chip { background: color-mix(in srgb, var(--bull) 14%, transparent); border-color: color-mix(in srgb, var(--bull) 40%, transparent); color: var(--bull-ink); }
+  .band-neutral .score-chip { background: var(--neutral-bg); border-color: var(--border); color: var(--neutral-ink); }
+  .band-bear .score-chip { background: color-mix(in srgb, var(--bear) 14%, transparent); border-color: color-mix(in srgb, var(--bear) 40%, transparent); color: var(--bear-ink); }
+  .band-strong-bear .score-chip { background: var(--bear-strong); color: var(--on-solid); }
+  .band-strong-bull, .band-bull { --label-ink: var(--bull-ink); }
+  .band-neutral { --label-ink: var(--neutral-ink); }
+  .band-bear, .band-strong-bear { --label-ink: var(--bear-ink); }
+  .score-badge.size-sm .score-chip { font-size: 13px; padding: 5px 0; width: 38px; }
   .score-badge.size-lg .score-chip { font-size: 30px; padding: 10px 18px; min-width: 78px; }
   .score-badge .score-text { display: flex; flex-direction: column; gap: 1px; }
-  .score-badge .score-label { font-weight: 700; color: var(--band-color); }
+  .score-badge .score-label { font-weight: 700; color: var(--label-ink); }
   .score-badge.size-sm .score-label { font-size: 11.5px; }
   .score-badge.size-lg .score-label { font-size: 16px; }
   .score-badge .score-sub { font-size: 11.5px; color: var(--muted); }
@@ -214,8 +225,8 @@
   .cat-bar-row { display: grid; grid-template-columns: 76px 1fr 42px; align-items: center; gap: 8px; font-size: 12px; }
   .cat-bar-track { position: relative; height: 8px; background: var(--grid); border-radius: 4px; }
   .cat-bar-fill { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
-  .cat-bar-fill.pos { background: var(--good); left: 50%; }
-  .cat-bar-fill.neg { background: var(--critical); right: 50%; }
+  .cat-bar-fill.pos { background: var(--bull); left: 50%; }
+  .cat-bar-fill.neg { background: var(--bear); right: 50%; }
   .cat-bar-mid { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--border); }
 
   .sig-list { display: flex; flex-direction: column; gap: 10px; }
@@ -264,6 +275,81 @@
   .lookup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
   .lookup-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--grid); }
   .lookup-header .sym-cell { font-size: 20px; }
+
+  /* Lean summary: how the researched universe splits across the five bands */
+  .lean-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .lean-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; }
+  .lean-head h2 { font-size: 17px; }
+  .lean-head .coverage { font-size: 12.5px; color: var(--muted); }
+  .lean-head .coverage b { color: var(--ink); font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
+  .lean-bar { display: flex; gap: 2px; height: 30px; }
+  .lean-seg {
+    font: inherit; border: none; padding: 0; cursor: pointer; min-width: 6px;
+    border-radius: 0; transition: opacity 120ms;
+  }
+  .lean-seg:first-child { border-radius: 4px 0 0 4px; }
+  .lean-seg:last-child { border-radius: 0 4px 4px 0; }
+  .lean-seg:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lean-bar.filtered .lean-seg:not(.active) { opacity: 0.3; }
+  .seg-strong-bull { background: var(--bull-strong); }
+  .seg-bull { background: color-mix(in srgb, var(--bull) 55%, var(--surface)); }
+  .seg-neutral { background: var(--neutral-mark); }
+  .seg-bear { background: color-mix(in srgb, var(--bear) 55%, var(--surface)); }
+  .seg-strong-bear { background: var(--bear-strong); }
+  .lean-legend { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .lean-key {
+    font: inherit; text-align: left; background: none; border: 1px solid transparent; border-radius: 8px;
+    padding: 6px 8px; cursor: pointer; color: var(--ink-2); display: flex; flex-direction: column; gap: 2px;
+  }
+  .lean-key:hover { background: var(--row-hover); }
+  .lean-key.active { border-color: var(--border); background: var(--row-hover); }
+  .lean-key:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .lean-key .count { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .lean-key .name { font-size: 12px; display: flex; align-items: center; gap: 6px; }
+  .lean-key .swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+  .lean-key .range { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+  @media (max-width: 640px) {
+    .lean-legend { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* Filter row above the table */
+  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .filters label { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .filters select {
+    font: inherit; font-size: 13px; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px;
+  }
+  .filters select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .filter-chip {
+    font: inherit; font-size: 12px; font-weight: 600; color: var(--ink-2); background: var(--row-hover);
+    border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px; cursor: pointer;
+  }
+  .filter-chip:hover { color: var(--ink); }
+  .filter-count { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+  /* Company cell: ticker over name */
+  .co-cell { display: flex; flex-direction: column; gap: 1px; max-width: 240px; }
+  .co-cell .co-name { font-size: 11.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Evidence bar: one block per signal, bullish then neutral then bearish */
+  .ev { display: inline-flex; align-items: center; gap: 8px; }
+  .ev-bar { display: inline-flex; gap: 2px; }
+  .ev-bar i { display: block; width: 7px; height: 14px; border-radius: 2px; }
+  .ev-bar i.b { background: var(--bull); }
+  .ev-bar i.n { background: var(--neutral-mark); }
+  .ev-bar i.r { background: var(--bear); }
+  .ev-text { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ev.size-lg .ev-bar i { width: 12px; height: 20px; }
+  .ev.size-lg .ev-text { font-size: 13px; }
+
+  /* How the score is built: three lines of arithmetic */
+  .calc { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 12.5px; color: var(--ink-2); align-items: baseline; }
+  .calc dt { color: var(--muted); }
+  .calc dd { margin: 0; font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .calc dd .dim { font-family: 'Source Sans 3', sans-serif; }
+  .detail-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-bottom: 14px; }
+
+  @media (prefers-reduced-motion: reduce) { .lean-seg { transition: none; } }
 </style>
 
 <div class="wrap">
@@ -299,21 +385,35 @@
         <div id="lookup-result"></div>
       </section>
 
+      <section class="lean-card" id="lean-card">
+        <div class="lean-head">
+          <h2>Where the evidence leans</h2>
+          <span class="coverage" id="coverage-line"></span>
+        </div>
+        <div class="lean-bar" id="lean-bar" role="group" aria-label="Researched names by score band"></div>
+        <div class="lean-legend" id="lean-legend"></div>
+      </section>
+
       <section>
         <h2>Every thesis, side by side</h2>
-        <p class="risk-note" style="margin:0;">Click a column to sort &middot; click a row to expand its full research note. <b>Score</b> is 0-100 (50 = neutral) - it already accounts for how much evidence backs it, so a thin, one-signal score can't look as extreme as a well-supported one. Expected range and volatility are kept as their own columns on purpose, not folded into the score - they answer "how far could this move," not "which way does the evidence lean."</p>
+        <p class="risk-note" style="margin:0;">Click a column to sort, or a row to open its research note. <b>Score</b> runs 0-100 with 50 as neutral, and a score backed by little evidence stays close to 50. <b>Evidence</b> shows each logged signal as one block: blue bullish, gray neutral, red bearish. Expected range answers how far a name could move, so it is kept separate from the score.</p>
+        <div class="filters">
+          <label for="sector-filter">Sector
+            <select id="sector-filter"><option value="">All sectors</option></select>
+          </label>
+          <span id="band-filter-chip"></span>
+          <span class="filter-count" id="filter-count"></span>
+        </div>
         <div class="table-card">
           <div class="table-scroll">
             <table id="thesis-table">
               <thead>
                 <tr>
-                  <th data-key="symbol" style="text-align:left">Symbol</th>
+                  <th data-key="symbol" style="text-align:left">Company</th>
                   <th data-key="sector" style="text-align:left">Sector</th>
-                  <th data-key="public_score">Score</th>
-                  <th data-key="floor">Floor</th>
-                  <th data-key="base">Base</th>
-                  <th data-key="ceiling">Ceil</th>
-                  <th data-key="volatility">Vol</th>
+                  <th data-key="public_score" style="text-align:left">Score</th>
+                  <th data-key="lean" style="text-align:left">Evidence</th>
+                  <th data-key="base">Expected range</th>
                   <th data-key="return">Return</th>
                 </tr>
               </thead>
@@ -334,21 +434,59 @@
   </div>
 
   <footer>
-    Built with a Python/SQLite research tracker (wealth_lab). Every stock's 0-100 score comes from sourced, dated signals (each bullish or bearish, with a link) averaged and decayed by age, then shrunk toward 50 by how much evidence backs it - a thin, one-signal read can't score as extreme as a well-supported one. Expected range and risk metrics (volatility/Sharpe/drawdown/beta) are computed separately, not folded into the score. This page connects live to the deployed API when it's reachable (see the line under the title) and falls back to a static snapshot otherwise - see the Score Detail and Recent News sections on any ticker for exactly how current its evidence is.
+    Built with a Python/SQLite research tracker (wealth_lab). Every 0-100 score comes from sourced, dated signals, each bullish, bearish, or neutral with a link. The signals are averaged, older ones count for less, and the result is pulled toward 50 when there is little fresh evidence behind it. Expected range and risk metrics are computed separately and do not feed the score. This page reads live from the deployed API when it can reach it and otherwise shows the static snapshot named under the title.
   </footer>
 </div>
 
 <script>
 (function () {
-  var state = { data: null, sortKey: 'public_score', sortDesc: true, openRow: null };
+  var state = { data: null, sortKey: 'public_score', sortDesc: true, openRow: null, sector: '', band: '' };
 
-  var SCORE_BAND_CLASS = {
-    'Strongly Bullish': 'band-strong-bull',
-    'Bullish':          'band-bull',
-    'Neutral / Mixed':  'band-neutral',
-    'Bearish':          'band-bear',
-    'Strongly Bearish': 'band-strong-bear'
-  };
+  // Mirrors scoring.PUBLIC_SCORE_BANDS, strongest bullish first
+  var BANDS = [
+    { label: 'Strongly Bullish', key: 'strong-bull', range: '80-100' },
+    { label: 'Bullish',          key: 'bull',        range: '60-79' },
+    { label: 'Neutral / Mixed',  key: 'neutral',     range: '41-59' },
+    { label: 'Bearish',          key: 'bear',        range: '21-40' },
+    { label: 'Strongly Bearish', key: 'strong-bear', range: '0-20' }
+  ];
+  var SCORE_BAND_CLASS = {};
+  BANDS.forEach(function (b) { SCORE_BAND_CLASS[b.label] = 'band-' + b.key; });
+
+  function signalCounts(t) {
+    var c = { bullish: 0, neutral: 0, bearish: 0 };
+    t.signals.forEach(function (s) { if (c[s.direction] !== undefined) c[s.direction] += 1; });
+    return c;
+  }
+
+  var MAX_EVIDENCE_BLOCKS = 16;
+
+  function evidenceHtml(t, size) {
+    var c = signalCounts(t);
+    var total = c.bullish + c.neutral + c.bearish;
+    if (!total) return '<span class="dim">No signals</span>';
+    var words = c.bullish + ' bullish, ' + c.neutral + ' neutral, ' + c.bearish + ' bearish';
+    var blocks = '';
+    if (total <= MAX_EVIDENCE_BLOCKS) {
+      blocks = '<span class="ev-bar" aria-hidden="true">' +
+        new Array(c.bullish + 1).join('<i class="b"></i>') +
+        new Array(c.neutral + 1).join('<i class="n"></i>') +
+        new Array(c.bearish + 1).join('<i class="r"></i>') + '</span>';
+    }
+    var text = size === 'lg'
+      ? words
+      : c.bullish + '&#9650; ' + c.bearish + '&#9660;' + (c.neutral ? ' ' + c.neutral + '&#9675;' : '');
+    return '<span class="ev ' + (size === 'lg' ? 'size-lg' : '') + '" role="img" aria-label="' + words + '">' +
+      blocks + '<span class="ev-text">' + text + '</span></span>';
+  }
+
+  function visibleTheses() {
+    return state.data.theses.filter(function (t) {
+      if (state.sector && t.sector !== state.sector) return false;
+      if (state.band && (!t.public_score || t.public_score.label !== state.band)) return false;
+      return true;
+    });
+  }
 
   // pub is the {value, label, n_signals} object from data.json's public_score
   // field, or null/undefined if nothing's been scored yet. size is 'sm' (table
@@ -364,7 +502,8 @@
         '<span class="score-text"><span class="score-label">' + escapeHtml(pub.label) + '</span>' +
         '<span class="score-sub">based on ' + pub.n_signals + ' signal' + (pub.n_signals === 1 ? '' : 's') + '</span></span></span>';
     }
-    return '<span class="score-badge size-sm ' + cls + '" title="' + escapeHtml(pub.label) + '">' + chip + '</span>';
+    return '<span class="score-badge size-sm ' + cls + '">' + chip +
+      '<span class="score-label" style="font-size:11.5px;">' + escapeHtml(pub.label) + '</span></span>';
   }
 
   function fmtPct(v, digits) {
@@ -390,8 +529,9 @@
     return d.innerHTML;
   }
   function directionPill(direction) {
-    var cls = direction === 'bullish' ? 'good' : direction === 'bearish' ? 'critical' : 'neutral';
-    return '<span class="status-pill ' + cls + '">' + direction + '</span>';
+    var cls = direction === 'bullish' ? 'bull' : direction === 'bearish' ? 'bear' : 'neutral';
+    var glyph = direction === 'bullish' ? '&#9650; ' : direction === 'bearish' ? '&#9660; ' : '';
+    return '<span class="status-pill ' + cls + '">' + glyph + direction + '</span>';
   }
 
   function renderKpis(d) {
@@ -561,17 +701,31 @@
       riskHtml = 'Not enough price history yet (' + t.risk.n_snapshots + ' snapshot(s), need 3+) for volatility/Sharpe/drawdown.';
     }
 
-    var rangeHtml = t.range
-      ? 'Expected range (' + t.range.source + '): floor ' + fmtPct(t.range.floor, 1) + ' &middot; base ' + fmtPct(t.range.base, 1) + ' &middot; ceiling ' + fmtPct(t.range.ceiling, 1) +
-        (t.range.floor_price ? ' &rarr; $' + t.range.floor_price.toFixed(2) + ' / $' + t.range.base_price.toFixed(2) + ' / $' + t.range.ceiling_price.toFixed(2) : '')
-      : 'No signals logged yet - nothing to score.';
+    var calcHtml = '<p class="risk-note" style="margin:0;">No signals logged yet, so there is nothing to score.</p>';
+    if (t.score && t.confidence && t.public_score) {
+      var c = signalCounts(t);
+      var ev = t.public_score.evidence_strength !== undefined
+        ? t.public_score.evidence_strength
+        : t.confidence.coverage * t.confidence.recency;
+      calcHtml =
+        '<dl class="calc">' +
+          '<dt>Lean</dt><dd>' + fmtNum(t.score.value, 2) +
+            ' <span class="dim">from ' + c.bullish + ' bullish and ' + c.bearish + ' bearish, on a -1 to +1 scale</span></dd>' +
+          '<dt>Evidence</dt><dd>' + ev.toFixed(2) +
+            ' <span class="dim">= amount ' + t.confidence.coverage.toFixed(2) + ' &times; freshness ' + t.confidence.recency.toFixed(2) + '</span></dd>' +
+          '<dt>Score</dt><dd>50 + 50 &times; ' + fmtNum(t.score.value, 2) + ' &times; ' + ev.toFixed(2) + ' &rarr; <b>' + t.public_score.value + '</b></dd>' +
+          '<dt>Conviction</dt><dd>' + t.conviction + '/5 <span class="dim">manual rating, kept separate from the score</span></dd>' +
+        '</dl>';
+    }
 
-    var confHtml = t.confidence
-      ? 'Confidence ' + t.confidence.value.toFixed(2) + ' (' + t.confidence.band + ') - coverage ' + t.confidence.coverage.toFixed(2) +
-        ', agreement ' + t.confidence.agreement.toFixed(2) + ', recency ' + t.confidence.recency.toFixed(2) +
-        '<br>Raw composite score ' + (t.score ? fmtNum(t.score.value, 2) : '&mdash;') + ' (-1 bearish .. +1 bullish) vs. manual conviction ' + t.conviction + '/5' +
-        '<br><span class="risk-note">The 0-100 score above is this raw score shrunk toward 50 by confidence - thin evidence can&#39;t look as extreme as well-supported evidence.</span>'
-      : '';
+    var rangeHtml = t.range
+      ? '<div class="mono" style="color:var(--ink);font-size:13px;">' + fmtPct(t.range.floor, 1) + ' to ' + fmtPct(t.range.ceiling, 1) +
+          ' <span class="dim">(base ' + fmtPct(t.range.base, 1) + ')</span></div>' +
+        (t.range.floor_price ? '<div class="mono" style="font-size:12px;">$' + t.range.floor_price.toFixed(2) + ' to $' + t.range.ceiling_price.toFixed(2) + '</div>' : '') +
+        '<div class="risk-note" style="margin-top:4px;">' +
+          (t.range.source === 'calibrated' ? 'Width fitted from closed theses.' : 'Default model: a rule of thumb until enough theses close to fit it from real outcomes.') +
+        '</div>'
+      : 'No signals logged yet.';
 
     var positionHtml = t.position
       ? t.position.sleeve + ' sleeve, target ' + (t.position.target_weight * 100).toFixed(1) + '%, ' +
@@ -585,7 +739,7 @@
 
     return (
       '<div class="detail">' +
-        '<div style="margin-bottom:14px;">' + scoreBadgeHtml(t.public_score, 'lg') + '</div>' +
+        '<div class="detail-head">' + scoreBadgeHtml(t.public_score, 'lg') + evidenceHtml(t, 'lg') + '</div>' +
         '<p class="thesis-text">' + escapeHtml(t.thesis) + '</p>' +
         '<div class="detail-grid">' +
           '<div>' +
@@ -594,9 +748,11 @@
             '<div class="risk-box">' + newsHtml(t.news) + '</div>' +
           '</div>' +
           '<div>' +
+            '<h4>How the score is built</h4>' +
+            '<div class="risk-box" style="margin-bottom:14px;">' + calcHtml + '</div>' +
             '<h4>Category scores (0-100)</h4>' + categoryBars(t.category_scores) +
-            '<h4>Score detail</h4>' +
-            '<div class="risk-box">' + confHtml + '<br>' + rangeHtml + '</div>' +
+            '<h4>Expected range</h4>' +
+            '<div class="risk-box">' + rangeHtml + '</div>' +
             '<h4 style="margin-top:14px;">Risk</h4>' +
             '<div class="risk-box">' + riskHtml + '</div>' +
             '<h4 style="margin-top:14px;">Portfolio</h4>' +
@@ -613,52 +769,73 @@
       case 'symbol': return t.symbol;
       case 'sector': return t.sector || '';
       case 'public_score': return t.public_score ? t.public_score.value : null;
-      case 'floor': return t.range ? t.range.floor : null;
+      case 'lean': return t.score ? t.score.value : null;
       case 'base': return t.range ? t.range.base : null;
-      case 'ceiling': return t.range ? t.range.ceiling : null;
-      case 'volatility': return t.risk ? t.risk.volatility : null;
       case 'return': return t.return_pct;
       default: return null;
     }
   }
 
   function sortTheses(theses, key, desc) {
-    var withVal = theses.filter(function (t) { return rowValue(t, key) !== null && rowValue(t, key) !== undefined; });
-    var withoutVal = theses.filter(function (t) { return rowValue(t, key) === null || rowValue(t, key) === undefined; });
+    function has(t) { var v = rowValue(t, key); return v !== null && v !== undefined; }
+    var withVal = theses.filter(has);
+    var withoutVal = theses.filter(function (t) { return !has(t); });
     withVal.sort(function (a, b) {
       var av = rowValue(a, key), bv = rowValue(b, key);
-      if (typeof av === 'string') return desc ? bv.localeCompare(av) : av.localeCompare(bv);
-      return desc ? bv - av : av - bv;
+      var cmp = typeof av === 'string' ? av.localeCompare(bv) : av - bv;
+      if (desc) cmp = -cmp;
+      // ties: more signals first, then alphabetical
+      if (cmp === 0) cmp = b.signals.length - a.signals.length;
+      if (cmp === 0) cmp = a.symbol.localeCompare(b.symbol);
+      return cmp;
     });
     return withVal.concat(withoutVal);
   }
 
+  function rangeCell(t) {
+    if (!t.range) return '&mdash;';
+    return '<span title="base case ' + fmtPct(t.range.base, 1) + '">' +
+      fmtPct(t.range.floor, 0) + ' to ' + fmtPct(t.range.ceiling, 0) + '</span>';
+  }
+
   function renderTable() {
-    var rows = sortTheses(state.data.theses.slice(), state.sortKey, state.sortDesc);
+    var rows = sortTheses(visibleTheses(), state.sortKey, state.sortDesc);
+    var total = state.data.theses.length;
+    document.getElementById('filter-count').textContent =
+      rows.length === total ? total + ' theses' : 'Showing ' + rows.length + ' of ' + total;
     var tbody = document.getElementById('thesis-tbody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="dim" style="text-align:left;padding:18px 12px;">No theses match these filters.</td></tr>';
+      return;
+    }
     var html = rows.map(function (t) {
       var isOpen = state.openRow === t.id;
       var main =
-        '<tr class="row' + (isOpen ? ' open' : '') + '" data-id="' + t.id + '">' +
-          '<td class="sym-cell">' + t.symbol + '</td>' +
+        '<tr class="row' + (isOpen ? ' open' : '') + '" data-id="' + t.id + '" tabindex="0" aria-expanded="' + isOpen + '">' +
+          '<td><div class="co-cell"><span class="sym-cell">' + escapeHtml(t.symbol) + '</span>' +
+            '<span class="co-name">' + escapeHtml(t.name || '') + '</span></div></td>' +
           '<td class="dim">' + (t.sector ? escapeHtml(t.sector) : '&mdash;') + '</td>' +
-          '<td class="num">' + scoreBadgeHtml(t.public_score, 'sm') + '</td>' +
-          '<td class="num">' + (t.range ? fmtPct(t.range.floor, 1) : '&mdash;') + '</td>' +
-          '<td class="num">' + (t.range ? fmtPct(t.range.base, 1) : '&mdash;') + '</td>' +
-          '<td class="num">' + (t.range ? fmtPct(t.range.ceiling, 1) : '&mdash;') + '</td>' +
-          '<td class="num">' + (t.risk && t.risk.volatility !== null ? fmtPct(t.risk.volatility, 1) : '&mdash;') + '</td>' +
+          '<td>' + scoreBadgeHtml(t.public_score, 'sm') + '</td>' +
+          '<td>' + evidenceHtml(t, 'sm') + '</td>' +
+          '<td class="num">' + rangeCell(t) + '</td>' +
           '<td class="num">' + (t.return_pct !== null ? fmtPct(t.return_pct, 1) : '&mdash;') + '</td>' +
         '</tr>';
-      var detail = isOpen ? '<tr class="detail-row"><td colspan="8">' + detailHtml(t) + '</td></tr>' : '';
+      var detail = isOpen ? '<tr class="detail-row"><td colspan="6">' + detailHtml(t) + '</td></tr>' : '';
       return main + detail;
     }).join('');
     tbody.innerHTML = html;
 
     Array.prototype.forEach.call(tbody.querySelectorAll('tr.row'), function (tr) {
-      tr.addEventListener('click', function () {
+      function toggle() {
         var id = parseInt(tr.getAttribute('data-id'), 10);
         state.openRow = state.openRow === id ? null : id;
         renderTable();
+        var again = tbody.querySelector('tr.row[data-id="' + id + '"]');
+        if (again) again.focus();
+      }
+      tr.addEventListener('click', toggle);
+      tr.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
       });
     });
 
@@ -667,6 +844,78 @@
       th.classList.toggle('sorted', key === state.sortKey);
       var base = th.textContent.replace(/\s*[\u25B2\u25BC]\s*$/, '');
       th.innerHTML = base + (key === state.sortKey ? '<span class="arrow">' + (state.sortDesc ? '&#9660;' : '&#9650;') + '</span>' : '');
+    });
+  }
+
+  function renderLean() {
+    var counts = {};
+    var scored = 0;
+    state.data.theses.forEach(function (t) {
+      if (!t.public_score) return;
+      scored += 1;
+      counts[t.public_score.label] = (counts[t.public_score.label] || 0) + 1;
+    });
+
+    var u = state.data.universe;
+    document.getElementById('coverage-line').innerHTML = u
+      ? '<b>' + u.researched + '</b> of <b>' + u.total + '</b> ' + escapeHtml(u.name) + ' names researched'
+      : '<b>' + scored + '</b> names scored';
+
+    var bar = document.getElementById('lean-bar');
+    bar.classList.toggle('filtered', !!state.band);
+    bar.innerHTML = BANDS.filter(function (b) { return counts[b.label]; }).map(function (b) {
+      var n = counts[b.label];
+      return '<button type="button" class="lean-seg seg-' + b.key + (state.band === b.label ? ' active' : '') +
+        '" data-band="' + b.label + '" style="flex:' + n + ' 1 0;" title="' + b.label + ': ' + n +
+        '" aria-label="' + b.label + ', ' + n + ' names"></button>';
+    }).join('');
+
+    document.getElementById('lean-legend').innerHTML = BANDS.map(function (b) {
+      var n = counts[b.label] || 0;
+      return '<button type="button" class="lean-key' + (state.band === b.label ? ' active' : '') + '" data-band="' + b.label + '">' +
+        '<span class="count">' + n + '</span>' +
+        '<span class="name"><i class="swatch seg-' + b.key + '"></i>' + b.label + '</span>' +
+        '<span class="range">' + b.range + '</span></button>';
+    }).join('');
+
+    Array.prototype.forEach.call(document.querySelectorAll('#lean-card [data-band]'), function (el) {
+      el.addEventListener('click', function () {
+        var band = el.getAttribute('data-band');
+        state.band = state.band === band ? '' : band;
+        state.openRow = null;
+        renderLean();
+        renderBandChip();
+        renderTable();
+      });
+    });
+  }
+
+  function renderBandChip() {
+    var holder = document.getElementById('band-filter-chip');
+    if (!state.band) { holder.innerHTML = ''; return; }
+    holder.innerHTML = '<button type="button" class="filter-chip" id="clear-band">' + escapeHtml(state.band) + ' &times;</button>';
+    document.getElementById('clear-band').addEventListener('click', function () {
+      state.band = '';
+      renderLean();
+      renderBandChip();
+      renderTable();
+    });
+  }
+
+  function attachSectorFilter() {
+    var sel = document.getElementById('sector-filter');
+    var bySector = {};
+    state.data.theses.forEach(function (t) { if (t.sector) bySector[t.sector] = (bySector[t.sector] || 0) + 1; });
+    Object.keys(bySector).sort().forEach(function (s) {
+      var opt = document.createElement('option');
+      opt.value = s;
+      opt.textContent = s + ' (' + bySector[s] + ')';
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', function () {
+      state.sector = sel.value;
+      state.openRow = null;
+      renderTable();
     });
   }
 
@@ -797,6 +1046,8 @@
     document.getElementById('data-source-line').textContent = sourceLineText;
     renderKpis(d);
     renderPortfolio(d);
+    renderLean();
+    attachSectorFilter();
     attachSortHandlers();
     attachSearchHandlers();
     attachTabHandlers();

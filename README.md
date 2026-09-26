@@ -101,17 +101,26 @@ deliberately not "Buy"/"Sell," since a number with a buy/sell label on it
 reads like advice regardless of the disclaimer next to it).
 
 It isn't just the composite score rescaled. It's **shrunk toward 50 by
-confidence** first: `score_100 = 50 + (raw_score * confidence * 50)`. A single
-signal logged yesterday scores +1.00 raw - identical to six signals that have
-agreed for three months - so rescaling the raw number alone would show both
-as "100." Shrinking by confidence means the thin one lands closer to 55-65
-instead, so the headline number itself carries the "how sure is this" signal
-that would otherwise require checking a separate confidence field a casual
-reader won't know to look for. Zero signals and signals that exactly cancel
+evidence strength** first: `score_100 = 50 + (raw_score * coverage * recency * 50)`.
+A single signal logged yesterday scores +1.00 raw - identical to six signals
+that have agreed for three months - so rescaling the raw number alone would
+show both as "100." Shrinking by how much fresh evidence exists means the
+thin one lands closer to 55-65 instead, so the headline number itself carries
+the "how sure is this" signal. Zero signals and signals that exactly cancel
 both land on precisely 50 - which is why the score is always shown with how
 many signals it's based on, since "50 from no evidence" and "50 from
 genuinely mixed evidence" are different claims the number alone can't tell
 apart.
+
+The shrink deliberately leaves out `confidence()`'s agreement term. Agreement
+is just |raw score|, so multiplying by it again squared the score: 3 bullish
+vs 1 bearish signal used to read 62 "Neutral / Mixed" instead of 75
+"Bullish." Agreement still widens the expected-return range, where mixed
+evidence genuinely should mean more uncertainty.
+
+Bands are symmetric around 50 - Strongly Bullish 80+, Bullish 60-79, Neutral
+41-59, Bearish 21-40, Strongly Bearish 0-20 - so mirror-image evidence always
+gets a mirror-image label.
 
 This is a presentation-layer transform, not a replacement: `composite_score()`'s
 -1..+1 output is still what calibration, backtesting, and `compare_to_conviction()`
@@ -120,11 +129,11 @@ table, and (once live) the public site lead with - the CLI's `score`/`lookup`/
 `compare` commands show both, SCORE (0-100) first and the technical RAW/confidence
 breakdown underneath for anyone who wants it.
 
-Worth knowing if a lot of the tracked names read as "Neutral / Mixed" (50):
-that happens whenever a thesis has an equal weight of bullish and bearish
-signals, which is common in this tracker's research pattern (mix bull and
-bear, don't cherry-pick one side) - it's the model correctly reporting
-genuinely balanced evidence, not a scoring bug.
+Worth knowing if a lot of the tracked names read exactly 50: that happens
+whenever a thesis has an equal weight of bullish and bearish signals, which
+is common in this tracker's research pattern (mix bull and bear, don't
+cherry-pick one side) - it's the model correctly reporting genuinely
+balanced evidence, not a scoring bug.
 
 ## Category scores are 0-100 too, and can blend in live market data
 

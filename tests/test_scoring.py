@@ -421,6 +421,48 @@ def test_public_score_clamped_to_0_100_range(conn):
     assert 0 <= pub.score_100 <= 100
 
 
+def test_public_score_three_to_one_lean_reads_bullish(conn):
+    # agreement is |score|, so shrinking by full confidence squared the
+    # score: 3 bull / 1 bear used to read 62 "Neutral / Mixed"
+    tid = make_thesis(conn)
+    for name in ("growth", "moat", "hiring"):
+        db.add_signal(conn, tid, name, "bullish", weight=1.0)
+    db.add_signal(conn, tid, "valuation", "bearish", weight=1.0)
+
+    result = scoring.composite_score(conn, tid)
+    pub = scoring.public_score(result, scoring.confidence(result))
+
+    assert pub.score_100 == 75
+    assert pub.label == "Bullish"
+
+
+@pytest.mark.parametrize("n_bull,n_bear,n_neutral", [
+    (2, 1, 0), (3, 1, 0), (2, 1, 1), (3, 0, 1), (4, 0, 0), (5, 4, 0), (1, 0, 0),
+])
+def test_public_score_mirror_evidence_gets_mirror_score_and_label(conn, n_bull, n_bear, n_neutral):
+    mirror_label = {
+        "Strongly Bullish": "Strongly Bearish", "Bullish": "Bearish",
+        "Neutral / Mixed": "Neutral / Mixed",
+        "Bearish": "Bullish", "Strongly Bearish": "Strongly Bullish",
+    }
+
+    def score_for(bull, bear):
+        tid = make_thesis(conn)
+        for i in range(bull):
+            db.add_signal(conn, tid, f"b{i}", "bullish", weight=1.0)
+        for i in range(bear):
+            db.add_signal(conn, tid, f"r{i}", "bearish", weight=1.0)
+        for i in range(n_neutral):
+            db.add_signal(conn, tid, f"n{i}", "neutral", weight=1.0)
+        result = scoring.composite_score(conn, tid)
+        return scoring.public_score(result, scoring.confidence(result))
+
+    up, down = score_for(n_bull, n_bear), score_for(n_bear, n_bull)
+
+    assert up.score_100 + down.score_100 == 100
+    assert down.label == mirror_label[up.label]
+
+
 def test_public_score_bands_cover_full_range():
     # every integer 0-100 must resolve to exactly one label, with no gaps
     for score in range(0, 101):

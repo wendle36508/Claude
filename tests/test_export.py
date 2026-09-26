@@ -9,6 +9,8 @@ def test_build_snapshot_empty_db_has_no_portfolio(conn):
 
     assert snapshot["portfolio"] is None
     assert snapshot["theses"] == []
+    assert snapshot["universe"]["researched"] == 0
+    assert snapshot["universe"]["total"] > 0
 
 
 def test_build_snapshot_includes_thesis_with_signals_and_position(conn):
@@ -28,6 +30,7 @@ def test_build_snapshot_includes_thesis_with_signals_and_position(conn):
     assert t["score"]["value"] == 1.0
     assert t["public_score"]["value"] == 67  # one fresh signal -> confidence-shrunk, not maxed to 100
     assert t["public_score"]["label"] == "Bullish"
+    assert t["public_score"]["evidence_strength"] == pytest.approx(1 / 3, abs=0.01)
     assert t["category_scores"]["growth"]["value"] == 1.0
     assert t["category_scores"]["growth"]["public_score"]["value"] == 67
     assert t["category_scores"]["growth"]["public_score"]["label"] == "Bullish"

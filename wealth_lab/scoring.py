@@ -90,12 +90,13 @@ MIN_THESES_TO_CALIBRATE_RANGE = 8
 # bottom). Deliberately not "Buy"/"Sell" - this tool says elsewhere it isn't
 # investment advice, and a 0-100 number with a buy/sell label on it reads
 # like advice regardless of the disclaimer. These describe what the
-# evidence leans toward, not what to do about it.
+# evidence leans toward, not what to do about it. Symmetric around 50, so
+# mirror-image evidence always gets mirror-image labels.
 PUBLIC_SCORE_BANDS = (
     (80, "Strongly Bullish"),
-    (65, "Bullish"),
-    (45, "Neutral / Mixed"),
-    (30, "Bearish"),
+    (60, "Bullish"),
+    (41, "Neutral / Mixed"),
+    (21, "Bearish"),
     (0, "Strongly Bearish"),
 )
 
@@ -389,24 +390,31 @@ def confidence(result: ScoreResult) -> ConfidenceResult:
     return ConfidenceResult(coverage=coverage, agreement=agreement, recency=recency, confidence=conf, band=band)
 
 
+def evidence_strength(conf: ConfidenceResult) -> float:
+    """How much fresh evidence backs a score: coverage * recency, without
+    confidence()'s agreement term. Agreement is |score|, so shrinking the
+    score by it would square the score and pull every mixed-but-leaning
+    thesis toward 50 twice."""
+    return conf.coverage * conf.recency
+
+
 def public_score(result: ScoreResult, conf: ConfidenceResult) -> PublicScoreResult:
-    """The -1..+1 composite score, confidence-shrunk and rescaled to 0-100
-    for readers who aren't going to cross-reference a separate confidence
-    field. score_100 = 50 + (raw_score * confidence * 50): a maximally
-    bullish score with full confidence hits 100, but a single thin,
-    just-logged signal - which scores +1.00 raw exactly like six agreeing
-    signals over three months does - only nudges the 0-100 number a little
-    past 50, because its confidence is still low. Zero signals or exactly
-    canceling ones both land on precisely 50, which is why n_signals rides
-    along: 50 from no evidence and 50 from genuinely mixed evidence are
-    different claims, and the label alone can't tell a reader which.
+    """The -1..+1 composite score, shrunk toward 50 by evidence strength and
+    rescaled to 0-100. score_100 = 50 + (raw_score * evidence_strength * 50):
+    a maximally bullish score backed by plenty of fresh evidence hits 100, 3
+    bullish vs 1 bearish reads 75, but a single thin, just-logged signal -
+    which scores +1.00 raw exactly like six agreeing signals do - only
+    nudges the number a little past 50. Zero signals or exactly canceling
+    ones both land on precisely 50, which is why n_signals rides along: 50
+    from no evidence and 50 from genuinely mixed evidence are different
+    claims, and the label alone can't tell a reader which.
 
     This does not replace composite_score()'s -1..+1 output - that's still
     what calibration, backtesting, and compare_to_conviction() use. This is
     a presentation-layer number derived from it, for the parts of the app
     (the public dashboard) where a lay reader needs one easy number rather
     than a score/confidence pair to reason about themselves."""
-    score_100 = round(50 + (result.score * conf.confidence * 50))
+    score_100 = round(50 + (result.score * evidence_strength(conf) * 50))
     score_100 = max(0, min(100, score_100))
     label = next(text for threshold, text in PUBLIC_SCORE_BANDS if score_100 >= threshold)
     return PublicScoreResult(score_100=score_100, label=label, n_signals=result.n_signals)
