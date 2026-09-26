@@ -59,8 +59,8 @@ export const DIRECTORY: DirectoryLocation[] = [
     // Street-level coordinates for Wason Rd (short road), not the exact building.
     lat: 42.73187,
     lng: -71.424196,
-    // Sources conflict: Apple Maps lists outlet 7am–4pm, Yelp lists the store 9am–6pm.
-    hours: "Outlet daily 7am–4pm (unconfirmed; main store 9am–6pm)",
+    // The pound outlet keeps shorter hours than the attached retail store.
+    hours: "Outlet daily 7am–4pm (main store 9am–6pm)",
     scheduleNote: null,
   },
 ];
