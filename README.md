@@ -65,8 +65,9 @@ Then open http://localhost:3000.
 `npm run db:sync-directory`, which upserts every entry by `slug` — so to
 add a store, add an entry and push. It never deletes, so removing an entry
 won't wipe that store's check-ins or hauls. Only list confirmed
-pay-by-the-pound thrift bins. Pilot region is MA/RI/CT; as of Sept 2026
-only Hamden CT and Providence RI are confirmed (no confirmed MA bins).
+pay-by-the-pound thrift bins. Pilot region is MA/RI/CT plus Hudson NH (the
+nearest bins for Boston-area shoppers); as of Sept 2026 the confirmed stores
+are Hamden CT, Providence RI, and Hudson NH (no confirmed MA bins).
 
 ⚠️ **The seed data in `prisma/seed.ts` is placeholder** — approximate city
 coordinates and `"Address TBD"` placeholders, not a verified directory. See
