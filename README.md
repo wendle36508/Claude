@@ -122,6 +122,28 @@ Bands are symmetric around 50 - Strongly Bullish 80+, Bullish 60-79, Neutral
 41-59, Bearish 21-40, Strongly Bearish 0-20 - so mirror-image evidence always
 gets a mirror-image label.
 
+## Signal strength
+
+Not all evidence is equal, so every signal carries a strength tier
+(`signal --strength`, defined in `db.SIGNAL_STRENGTHS`):
+
+| Tier | Weight | What counts |
+|---|---|---|
+| hard | 1.5 | Numbers or actions made official by the company or a regulator: reported results, guidance given or changed, signed deals, completed buybacks, penalties, lawsuits, formal regulatory decisions |
+| standard | 1.0 | Analyst rating or price-target changes, management plans and commentary, backlog, insider trades, leadership changes |
+| soft | 0.5 | Stock price moves, valuation opinions, consensus-rating snapshots, analyst forecasts, generic sector or macro exposure |
+
+A hard signal counts three times as much as a soft one, in both the lean and
+the evidence amount: three soft signals alone only reach half coverage, so
+their score stays close to 50. The first 909 signals were tiered in one pass
+(a keyword classifier, then every row read and 295 calls corrected by hand).
+
+One thing the tiers made visible: bull signals in this tracker are mostly
+reported results, while many bear signals are soft ("the stock is near its
+high"). Weighting surfaces that imbalance rather than causing it, and the
+daily research routine now asks for hard bear evidence (misses, guidance
+cuts, charges, regulatory actions) where it exists.
+
 This is a presentation-layer transform, not a replacement: `composite_score()`'s
 -1..+1 output is still what calibration, backtesting, and `compare_to_conviction()`
 use internally. `public_score()` is what the console dashboard, the comparison

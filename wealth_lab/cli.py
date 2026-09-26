@@ -48,7 +48,7 @@ def cmd_signal(conn, args) -> None:
         direction=args.direction,
         category=args.category,
         rationale=args.rationale,
-        weight=args.weight,
+        weight=db.SIGNAL_STRENGTHS[args.strength] if args.strength else (args.weight if args.weight is not None else 1.0),
         source=args.source,
     )
     print(f"added signal #{sig_id} ({args.name}: {args.direction}, {args.category}) to thesis #{args.thesis_id}")
@@ -500,7 +500,12 @@ def build_parser() -> argparse.ArgumentParser:
     sig.add_argument("--category", choices=db.SIGNAL_CATEGORIES, default="other",
                       help="growth / valuation / risk / catalyst / macro / other (default: other)")
     sig.add_argument("--rationale", help="one or two sentences of why this signal matters")
-    sig.add_argument("--weight", type=float, default=1.0, help="how much this signal should count (default: 1.0)")
+    strength = sig.add_mutually_exclusive_group()
+    strength.add_argument("--strength", choices=list(db.SIGNAL_STRENGTHS),
+                          help="hard (reported numbers, signed deals, regulatory actions) = 1.5, "
+                               "standard (analyst changes, management plans) = 1.0, "
+                               "soft (price moves, valuation opinions, generic risk) = 0.5")
+    strength.add_argument("--weight", type=float, help="explicit weight instead of a --strength tier (default: 1.0)")
     sig.add_argument("--source", help="URL or citation backing this signal")
     sig.set_defaults(func=cmd_signal)
 

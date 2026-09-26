@@ -334,12 +334,15 @@
   /* Evidence bar: one block per signal, bullish then neutral then bearish */
   .ev { display: inline-flex; align-items: center; gap: 8px; }
   .ev-bar { display: inline-flex; gap: 2px; }
-  .ev-bar i { display: block; width: 7px; height: 14px; border-radius: 2px; }
+  .ev-bar i { display: block; height: 14px; border-radius: 2px; }
   .ev-bar i.b { background: var(--bull); }
   .ev-bar i.n { background: var(--neutral-mark); }
   .ev-bar i.r { background: var(--bear); }
   .ev-text { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .ev.size-lg .ev-bar i { width: 12px; height: 20px; }
+  .ev.size-lg .ev-bar i { height: 20px; }
+  .strength-tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--ink-2); margin-right: 4px; }
+  .strength-tag.hard { background: var(--ink); color: var(--page); border-color: var(--ink); }
+  .strength-tag.soft { color: var(--muted); border-style: dashed; }
   .ev.size-lg .ev-text { font-size: 13px; }
 
   /* How the score is built: three lines of arithmetic */
@@ -396,7 +399,7 @@
 
       <section>
         <h2>Every thesis, side by side</h2>
-        <p class="risk-note" style="margin:0;">Click a column to sort, or a row to open its research note. <b>Score</b> runs 0-100 with 50 as neutral, and a score backed by little evidence stays close to 50. <b>Evidence</b> shows each logged signal as one block: blue bullish, gray neutral, red bearish. Expected range answers how far a name could move, so it is kept separate from the score.</p>
+        <p class="risk-note" style="margin:0;">Click a column to sort, or a row to open its research note. <b>Score</b> runs 0-100 with 50 as neutral, and a score backed by little evidence stays close to 50. <b>Evidence</b> shows each logged signal as one block: blue bullish, gray neutral, red bearish. Wider blocks are harder evidence: reported numbers, signed deals, and regulatory actions count 1.5&times;, while price moves and valuation opinions count 0.5&times;. Expected range answers how far a name could move, so it is kept separate from the score.</p>
         <div class="filters">
           <label for="sector-filter">Sector
             <select id="sector-filter"><option value="">All sectors</option></select>
@@ -453,6 +456,17 @@
   var SCORE_BAND_CLASS = {};
   BANDS.forEach(function (b) { SCORE_BAND_CLASS[b.label] = 'band-' + b.key; });
 
+  // Mirrors db.SIGNAL_STRENGTHS; any other weight maps to the nearest tier
+  function strengthOf(weight) {
+    if (weight >= 1.25) return { key: 'hard', label: 'Hard data', px: 14 };
+    if (weight <= 0.75) return { key: 'soft', label: 'Soft', px: 5 };
+    return { key: 'standard', label: 'Standard', px: 9 };
+  }
+
+  function byStrength(signals) {
+    return signals.slice().sort(function (a, b) { return b.weight - a.weight; });
+  }
+
   function signalCounts(t) {
     var c = { bullish: 0, neutral: 0, bearish: 0 };
     t.signals.forEach(function (s) { if (c[s.direction] !== undefined) c[s.direction] += 1; });
@@ -468,10 +482,15 @@
     var words = c.bullish + ' bullish, ' + c.neutral + ' neutral, ' + c.bearish + ' bearish';
     var blocks = '';
     if (total <= MAX_EVIDENCE_BLOCKS) {
+      var cls = { bullish: 'b', neutral: 'n', bearish: 'r' };
+      var scale = size === 'lg' ? 1.4 : 1;
       blocks = '<span class="ev-bar" aria-hidden="true">' +
-        new Array(c.bullish + 1).join('<i class="b"></i>') +
-        new Array(c.neutral + 1).join('<i class="n"></i>') +
-        new Array(c.bearish + 1).join('<i class="r"></i>') + '</span>';
+        ['bullish', 'neutral', 'bearish'].map(function (dir) {
+          return byStrength(t.signals.filter(function (s) { return s.direction === dir; })).map(function (s) {
+            var st = strengthOf(s.weight);
+            return '<i class="' + cls[dir] + '" style="width:' + Math.round(st.px * scale) + 'px" title="' + st.label + ' ' + dir + '"></i>';
+          }).join('');
+        }).join('') + '</span>';
     }
     var text = size === 'lg'
       ? words
@@ -635,12 +654,13 @@
 
   function signalList(signals) {
     if (!signals.length) return '<p class="risk-note">No signals logged.</p>';
-    return '<div class="sig-list">' + signals.map(function (s) {
+    return '<div class="sig-list">' + byStrength(signals).map(function (s) {
+      var st = strengthOf(s.weight);
       var src = s.source ? ' &middot; <a href="' + escapeHtml(s.source) + '" target="_blank" rel="noopener">source</a>' : '';
       return '<div class="sig">' + directionPill(s.direction) +
         '<div class="sig-body"><div class="name">[' + s.category + '] ' + escapeHtml(s.name) + '</div>' +
         '<div class="txt">' + escapeHtml(s.rationale || '') + '</div>' +
-        '<div class="meta">weight ' + s.weight.toFixed(2) + ' &middot; logged ' + s.recorded_at.slice(0, 10) + src + '</div></div></div>';
+        '<div class="meta"><span class="strength-tag ' + st.key + '">' + st.label + '</span>counts ' + s.weight.toFixed(1) + '&times; &middot; logged ' + s.recorded_at.slice(0, 10) + src + '</div></div></div>';
     }).join('') + '</div>';
   }
 
@@ -710,7 +730,7 @@
       calcHtml =
         '<dl class="calc">' +
           '<dt>Lean</dt><dd>' + fmtNum(t.score.value, 2) +
-            ' <span class="dim">from ' + c.bullish + ' bullish and ' + c.bearish + ' bearish, on a -1 to +1 scale</span></dd>' +
+            ' <span class="dim">from ' + c.bullish + ' bullish and ' + c.bearish + ' bearish, weighted by strength, on a -1 to +1 scale</span></dd>' +
           '<dt>Evidence</dt><dd>' + ev.toFixed(2) +
             ' <span class="dim">= amount ' + t.confidence.coverage.toFixed(2) + ' &times; freshness ' + t.confidence.recency.toFixed(2) + '</span></dd>' +
           '<dt>Score</dt><dd>50 + 50 &times; ' + fmtNum(t.score.value, 2) + ' &times; ' + ev.toFixed(2) + ' &rarr; <b>' + t.public_score.value + '</b></dd>' +

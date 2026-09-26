@@ -27,6 +27,13 @@ DB_PATH = Path(os.environ.get(
 ))
 
 SIGNAL_CATEGORIES = ("growth", "valuation", "risk", "catalyst", "macro", "other")
+
+# How much a signal counts, by the kind of evidence behind it. hard: numbers
+# or actions the company or a regulator made official (reported results,
+# guidance, signed deals, penalties). standard: analyst rating changes,
+# management plans, insider trades. soft: price moves, valuation opinions,
+# consensus snapshots, generic sector exposure.
+SIGNAL_STRENGTHS = {"hard": 1.5, "standard": 1.0, "soft": 0.5}
 THESIS_STATUSES = ("open", "closed_win", "closed_loss", "closed_flat")
 CLOSED_STATUSES = ("closed_win", "closed_loss", "closed_flat")
 
